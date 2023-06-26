@@ -4,6 +4,7 @@
 #include <SDL2/SDL_image.h>
 
 #define sizePion 50
+#define vitesse 1
 
 SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer) {
   SDL_Surface *tmp = NULL; SDL_Texture *texture = NULL;
@@ -50,9 +51,13 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
 {
   SDL_Event event;
   int program_on = 1;
-  int px;
-  int py;
-
+  int px; int py;
+  /* direction pion*/
+  int j1g = 0; int j1d = 0; int j1b = 0; int j1h = 0;
+  int j2g = 0; int j2d = 0; int j2b = 0; int j2h = 0;
+  /* orientation pion*/
+  int j1gg = 0; int j1dd = 1; int j1bb = 0; int j1hh = 0;
+  int j2gg = 1; int j2dd = 0; int j2bb = 0; int j2hh = 0;
   SDL_Rect position, position2;
   position.x = 0; position.y = 0;
   position2.x = 1920/2 - sizePion; position2.y = 1080/2 - sizePion;
@@ -65,61 +70,93 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
     {  
       SDL_GetWindowPosition(window, &px, &py);
       switch (event.type)
-      {                         // En fonction de la valeur du type de cet évènement
-        case SDL_QUIT:                                // Un évènement simple, on a cliqué sur la x de la // fenêtre
-          program_on = 0;                     // Il est temps d'arrêter le programme
+      {                         //
+        case SDL_QUIT:                                
+          program_on = 0;                    
         break;
-        case SDL_KEYDOWN:                             // Le type de event est : une touche appuyée 
+        case SDL_KEYUP:
+          switch (event.key.keysym.sym)
+          {
+            /* Joueur 2*/
+            case SDLK_UP: j2h = 0; break;
+            case SDLK_LEFT: j2g = 0; break;
+            case SDLK_DOWN: j2b = 0; break;
+            case SDLK_RIGHT: j2d = 0; break;
+            /* Joueur 1 */
+            case SDLK_q: j1g = 0; break;
+            case SDLK_z: j1h = 0; break;
+            case SDLK_s: j1b = 0; break;
+            case SDLK_d: j1d = 0; break;
+            default:
+            break;
+          }
+        break;
+        case SDL_KEYDOWN:                              
           switch (event.key.keysym.sym) 
           {
-            case SDLK_SPACE:
-            break;
-            case SDLK_UP:
-              position2.y -= 5;
-            break;
-            case SDLK_LEFT:
-              position2.x -= 5;
-            break;
-            case SDLK_DOWN:
-              position2.y += 5;
-            break;
-            case SDLK_RIGHT:
-              position2.x += 5;
-            break;
-
-            case SDLK_z:
-              position.y -= 5;
-            break;
-            case SDLK_q:
-              position.x -= 5;
-            break;
-            case SDLK_s:
-              position.y += 5;
-            break;
-            case SDLK_d:
-              position.x += 5;
-            break;  
-            case SDLK_4:
-              SDL_SetWindowPosition(window, px-5, py);
-            break;
-            case SDLK_8:
-              SDL_SetWindowPosition(window, px, py-5 );
-            break;
-            case SDLK_2:
-              SDL_SetWindowPosition(window, px, py+5);
-            break;
-            case SDLK_6:
-              SDL_SetWindowPosition(window, px+5, py);
-            break;                     
-            default:                                    // Une touche appuyée qu'on ne traite pas
+            /* Bouger le joueur 2 */
+            case SDLK_UP: j2h = 1; j2hh = 1; j2gg = 0; j2dd = 0; j2bb = 0; break;
+            case SDLK_LEFT: j2g = 1; j2hh = 0; j2gg = 1; j2dd = 0; j2bb = 0; break;
+            case SDLK_DOWN: j2b = 1; j2hh = 0; j2gg = 0; j2dd = 0; j2bb = 1; break;
+            case SDLK_RIGHT: j2d = 1; j2hh = 0; j2gg = 0; j2dd = 1; j2bb = 0; break;
+            /* Bouger le joueur 1 */
+            case SDLK_z: j1h = 1; j1hh = 1; j1gg = 0; j1dd = 0; j1bb = 0; break; 
+            case SDLK_q: j1g = 1; j1hh = 0; j1gg = 1; j1dd = 0; j1bb = 0; break;
+            case SDLK_s: j1b = 1; j1hh = 0; j1gg = 0; j1dd = 0; j1bb = 1; break;
+            case SDLK_d: j1d = 1; j1hh = 0; j1gg = 0; j1dd = 1; j1bb = 0; break;  
+            /* Bouger la fenêtre */
+            case SDLK_4: SDL_SetWindowPosition(window, px-5, py); break;
+            case SDLK_8: SDL_SetWindowPosition(window, px, py-5 ); break;
+            case SDLK_2: SDL_SetWindowPosition(window, px, py+5); break;
+            case SDLK_6: SDL_SetWindowPosition(window, px+5, py); break;                     
+            default:                                
             break;
           }
         break;
       }
     }
+    if (j1h && j1d) {position.y -= vitesse; position.x += vitesse;}
+    else if (j1h && j1g) {position.y -= vitesse; position.x -= vitesse;}
+    else if (j1b && j1d) {position.y += vitesse; position.x += vitesse;}
+    else if (j1b && j1g) {position.y += vitesse; position.x -= vitesse;}
+    else if ((j1h && j1b) || (j1d && j1g)) {/*nothing*/}
+    else if (j1h) {position.y -= vitesse;}
+    else if (j1g) {position.x -= vitesse;}
+    else if (j1d) {position.x += vitesse;}
+    else if (j1b) {position.y += vitesse;}
+    else {}
+
+    if (j2h && j2d) {position2.y -= vitesse; position2.x += vitesse;}
+    else if (j2h && j2g) {position2.y -= vitesse; position2.x -= vitesse;}
+    else if (j2b && j2d) {position2.y += vitesse; position2.x += vitesse;}
+    else if (j2b && j2g) {position2.y += vitesse; position2.x -= vitesse;}
+    else if ((j2h && j2b) || (j2d && j2g)) {/*nothing*/}
+    else if (j2h) {position2.y -= vitesse;}
+    else if (j2g) {position2.x -= vitesse;}
+    else if (j2d) {position2.x += vitesse;}
+    else if (j2b) {position2.y += vitesse;}
+    else {}
+    
     SDL_RenderClear(renderer);
-    SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 0, NULL, SDL_FLIP_NONE);
-    SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 0, NULL, SDL_FLIP_HORIZONTAL);
+    if (j1dd)
+      SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 0, NULL, SDL_FLIP_NONE);
+    else if (j1gg)
+      SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 0, NULL, SDL_FLIP_HORIZONTAL);
+    else if (j1hh)
+      SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 270, NULL, SDL_FLIP_NONE);
+    else if (j1bb)
+      SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 90, NULL, SDL_FLIP_NONE);
+    else {}
+
+    if (j2gg)
+      SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 0, NULL, SDL_FLIP_HORIZONTAL);
+    else if (j2dd)
+      SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 0, NULL, SDL_FLIP_NONE);
+    else if (j2hh)
+      SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 270, NULL, SDL_FLIP_NONE);
+    else if (j2bb)
+      SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 90, NULL, SDL_FLIP_NONE);
+    else {}
     SDL_RenderPresent(renderer);
   }
   return;
@@ -133,6 +170,7 @@ int main(int argc, char const *argv[])
 
   if (SDL_Init(SDL_INIT_VIDEO) != 0) 
   {
+
     SDL_Log("Error : SDL initialisation - %s\n", SDL_GetError()); // l'initialisation de la SDL a échoué 
     exit(EXIT_FAILURE);
   }

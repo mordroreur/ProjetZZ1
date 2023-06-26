@@ -6,7 +6,7 @@ CFLAGS=-Wall $(shell sdl2-config --cflags --libs) -MMD
 EXEC=res
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
-DEPS := $(SRC:.o=.d)
+DEPS := $(SRC:.c=.d)
 
 
 all:$(EXEC)
@@ -23,6 +23,7 @@ $(EXEC):$(OBJ)
 
 clean:
 	rm -rf *.o
+	rm -rf *.d
 
 mrproper: clean
 	rm -rf $(EXEC)

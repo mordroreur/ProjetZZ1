@@ -10,5 +10,6 @@ void DrawTer(ecran *screen);
 void DrawMenu(ecran *screen);
 void DrawAllocErreur(ecran *screen);
 void DrawVictoryMenu(ecran *screen);
+void DrawLooseMenu(ecran *screen);
 
 #endif /* RENDER_HEADER_ */

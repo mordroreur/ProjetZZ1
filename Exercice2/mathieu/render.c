@@ -8,6 +8,7 @@ void mainRendering(ecran *screen){
   case 2: DrawTer(screen);break;
   case 3: DrawTer(screen);break;
   case 15: DrawVictoryMenu(screen); break;
+  case 16: DrawLooseMenu(screen); break;
   case 8: DrawMenu(screen); break;
   case 69: DrawAllocErreur(screen);break;
   default: loadingScreen(screen);break;
@@ -15,9 +16,20 @@ void mainRendering(ecran *screen){
 }
 
 
+void DrawLooseMenu(ecran *screen){
+  DrawMenu(screen);
+  DrawString("PERDU ", 50, 50, 15, 'c', 255, 20, 20, screen);
+  char tmp[40];
+  sprintf(tmp, "score : %d", screen->tailleSerp);
+  DrawString(tmp, 50, 90, 8, 'c', 160, 255, 160, screen);
+}
+
 void DrawVictoryMenu(ecran *screen){
   DrawMenu(screen);
   DrawString("VICTOIRE", 50, 50, 15, 'c', 160, 255, 160, screen);
+  char tmp[40];
+  sprintf(tmp, "en %d coups", screen->time);
+  DrawString(tmp, 50, 90, 8, 'c', 160, 255, 160, screen);
 }
 
 

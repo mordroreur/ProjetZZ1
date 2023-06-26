@@ -5,6 +5,7 @@ void mainTickGest(ecran *screen) {
 
   if(screen->etapeDuJeu == 3){
     if(screen->lastDep == 0){
+      screen->time++;
       screen->lastDep = WAITTIME;
       if(screen->serpDir == 1){
 	if(screen->serpX == 0 || screen->Ter[screen->serpX-1][screen->serpY] > 0){
@@ -99,7 +100,8 @@ void mainTickGest(ecran *screen) {
     screen->taille_Ter_x = 6;
     screen->taille_Ter_y = 6;
     screen->serpX = 3;
-    screen->serpY = 3;  
+    screen->serpY = 3;
+    screen->time = 0;
     screen->tailleSerp = 1;
     screen->Ter = (int**)malloc(screen->taille_Ter_x * sizeof(int *));
     if(screen->Ter){
@@ -127,6 +129,12 @@ void mainTickGest(ecran *screen) {
     free(screen->Ter);
     screen->etapeDuJeu = 15;
 
+  }else if(screen->etapeDuJeu == 6){
+    for(int i = 0; i < screen->taille_Ter_x; i++){
+      free(screen->Ter[i]);
+    }
+    free(screen->Ter);
+    screen->etapeDuJeu = 16;
   }
 }
 

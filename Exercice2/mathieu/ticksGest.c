@@ -97,6 +97,35 @@ void mainTickGest(ecran *screen) {
     }else{
       screen->lastDep--;
     }
+  }else if(screen->etapeDuJeu == 42){
+      screen->taille_Ter_x = 6;
+  screen->taille_Ter_y = 6;
+  screen->serpX = 3;
+  screen->serpY = 3;
+
+  
+  screen->tailleSerp = 1;
+  screen->Ter = (int**)malloc(screen->taille_Ter_x * sizeof(int *));
+  if(screen->Ter){
+    for(int i = 0; i < screen->taille_Ter_x; i++){
+      screen->Ter[i] = (int*)malloc(screen->taille_Ter_y * sizeof(int));
+      if(screen->Ter[i]){
+	for(int j = 0; j < screen->taille_Ter_y; j++){
+	  screen->Ter[i][j] = 0;
+	}
+      }else{
+	screen->etapeDuJeu = 69;
+      }
+    }
+  }else{
+    screen->etapeDuJeu = 69;
+  }
+
+  screen->Ter[3][3] = 1;
+
+  createApple(screen);
+  
+  screen->etapeDuJeu = 2;
   }
 }
 

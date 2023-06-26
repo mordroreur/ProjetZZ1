@@ -7,8 +7,53 @@ void mainRendering(ecran *screen){
   case 1: loadingScreen(screen);break;
   case 2: DrawTer(screen);break;
   case 3: DrawTer(screen);break;
+    //  case 15: DrawVictoryMenu(screen); break;
+  case 8: DrawMenu(screen); break;
+  case 69: DrawAllocErreur(screen);break;
   default: loadingScreen(screen);break;
   }
+}
+
+void DrawAllocErreur(ecran *screen){
+  SDL_SetRenderDrawColor(screen->renderer, 70, 70, 255, 0);
+  SDL_RenderFillRect(screen->renderer, NULL);
+  DrawString("ERREUR DE MALLOC!!!", 50, 30, 8, 'c', 255, 255, 255, screen);
+}
+
+void DrawMenu(ecran *screen){
+  SDL_SetRenderDrawColor(screen->renderer, 0, 200, 0, 0);
+  SDL_RenderFillRect(screen->renderer, NULL);
+
+  int posMX;
+  int posMY;
+  SDL_GetMouseState(&posMX, &posMY);
+
+  SDL_Rect Rect;
+  
+  Rect.x = screen->sizeX/5.0;
+  Rect.y = screen->sizeY/5.0;
+  Rect.h = screen->sizeY/5.0;
+  Rect.w = screen->sizeX/5.0 * 3.0;
+  int isSouris = (posMX > screen->sizeX/5.0 && posMX < screen->sizeX/5.0 + screen->sizeX/5.0 * 3.0 && posMY > screen->sizeY/5.0 && posMY < screen->sizeY/5.0 + screen->sizeY/5.0)?1:0;
+
+  SDL_SetRenderDrawColor(screen->renderer, 0 + 50*isSouris, 90+ 50*isSouris, 0+ 50*isSouris, 0);
+  SDL_RenderFillRect(screen->renderer, &Rect);
+
+  DrawString("Play", 50, 30, 8, 'c', 255*isSouris, 255*isSouris, 255*isSouris, screen);
+
+
+  Rect.x = screen->sizeX/5.0;
+  Rect.y = screen->sizeY/5.0 * 3.0;
+  Rect.h = screen->sizeY/5.0;
+  Rect.w = screen->sizeX/5.0 * 3.0;
+  isSouris = (posMX > screen->sizeX/5.0 && posMX < screen->sizeX/5.0 + screen->sizeX/5.0 * 3.0 && posMY > screen->sizeY/5.0 * 3.0 && posMY < screen->sizeY/5.0 *3.0 + screen->sizeY/5.0)?1:0;
+
+  SDL_SetRenderDrawColor(screen->renderer, 90 + 50*isSouris, 0+ 50*isSouris, 0+ 50*isSouris, 0);
+  SDL_RenderFillRect(screen->renderer, &Rect);
+
+  DrawString("Quit", 50, 70, 8, 'c', 255*isSouris, 255*isSouris, 255*isSouris, screen);
+
+  
 }
 
 

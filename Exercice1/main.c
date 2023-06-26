@@ -74,16 +74,16 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
           {
             case SDLK_SPACE:
             break;    
-            case SDLK_q:
+            case SDLK_4:
               SDL_SetWindowPosition(window, px-5, py);
             break;
-            case SDLK_z:
+            case SDLK_8:
               SDL_SetWindowPosition(window, px, py-5 );
             break;
-            case SDLK_s:
+            case SDLK_2:
               SDL_SetWindowPosition(window, px, py+5);
             break;
-            case SDLK_d:
+            case SDLK_6:
               SDL_SetWindowPosition(window, px+5, py);
             break;                     
             default:                                    // Une touche appuyée qu'on ne traite pas

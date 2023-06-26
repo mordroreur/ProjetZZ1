@@ -73,7 +73,32 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
           switch (event.key.keysym.sym) 
           {
             case SDLK_SPACE:
-            break;    
+            break;
+            case SDLK_UP:
+              position2.y -= 5;
+            break;
+            case SDLK_LEFT:
+              position2.x -= 5;
+            break;
+            case SDLK_DOWN:
+              position2.y += 5;
+            break;
+            case SDLK_RIGHT:
+              position2.x += 5;
+            break;
+
+            case SDLK_z:
+              position.y -= 5;
+            break;
+            case SDLK_q:
+              position.x -= 5;
+            break;
+            case SDLK_s:
+              position.y += 5;
+            break;
+            case SDLK_d:
+              position.x += 5;
+            break;  
             case SDLK_4:
               SDL_SetWindowPosition(window, px-5, py);
             break;
@@ -92,6 +117,7 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
         break;
       }
     }
+    SDL_RenderClear(renderer);
     SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 0, NULL, SDL_FLIP_NONE);
     SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 0, NULL, SDL_FLIP_HORIZONTAL);
     SDL_RenderPresent(renderer);

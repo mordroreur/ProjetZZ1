@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#define WIDTH 1920/2
+#define HEIGHT 1080/2
 #define sizePion 50
 #define vitesse 1
 
@@ -136,6 +138,16 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
     else if (j2d) {position2.x += vitesse;}
     else if (j2b) {position2.y += vitesse;}
     else {}
+
+    if (position.x + (sizePion/2) < 0) {position.x = WIDTH - (sizePion/2) -1;}
+    if (position.x + (sizePion/2) > WIDTH) {position.x = 0 - (sizePion/2) +1;}
+    if (position.y + (sizePion/2) < 0) {position.y = HEIGHT - (sizePion/2) -1;}
+    if (position.y + (sizePion/2) > HEIGHT) {position.y = 0 - (sizePion/2) +1;}
+
+    if (position2.x + (sizePion/2) < 0) {position2.x = WIDTH - (sizePion/2) -1;}
+    if (position2.x + (sizePion/2) > WIDTH) {position2.x = 0 - (sizePion/2) +1;}
+    if (position2.y + (sizePion/2) < 0) {position2.y = HEIGHT - (sizePion/2) -1;}
+    if (position2.y + (sizePion/2) > HEIGHT) {position2.y = 0 - (sizePion/2) +1;}
     
     SDL_RenderClear(renderer);
     if (j1dd)
@@ -158,6 +170,8 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion)
       SDL_RenderCopyEx(renderer, pion[1], NULL, &position2, 90, NULL, SDL_FLIP_NONE);
     else {}
     SDL_RenderPresent(renderer);
+    printf("1->%d & %d\n", position.x, position.y);
+    printf("2->%d & %d\n", position2.x, position2.y);
   }
   return;
 }
@@ -174,14 +188,12 @@ int main(int argc, char const *argv[])
     SDL_Log("Error : SDL initialisation - %s\n", SDL_GetError()); // l'initialisation de la SDL a échoué 
     exit(EXIT_FAILURE);
   }
-  printf("test12\n");
   /* Création de la fenêtre de gauche */
   window_1 = SDL_CreateWindow(
   "Fenêtre à gauche",                    // codage en utf8, donc accents possibles
   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,                                  // coin haut gauche en haut gauche de l'écran
-  1920/2, 1080/2,                              // largeur = 400, hauteur = 300
+  WIDTH, HEIGHT,                              // largeur = 400, hauteur = 300
   SDL_WINDOW_RESIZABLE);                 // redimensionnable
-  printf("test3\n");
   if (window_1 == NULL) 
   {
     SDL_Log("Error : SDL window 1 creation - %s\n", SDL_GetError()); // échec de la création de la fenêtre
@@ -190,11 +202,8 @@ int main(int argc, char const *argv[])
   }
 
   renderer = SDL_CreateRenderer(window_1, -1, 0);
-  printf("test4\n");
   loadPion(&renderer, &joueur);
   game(window_1, renderer, joueur);
-  printf("test\n");
-
   SDL_DestroyWindow(window_1);    
   SDL_Quit();
   return 0;

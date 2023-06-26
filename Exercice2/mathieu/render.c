@@ -7,12 +7,19 @@ void mainRendering(ecran *screen){
   case 1: loadingScreen(screen);break;
   case 2: DrawTer(screen);break;
   case 3: DrawTer(screen);break;
-    //  case 15: DrawVictoryMenu(screen); break;
+  case 15: DrawVictoryMenu(screen); break;
   case 8: DrawMenu(screen); break;
   case 69: DrawAllocErreur(screen);break;
   default: loadingScreen(screen);break;
   }
 }
+
+
+void DrawVictoryMenu(ecran *screen){
+  DrawMenu(screen);
+  DrawString("VICTOIRE", 50, 50, 15, 'c', 160, 255, 160, screen);
+}
+
 
 void DrawAllocErreur(ecran *screen){
   SDL_SetRenderDrawColor(screen->renderer, 70, 70, 255, 0);

@@ -221,7 +221,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
   InitImage();
 
-  screen->etapeDuJeu = 8;
+  screen->etapeDuJeu = 15;
   
   while(screen->etapeDuJeu){
 

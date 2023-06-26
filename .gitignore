@@ -2,3 +2,8 @@
 */res
 */Ressources/parametres
 */*.d
+
+*/*/*.o
+*/*/res
+*/*/Ressources/parametres
+*/*/*.d

@@ -47,7 +47,7 @@ int main(){
   float ballX = 0;
   float ballY = 0;
 
-  float speed = (height/128.0) * 4;
+  float speed = (height/128.0) * 1;
   
   while(inGame){
     SDL_Delay(10);
@@ -75,8 +75,14 @@ int main(){
       }
       
       
-      if(ballY < sin(balleState)*speed + (height/64)){
+      if(ballY < sin(balleState)*speed  + (height/32)){
+	printf("De : %d\n", balleState);
 	balleState = 360-balleState;
+	printf("%d\n", balleState);
+	ballY = (height/32.0)*1.2;
+      }else if(ballY > Barre_y+sin((balleState * 2 * PI)/360)*speed - (height/32.0) && ballX > Barre_x && ballX < Barre_x+(width/8)){
+	  balleState = 360 - balleState;
+	ballY = Barre_y - (height/32) -1;
       }else if(ballY > height-sin((balleState * 2 * PI)/360)*speed - (height/16)){
 	balleState = -1;
 	life--;
@@ -98,12 +104,18 @@ int main(){
 	  inGame = 0;
 	}else if(event.key.keysym.sym == 1073741904){
 	  if(Barre_x > 0){
-	    Barre_x -= 10;
+	    Barre_x -= (height/40);
+	    if(Barre_x < 0){
+	      Barre_x = 0;
+	    }
 	  }
 	  SDL_SetWindowPosition(barreWin, Barre_x, Barre_y);
 	}else if(event.key.keysym.sym == 1073741903){
 	  if(Barre_x < width - (width/8)){
-	    Barre_x += 10;
+	    Barre_x += (height/40);
+	    if(Barre_x > width - (width/8)){
+	      Barre_x = width - (width/8);
+	    }
 	  }
 	  SDL_SetWindowPosition(barreWin, Barre_x, Barre_y);
 	  

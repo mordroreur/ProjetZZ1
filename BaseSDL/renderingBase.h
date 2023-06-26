@@ -9,6 +9,7 @@
 
 ecran createScreen(int sizex, int sizey, int fullscreen);
 void end_sdl(int ok, char const *msg, ecran screen);
+
 void startMainBoucle(ecran *screen);
 void *BouclePrincipaleDesTicks(void *unEcran);
 

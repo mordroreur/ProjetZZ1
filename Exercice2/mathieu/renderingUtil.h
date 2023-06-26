@@ -6,6 +6,8 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
+#define WAITTIME 30
+
 typedef struct Ecran{
 
   SDL_Window *window;

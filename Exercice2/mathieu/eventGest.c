@@ -11,19 +11,19 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen) {
     if(key.keysym.sym == 1073741904){
       screen->serpDir = 1;
       screen->etapeDuJeu = 3;
-      screen->lastDep = 60;
+      screen->lastDep = WAITTIME;
     }else if(key.keysym.sym == 1073741906){
       screen->serpDir = 2;
       screen->etapeDuJeu = 3;
-      screen->lastDep = 60;
+      screen->lastDep = WAITTIME;
     }else if(key.keysym.sym == 1073741903){
       screen->serpDir = 3;
       screen->etapeDuJeu = 3;
-      screen->lastDep = 60;
+      screen->lastDep = WAITTIME;
     }else if(key.keysym.sym == 1073741905){
       screen->serpDir = 4;
       screen->etapeDuJeu = 3;
-      screen->lastDep = 60;
+      screen->lastDep = WAITTIME;
     }
     //printf("%d\n", key.keysym.sym);
   }else if(screen->etapeDuJeu == 3){

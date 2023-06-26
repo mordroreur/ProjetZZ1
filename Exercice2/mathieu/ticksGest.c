@@ -4,7 +4,7 @@
 void mainTickGest(ecran *screen) {
   if(screen->etapeDuJeu == 3){
     if(screen->lastDep == 0){
-      screen->lastDep = 60;
+      screen->lastDep = WAITTIME;
       if(screen->serpDir == 1){
 	if(screen->serpX == 0 || screen->Ter[screen->serpX-1][screen->serpY] > 0){
 	  screen->etapeDuJeu = 6;

@@ -3,6 +3,8 @@
 #include <SDL2/SDL_timer.h>
 #include <stdio.h>
 
+#define PI 3.1415
+
 
 int main(){
 
@@ -44,19 +46,45 @@ int main(){
   int balleState = -1;
   float ballX = 0;
   float ballY = 0;
-  
+
+  float speed = (height/128.0) * 4;
   
   while(inGame){
     SDL_Delay(10);
     SDL_Event event;
     SDL_GetWindowPosition(barreWin, &Barre_x, &Barre_y);
-
+    //printf("Le balle : %d\n", balleState);
 
     if(balleState == -1){
       SDL_SetWindowPosition(balleWin, Barre_x + (width/16.0) - (height/64), Barre_y - (height/32));
     }else{
-      ballX += cos(balleState);
-      ballY += sin(balleState);
+      ballX += cos((balleState * 2 * PI)/360)*speed;
+      ballY -= sin((balleState * 2 * PI)/360)*speed;
+      if(ballX < cos(balleState)*speed){
+	if(balleState < 180){
+	  balleState = 180 - balleState;
+	}else{
+	  balleState = 360 - balleState +180;
+	}
+      }else if(ballX > width-cos((balleState * 2 * PI)/360)*speed - (height/32)){
+	if(balleState < 180){
+	  balleState = 180-balleState;
+	}else{
+	  balleState = 360-balleState +180 % 360;
+	}
+      }
+      
+      
+      if(ballY < sin(balleState)*speed + (height/64)){
+	balleState = 360-balleState;
+      }else if(ballY > height-sin((balleState * 2 * PI)/360)*speed - (height/16)){
+	balleState = -1;
+	life--;
+	if(life == 0){
+	  inGame = 0;
+	}
+      }
+      
       SDL_SetWindowPosition(balleWin, ballX, ballY);
     }
 

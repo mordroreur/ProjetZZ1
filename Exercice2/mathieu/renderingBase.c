@@ -221,35 +221,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
   InitImage();
 
-
-  screen->taille_Ter_x = 6;
-  screen->taille_Ter_y = 6;
-  screen->serpX = 3;
-  screen->serpY = 3;
-
-  
-  screen->tailleSerp = 1;
-  screen->Ter = (int**)malloc(screen->taille_Ter_x * sizeof(int *));
-  if(screen->Ter){
-    for(int i = 0; i < screen->taille_Ter_x; i++){
-      screen->Ter[i] = (int*)malloc(screen->taille_Ter_y * sizeof(int));
-      if(screen->Ter[i]){
-	for(int j = 0; j < screen->taille_Ter_y; j++){
-	  screen->Ter[i][j] = 0;
-	}
-      }else{
-	end_sdl(0, "ERREUR alloc", *screen);
-      }
-    }
-  }else{
-    end_sdl(0, "ERREUR alloc", *screen);
-  }
-
-  screen->Ter[3][3] = 1;
-
-  createApple(screen);
-  
-  screen->etapeDuJeu = 2;
+  screen->etapeDuJeu = 8;
   
   while(screen->etapeDuJeu){
 

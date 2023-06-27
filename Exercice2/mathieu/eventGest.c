@@ -43,6 +43,14 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen) {
 void LeftClick(ecran *screen) {
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
+
+  if(screen->etapeDuJeu == 8 || screen->etapeDuJeu == 15 || screen->etapeDuJeu == 16){
+    if(posMX > screen->sizeX/5.0 && posMX < screen->sizeX/5.0 + screen->sizeX/5.0 * 3.0 && posMY > screen->sizeY/5.0 * 3.0 && posMY < screen->sizeY/5.0 *3.0 + screen->sizeY/5.0){
+      screen->etapeDuJeu = 0;
+    }else if(posMX > screen->sizeX/5.0 && posMX < screen->sizeX/5.0 + screen->sizeX/5.0 * 3.0 && posMY > screen->sizeY/5.0 && posMY < screen->sizeY/5.0 + screen->sizeY/5.0){
+      screen->etapeDuJeu = 42;
+    }
+  }
  
 }
 

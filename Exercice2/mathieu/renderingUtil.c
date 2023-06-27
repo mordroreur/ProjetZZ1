@@ -36,13 +36,16 @@ void InitImage(){
   TotalImagenb = (int *)malloc(sizeof(int) * nbImage);
 
   
-  fileImage[0] = IMG_Load("Ressources/Image/BoiteVide.png");
-  PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1; TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
+  fileImage[0] = IMG_Load("Ressources/Image/teteDroit.png");
+  PixelXnb[0] = 20; PixelYnb[0] = 20;XImagenb[0] = 10; YImagenb[0] = 1; TotalImagenb[0] = 10; ImYoffset[0] = 0; ImXoffset[0] = 0;
 
-  if(fileImage[0] == NULL){
-    fprintf(stderr, "error: image 0 not found\n");
-    exit(EXIT_FAILURE);
+  for(int i = 0; i < nbImage; i++){
+    if(fileImage[i] == NULL){
+      fprintf(stderr, "error: image %d not found\n", i);
+      exit(EXIT_FAILURE);
+    }
   }
+  
   
   
   RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
@@ -194,17 +197,10 @@ void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char cen
     keepImage.h = (float)PixelYnb[imagenb] + ImYoffset[imagenb];
   }
 
-  if(flip == 1){
-    resx = -resx;
-  }else if(flip == 2){
-    resy = -resy;
-  }else if(flip == 3){
-    resy = -resy;
-    resx = -resx;
-  }
   SDL_Texture *tempo = SDL_CreateTextureFromSurface(screen->renderer, fileImage[imagenb]);
 
-  SDL_RenderCopy(screen->renderer, tempo, &keepImage, &Image_rect);
+  SDL_RenderCopyEx(screen->renderer, tempo, &keepImage, &Image_rect, angle, NULL, flip);
+  //  SDL_RenderCopy(screen->renderer, tempo, &keepImage, &Image_rect);
   SDL_DestroyTexture(tempo);
   
 }

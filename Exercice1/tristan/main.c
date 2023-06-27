@@ -3,12 +3,64 @@
 #include <stdlib.h>
 #include <time.h>
 
+
+// void drawrect(SDL_Renderer * rendy, SDL_Rect *rect, int * vrect, int * moverectx, int * moverecty, int fw, int fh){
+//     int bool = 0;
+//     SDL_Delay(100);
+
+//     int vrectint = *vrect;
+//     int moverectxint = *moverectx;
+//     int moverectyint = *moverecty;
+//     printf("deb %i\n", moverectxint);
+//     if((rect->x)<=0) {
+//         moverectxint = vrectint;
+//         bool=1;
+//     }
+//     else if((rect->x)+(rect->w)>=fw) {
+//         moverectxint = -vrectint;
+//         printf("if %i\n", moverectxint);
+//         bool=1;
+//     }
+//     if((rect->y)<=0) {
+//         moverectyint = vrectint;
+//         bool=1;
+//     }
+//     else if((rect->y)+(rect->h) >= fh) {
+//         moverectyint = -vrectint;
+//         bool=1;
+//     }
+//     if(bool == 1) {
+//         vrectint = 10+(rand()%5);
+//         int r = rand()%256;
+//         int g = rand()%256;
+//         int b = rand()%256;
+//         SDL_SetRenderDrawColor(rendy, r, g, b, 255);
+//         bool = 0;
+//     }
+//     rect->x += moverectxint;
+//     rect->y += moverectyint;
+
+//   //  SDL_RenderClear(rendy);
+//     //printf("%i %i %i\n",rect->x,rect->w,fw);
+//     //printf("%i %i %i\n",rect->y,rect->h,fh);
+//     SDL_SetRenderDrawColor(rendy, 0, 0, 0, 255);
+//     SDL_RenderFillRect(rendy, rect);
+//     SDL_RenderPresent(rendy);
+//     printf("fin %i\n", moverectxint);
+//     *moverectx = moverectxint;
+//     *moverecty = moverectyint;
+//     *vrect = vrectint;
+//     printf("apres fin %i\n", *moverectx);
+// }
+
+
 int main(int argc, char **argv) {
 
     srand( time( NULL ) );
     (void)argc;
     (void)argv;
     int bool = 0;
+    int boolrect = 0;
     int v = 3;
     int fw = 400;
     int fh = 300;
@@ -17,6 +69,15 @@ int main(int argc, char **argv) {
     int b = 255;
     int movex = v;
     int movey = v;
+    SDL_Rect rect;
+    rect.x = 190;
+    rect.y = 145;
+    rect.w = 20;
+    rect.h = 15;
+    int vrect = 7;
+    int moverectx = vrect;
+    int moverecty = vrect;
+
     SDL_Window 
     *fenet = NULL;                 
 
@@ -45,7 +106,7 @@ int main(int argc, char **argv) {
         SDL_SetWindowPosition(fenet, x, y); 
         SDL_SetRenderDrawColor(rendcolor, r, g, b, 255);
         SDL_RenderClear(rendcolor);
-        SDL_RenderPresent(rendcolor);                          
+       // SDL_RenderPresent(rendcolor);                          
         event_utile = SDL_FALSE;
         while(!event_utile && SDL_PollEvent(&event)) {  
             switch (event.type) {                         
@@ -69,7 +130,7 @@ int main(int argc, char **argv) {
             }
         }
 
-
+        
         if(x<=30) {
             movex = v;
             bool=1;
@@ -95,6 +156,33 @@ int main(int argc, char **argv) {
         }
         x += movex;
         y += movey;
+
+    if((rect.x)<=0) {
+    moverectx = vrect;
+    boolrect=1;
+    }
+    else if((rect.x)+(rect.w)>=fw) {
+        moverectx = -vrect;
+        boolrect=1;
+    }
+    if((rect.y)<=0) {
+        moverecty = vrect;
+        boolrect=1;
+    }
+    else if((rect.y)+(rect.h) >= fh) {
+        moverecty = -vrect;
+        boolrect=1;
+    }
+    if(boolrect == 1) {
+        vrect = 7+(rand()%5);
+        boolrect = 0;
+    }
+    rect.x += moverectx;
+    rect.y += moverecty;
+
+        SDL_SetRenderDrawColor(rendcolor, 0, 0, 0, 255);
+        SDL_RenderFillRect(rendcolor, &rect);
+        SDL_RenderPresent(rendcolor);
     }
 
     return 0;

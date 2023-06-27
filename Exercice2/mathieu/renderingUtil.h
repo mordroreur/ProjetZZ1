@@ -30,7 +30,8 @@ typedef struct Ecran{
   int serpY;
   int lastDep;
   int serpDir;
-  
+
+  int time;
   
 }ecran;
 

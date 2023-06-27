@@ -2,8 +2,10 @@
 
 
 void mainTickGest(ecran *screen) {
+
   if(screen->etapeDuJeu == 3){
     if(screen->lastDep == 0){
+      screen->time++;
       screen->lastDep = WAITTIME;
       if(screen->serpDir == 1){
 	if(screen->serpX == 0 || screen->Ter[screen->serpX-1][screen->serpY] > 0){
@@ -25,8 +27,7 @@ void mainTickGest(ecran *screen) {
 	  }
 	  screen->serpX--;
 	  screen->Ter[screen->serpX][screen->serpY] = 1;
-	}
-	
+	}	
       }else if(screen->serpDir == 2){
 	if(screen->serpY == 0 || screen->Ter[screen->serpX][screen->serpY-1] > 0){
 	  screen->etapeDuJeu = 6;
@@ -46,8 +47,7 @@ void mainTickGest(ecran *screen) {
 	    }
 	  }
 	  screen->serpY--;
-	  screen->Ter[screen->serpX][screen->serpY] = 1;
-	  
+	  screen->Ter[screen->serpX][screen->serpY] = 1;	  
 	}	
       } else if(screen->serpDir == 3){
 	if(screen->serpX == screen->taille_Ter_x-1 || screen->Ter[screen->serpX+1][screen->serpY] > 0){
@@ -69,8 +69,7 @@ void mainTickGest(ecran *screen) {
 	  }
 	  screen->serpX++;
 	  screen->Ter[screen->serpX][screen->serpY] = 1;
-	}
-	
+	}	
       }else if(screen->serpDir == 4){
 	if(screen->serpY == screen->taille_Ter_y-1 || screen->Ter[screen->serpX][screen->serpY+1] > 0){
 	  screen->etapeDuJeu = 6;
@@ -91,12 +90,51 @@ void mainTickGest(ecran *screen) {
 	  }
 	  screen->serpY++;
 	  screen->Ter[screen->serpX][screen->serpY] = 1;
-	}
-	
+	}	
       }
     }else{
       screen->lastDep--;
     }
+
+  }else if(screen->etapeDuJeu == 42){
+    screen->taille_Ter_x = 6;
+    screen->taille_Ter_y = 6;
+    screen->serpX = 3;
+    screen->serpY = 3;
+    screen->time = 0;
+    screen->tailleSerp = 1;
+    screen->Ter = (int**)malloc(screen->taille_Ter_x * sizeof(int *));
+    if(screen->Ter){
+      for(int i = 0; i < screen->taille_Ter_x; i++){
+	screen->Ter[i] = (int*)malloc(screen->taille_Ter_y * sizeof(int));
+	if(screen->Ter[i]){
+	  for(int j = 0; j < screen->taille_Ter_y; j++){
+	    screen->Ter[i][j] = 0;
+	  }
+	}else{
+	  screen->etapeDuJeu = 69;
+	}
+      }
+    }else{
+      screen->etapeDuJeu = 69;
+    }
+    screen->Ter[3][3] = 1;
+    createApple(screen);
+    screen->etapeDuJeu = 2;
+    
+  }else if(screen->etapeDuJeu == 5){
+    for(int i = 0; i < screen->taille_Ter_x; i++){
+      free(screen->Ter[i]);
+    }
+    free(screen->Ter);
+    screen->etapeDuJeu = 15;
+
+  }else if(screen->etapeDuJeu == 6){
+    for(int i = 0; i < screen->taille_Ter_x; i++){
+      free(screen->Ter[i]);
+    }
+    free(screen->Ter);
+    screen->etapeDuJeu = 16;
   }
 }
 

@@ -22,19 +22,20 @@ void mainTickGest(ecran *screen){
 	}
       }
     }
-    generateGraphe(&(screen->niveau), 0, screen->niveau.nbSommets-1);
+    generateTree(&(screen->niveau), 0, screen->niveau.nbSommets-1);
+    generateGraphe(&(screen->niveau), 0.5);
+    
 
 
 
-    printf("On est sortit \n");
-
+    /*
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       for(int j = 0 ;j < screen->niveau.nbSommets; j++){
 	printf("%f  ", screen->niveau.arretes[i][j]);
       }
       printf("\n");
     }
-
+    */
 
 
     
@@ -73,7 +74,7 @@ void *ChercheMinGraphe(void *param){
 
 
 
-void generateGraphe(graphe* g, int bas, int haut){
+void generateTree(graphe* g, int bas, int haut){
   if(bas < haut){
     int k = rand()%(haut-(bas+1)+1)+(bas+1);
     printf("%d  et %d == %d\n", bas+1, haut, k);
@@ -83,7 +84,18 @@ void generateGraphe(graphe* g, int bas, int haut){
       g->arretes[bas][k+1] = 1;
       g->arretes[k+1][bas] = 1;
     }
-    generateGraphe(g,bas+1, k);
-    generateGraphe(g, k+1, haut);
+    generateTree(g,bas+1, k);
+    generateTree(g, k+1, haut);
+  }
+}
+
+void generateGraphe(graphe* g, float proba){
+  for(int i = 0; i < g->nbSommets; i++){
+    for(int j = i+1; j < g->nbSommets; j++){
+      if(rand()%1000000 < proba*1000000){
+	g->arretes[i][j] = 1;
+	g->arretes[j][i] = 1;
+      }
+    }
   }
 }

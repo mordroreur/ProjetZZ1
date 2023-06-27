@@ -5,6 +5,7 @@
 
 void mainTickGest(ecran *screen);
 void *ChercheMinGraphe(void *param);
-void generateGraphe(graphe* g, int bas, int haut);
+void generateTree(graphe* g, int bas, int haut);
+void generateGraphe(graphe* g, float proba);
 
 #endif /* TICKGEST_HEADER_ */

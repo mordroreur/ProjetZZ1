@@ -241,6 +241,12 @@ int isInButton(float x, float y, float sizeX, float sizeY, char center, int posM
       return 1;
     }
     return 0;
+  }else if(center == 'n'){
+    if(posMX < screen->sizeX*((x+sizeX)/100) && posMX > screen->sizeX*((x)/100) && posMY < screen->sizeY*((y+sizeY)/100) && posMY > screen->sizeY*((y)/100)){
+      return 1;
+    }else{
+      return 0;
+    }
   }
   return 0;
 }

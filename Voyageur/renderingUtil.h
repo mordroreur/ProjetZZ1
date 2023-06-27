@@ -9,7 +9,7 @@
 #include <pthread.h>
 
 typedef struct graph{
-  int nbSommet;
+  int nbSommets;
   float ** arretes;
   int *Sommets[2];
   liste reso;

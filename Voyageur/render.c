@@ -22,7 +22,6 @@ SDL_GetMouseState(&posMX, &posMY);
   if (isInButton(50, 50, 30, 20, 'c', posMX, posMY, screen))
   {
     DrawImage(0, 50, 50, 35, 25, 'c', 0, 0, 0, 0, 0, 0, screen);
-    printf("OUI\n");
   } else {
     DrawImage(0, 50, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
   }
@@ -48,16 +47,4 @@ void loadingScreen(ecran *screen){
   DrawString("                    .", 50, 47.5 + abs(nb3)/10.0, 10, 'c', 0, 0, 0, screen);
 
   //DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran *screen)
-}
-
-int isInButton(int x, int y, int sizeX, int sizeY, char center, int posMX, int posMY, ecran *screen)
-{
-
-  if(center == 'c'){
-    if(posMX < screen->sizeX*(x+sizeX/2) && posMX > screen->sizeX*(x-sizeX/2) && posMY < screen->sizeY*(y+sizeY/2) && posMY > screen->sizeY*(y-sizeY/2)){
-      return 1;
-    }
-    return 0;
-  }
-  return 0;
 }

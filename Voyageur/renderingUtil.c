@@ -230,3 +230,17 @@ void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char cen
   
 }
 
+
+
+
+int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen)
+{
+
+  if(center == 'c'){
+    if(posMX < screen->sizeX*((x+sizeX/2)/100) && posMX > screen->sizeX*((x-sizeX/2)/100) && posMY < screen->sizeY*((y+sizeY/2)/100) && posMY > screen->sizeY*((y-sizeY/2)/100)){
+      return 1;
+    }
+    return 0;
+  }
+  return 0;
+}

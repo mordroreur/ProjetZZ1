@@ -2,7 +2,7 @@
 
 
 void mainTickGest(ecran *screen){
-  if(screen->etapeDuJeu == 2){
+  if(screen->etapeDuJeu == 4){
     
     pthread_t chercheMinGraphe;
     int RetourDuThreadDuMin = pthread_create(&chercheMinGraphe, NULL, ChercheMinGraphe,  screen);

@@ -5,12 +5,12 @@
 #include <SDL2/SDL_ttf.h>
 #include <math.h>
 
-#define WIDTH 1920/2
-#define HEIGHT 1080/2
+#define WIDTH 1920
+#define HEIGHT 1080
 #define sizePion 50
 #define sizeBoule 25
 #define vitesse 1
-#define vieBoule 500
+#define vieBoule 1000
 #define vitesseBoule 2
 
 typedef struct boule
@@ -322,7 +322,7 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
     sprintf(str, "%d", score1);
     DrawString(str, 5, 5, 2, 'c', 250, 0, 0, renderer);
     sprintf(str, "%d", score2);
-    DrawString(str, 95, 5, 3, 'c', 0, 0, 250, renderer);
+    DrawString(str, 95, 5, 2, 'c', 0, 0, 250, renderer);
     
     if (j1dd)
       SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 0, NULL, SDL_FLIP_NONE);

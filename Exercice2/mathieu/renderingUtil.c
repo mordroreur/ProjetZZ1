@@ -3,7 +3,6 @@
 
 
 static SDL_Surface **fileImage;
-static int *wichFile;
 static int *PixelXnb;
 static int *PixelYnb;
 static int *XImagenb;
@@ -11,9 +10,6 @@ static int *YImagenb;
 static int *ImYoffset;
 static int *ImXoffset;
 static int *TotalImagenb;
-static int *debX;
-static int *debY;
-
 
 TTF_Font *RobotoFont;
 
@@ -30,9 +26,7 @@ long int getTime(){
 
 void InitImage(){
   int nbImage = 1;
-  int nbPlanche = 1;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
-  wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
   PixelYnb = (int *)malloc(sizeof(int) * nbImage);
   XImagenb = (int *)malloc(sizeof(int) * nbImage);
@@ -40,20 +34,14 @@ void InitImage(){
   ImYoffset = (int *)malloc(sizeof(int) * nbImage);
   ImXoffset = (int *)malloc(sizeof(int) * nbImage);
   TotalImagenb = (int *)malloc(sizeof(int) * nbImage);
-  debX = (int *)malloc(sizeof(int) * nbImage);
-  debY = (int *)malloc(sizeof(int) * nbImage);
 
   
+  fileImage[0] = IMG_Load("Ressources/Image/teteDroit.png");
+  PixelXnb[0] = 20; PixelYnb[0] = 20;XImagenb[0] = 10; YImagenb[0] = 1; TotalImagenb[0] = 10; ImYoffset[0] = 0; ImXoffset[0] = 0;
 
-  
-  fileImage[0] = IMG_Load("Ressources/Image/BoiteVide.png");
-  PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
-  TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
-  debX[0] = 0; debY[0] = 0; wichFile = 0;
-
-  for(int i = 0; i < nbPlanche; i++){
-    if(fileImage[0] == NULL){
-      fprintf(stderr, "error: image 0 not found\n");
+  for(int i = 0; i < nbImage; i++){
+    if(fileImage[i] == NULL){
+      fprintf(stderr, "error: image %d not found\n", i);
       exit(EXIT_FAILURE);
     }
   }
@@ -72,7 +60,6 @@ void InitImage(){
 void freeImageMalloc(){
   if(fileImage != NULL){
     free(fileImage);
-    free(wichFile);
     free(PixelXnb);
     free(PixelYnb);
     free(XImagenb);
@@ -80,8 +67,6 @@ void freeImageMalloc(){
     free(ImXoffset);
     free(ImYoffset);
     free(TotalImagenb);
-    free(debX);
-    free(debY);
   }
   if(RobotoFont != NULL){
     TTF_CloseFont(RobotoFont);
@@ -127,13 +112,14 @@ void DrawString(char *s, float x, float y, float size, char center, int R, int G
   SDL_RenderCopy(screen->renderer, Message, NULL, &Message_rect);
   SDL_FreeSurface(surfaceMessage);
   SDL_DestroyTexture(Message);
+
+
+  
 }
 
 
 
-
-
-void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen){
+void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran *screen){
 
 
   SDL_Rect Image_rect;
@@ -191,7 +177,7 @@ void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char cen
   if(TimebeforeNext == 0){
     imageVoulu = etatPremier;
   }else{
-    imageVoulu = spriteOrder[(etatPremier + ((int)((SDL_GetTicks()/((float)1000*TimebeforeNext)))%nbState))%nbState];
+    imageVoulu = (etatPremier + ((int)((SDL_GetTicks()/((float)1000*TimebeforeNext)))%TotalImagenb[imagenb]))%TotalImagenb[imagenb];
   }
 
  
@@ -200,22 +186,21 @@ void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char cen
   if(TotalImagenb[imagenb] != 1){
     int col = imageVoulu / XImagenb[imagenb];
     int line = imageVoulu % XImagenb[imagenb];
-    keepImage.x = debX[imagenb] + line*(PixelXnb[imagenb] + ImXoffset[imagenb]);
-    keepImage.y = debY[imagenb] + col*(PixelYnb[imagenb] + ImYoffset[imagenb]);
+    keepImage.x = line*(PixelXnb[imagenb] + ImXoffset[imagenb]);
+    keepImage.y = col*(PixelYnb[imagenb] + ImYoffset[imagenb]);
     keepImage.w = PixelXnb[imagenb];
     keepImage.h = PixelYnb[imagenb];
   }else {
-    keepImage.x = debX[imagenb];
-    keepImage.y = debY[imagenb];
+    keepImage.x = 0;
+    keepImage.y = 0;
     keepImage.w = (float)PixelXnb[imagenb] + ImXoffset[imagenb];
     keepImage.h = (float)PixelYnb[imagenb] + ImYoffset[imagenb];
   }
 
-
-  SDL_Texture *tempo = SDL_CreateTextureFromSurface(screen->renderer, fileImage[wichFile[imagenb]]);
+  SDL_Texture *tempo = SDL_CreateTextureFromSurface(screen->renderer, fileImage[imagenb]);
 
   SDL_RenderCopyEx(screen->renderer, tempo, &keepImage, &Image_rect, angle, NULL, flip);
-  //SDL_RenderCopy(screen->renderer, tempo, &keepImage, &Image_rect);
+  //  SDL_RenderCopy(screen->renderer, tempo, &keepImage, &Image_rect);
   SDL_DestroyTexture(tempo);
   
 }

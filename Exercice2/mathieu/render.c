@@ -1,4 +1,5 @@
 #include "render.h"
+#include "renderingUtil.h"
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
@@ -92,11 +93,24 @@ void DrawTer(ecran *screen){
 	rect.x = ((float)(screen->sizeX) / screen->taille_Ter_x)*i;
 	rect.y = ((float)(screen->sizeY) / screen->taille_Ter_y)*j;
 	SDL_RenderFillRect(screen->renderer, &rect);
-      }else if (screen->Ter[i][j] == 256) {
-	SDL_SetRenderDrawColor(screen->renderer, 0, 90, 0, 0);
-	rect.x = ((float)(screen->sizeX) / screen->taille_Ter_x)*i;
-	rect.y = ((float)(screen->sizeY) / screen->taille_Ter_y)*j;
-	SDL_RenderFillRect(screen->renderer, &rect);
+      }else if (screen->Ter[i][j] > 255 && screen->Ter[i][j] < 511) {
+
+	if((screen->Ter[i][j] & 16) && (screen->serpDir == 1)){
+	  DrawImage(0, (i+0.5)*100.0 / screen->taille_Ter_x, (j+0.5)*100.0 / screen->taille_Ter_y, 100.0 / screen->taille_Ter_x * screen->sizeY/screen->sizeX, 100.0 / screen->taille_Ter_y * screen->sizeX/screen->sizeY, 'c', 0, 0.1, 0, -90, screen);
+	}else if((screen->Ter[i][j] & 32) && (screen->serpDir == 2)){
+	  DrawImage(0, i*100.0 / screen->taille_Ter_x, j*100.0 / screen->taille_Ter_y, 100.0 / screen->taille_Ter_x, 100.0 / screen->taille_Ter_y, 'n', 0, 0.1, 0, 0, screen);
+	}else if((screen->Ter[i][j] & 64) && (screen->serpDir == 3)){
+	  DrawImage(0, (i+0.5)*100.0 / screen->taille_Ter_x, (j+0.5)*100.0 / screen->taille_Ter_y, 100.0 / screen->taille_Ter_x * screen->sizeY/screen->sizeX, 100.0 / screen->taille_Ter_y * screen->sizeX/screen->sizeY, 'c', 0, 0.1, 2, -90, screen);
+	}else if((screen->Ter[i][j] & 128) && (screen->serpDir == 4)){
+	  	  DrawImage(0, i*100.0 / screen->taille_Ter_x, j*100.0 / screen->taille_Ter_y, 100.0 / screen->taille_Ter_x, 100.0 / screen->taille_Ter_y, 'n', 0, 0.1, 0, 180, screen);
+	}else{
+	  DrawImage(0, i*100.0 / screen->taille_Ter_x, j*100.0 / screen->taille_Ter_y, 100.0 / screen->taille_Ter_x, 100.0 / screen->taille_Ter_y, 'n', 0, 0.1, 0, 0, screen);
+	}
+	
+	
+
+
+	
       }else if (screen->Ter[i][j] > 256) {
 	SDL_SetRenderDrawColor(screen->renderer, 0, 130, 0, 0);
 	rect.x = ((float)(screen->sizeX) / screen->taille_Ter_x)*i;

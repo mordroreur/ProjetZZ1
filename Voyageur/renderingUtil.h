@@ -1,10 +1,20 @@
 #ifndef RENDERING_UTIL_HEADER_
 #define RENDERING_UTIL_HEADER_
 
+#include "liste.h"
 #include <SDL2/SDL.h>
 #include <time.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+#include <pthread.h>
+
+typedef struct graph{
+  int nbSommet;
+  float ** arretes;
+  int *Sommets[2];
+  liste reso;
+}graphe;
+
 
 typedef struct Ecran{
 
@@ -20,14 +30,10 @@ typedef struct Ecran{
 
   int etapeDuJeu;
 
+  graphe niveau;
+
 } ecran;
 
-
-typedef struct graph{
-  int nbSommets;
-  int ** arretes;
-  int *Sommets[2];
-}graphe;
 
 
 long int getTime();

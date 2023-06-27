@@ -2,7 +2,12 @@
 
 
 void mainTickGest(ecran *screen){
-  if(screen->etapeDuJeu == 4){
+  if(screen->etapeDuJeu == 3){
+
+    generateGraphe(screen);
+
+    screen->etapeDuJeu = 4;
+  }else if(screen->etapeDuJeu == 4){
     
     pthread_t chercheMinGraphe;
     int RetourDuThreadDuMin = pthread_create(&chercheMinGraphe, NULL, ChercheMinGraphe,  screen);
@@ -19,4 +24,24 @@ void *ChercheMinGraphe(void *param){
     printf("test\n");
 
     return NULL;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void generateGraphe(ecran *screen){
+
+
+  
 }

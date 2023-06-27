@@ -18,15 +18,15 @@ void mainTickGest(ecran *screen) {
 	  for(int i = 0; i < screen->taille_Ter_x; i++){
 	    for(int j = 0; j < screen->taille_Ter_y; j++){
 	      if(screen->Ter[i][j] > 0){
-		screen->Ter[i][j]++;
-		if(screen->Ter[i][j] > screen->tailleSerp){
+		screen->Ter[i][j]+= 256;
+		if(screen->Ter[i][j] > screen->tailleSerp*256){
 		  screen->Ter[i][j] = 0;
 		}
 	      }
 	    }
 	  }
 	  screen->serpX--;
-	  screen->Ter[screen->serpX][screen->serpY] = 1;
+	  screen->Ter[screen->serpX][screen->serpY] = 256;
 	}	
       }else if(screen->serpDir == 2){
 	if(screen->serpY == 0 || screen->Ter[screen->serpX][screen->serpY-1] > 0){
@@ -39,15 +39,15 @@ void mainTickGest(ecran *screen) {
 	  for(int i = 0; i < screen->taille_Ter_x; i++){
 	    for(int j = 0; j < screen->taille_Ter_y; j++){
 	      if(screen->Ter[i][j] > 0){
-		screen->Ter[i][j]++;
-		if(screen->Ter[i][j] > screen->tailleSerp){
+		screen->Ter[i][j]+=256;
+		if(screen->Ter[i][j] > screen->tailleSerp*256){
 		  screen->Ter[i][j] = 0;
 		}
 	      }
 	    }
 	  }
 	  screen->serpY--;
-	  screen->Ter[screen->serpX][screen->serpY] = 1;	  
+	  screen->Ter[screen->serpX][screen->serpY] = 256;	  
 	}	
       } else if(screen->serpDir == 3){
 	if(screen->serpX == screen->taille_Ter_x-1 || screen->Ter[screen->serpX+1][screen->serpY] > 0){
@@ -60,15 +60,15 @@ void mainTickGest(ecran *screen) {
 	  for(int i = 0; i < screen->taille_Ter_x; i++){
 	    for(int j = 0; j < screen->taille_Ter_y; j++){
 	      if(screen->Ter[i][j] > 0){
-		screen->Ter[i][j]++;
-		if(screen->Ter[i][j] > screen->tailleSerp){
+		screen->Ter[i][j]+=256;
+		if(screen->Ter[i][j] > screen->tailleSerp*256){
 		  screen->Ter[i][j] = 0;
 		}
 	      }
 	    }
 	  }
 	  screen->serpX++;
-	  screen->Ter[screen->serpX][screen->serpY] = 1;
+	  screen->Ter[screen->serpX][screen->serpY] = 256;
 	}	
       }else if(screen->serpDir == 4){
 	if(screen->serpY == screen->taille_Ter_y-1 || screen->Ter[screen->serpX][screen->serpY+1] > 0){
@@ -81,15 +81,15 @@ void mainTickGest(ecran *screen) {
 	  for(int i = 0; i < screen->taille_Ter_x; i++){
 	    for(int j = 0; j < screen->taille_Ter_y; j++){
 	      if(screen->Ter[i][j] > 0){
-		screen->Ter[i][j]++;
-		if(screen->Ter[i][j] > screen->tailleSerp){
+		screen->Ter[i][j]+=256;
+		if(screen->Ter[i][j] > screen->tailleSerp*256){
 		  screen->Ter[i][j] = 0;
 		}
 	      }
 	    }
 	  }
 	  screen->serpY++;
-	  screen->Ter[screen->serpX][screen->serpY] = 1;
+	  screen->Ter[screen->serpX][screen->serpY] = 256;
 	}	
       }
     }else{
@@ -118,7 +118,7 @@ void mainTickGest(ecran *screen) {
     }else{
       screen->etapeDuJeu = 69;
     }
-    screen->Ter[3][3] = 1;
+    screen->Ter[3][3] = 256;
     createApple(screen);
     screen->etapeDuJeu = 2;
     

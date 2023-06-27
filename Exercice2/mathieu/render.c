@@ -92,12 +92,12 @@ void DrawTer(ecran *screen){
 	rect.x = ((float)(screen->sizeX) / screen->taille_Ter_x)*i;
 	rect.y = ((float)(screen->sizeY) / screen->taille_Ter_y)*j;
 	SDL_RenderFillRect(screen->renderer, &rect);
-      }else if (screen->Ter[i][j] == 1) {
+      }else if (screen->Ter[i][j] == 256) {
 	SDL_SetRenderDrawColor(screen->renderer, 0, 90, 0, 0);
 	rect.x = ((float)(screen->sizeX) / screen->taille_Ter_x)*i;
 	rect.y = ((float)(screen->sizeY) / screen->taille_Ter_y)*j;
 	SDL_RenderFillRect(screen->renderer, &rect);
-      }else if (screen->Ter[i][j] > 1) {
+      }else if (screen->Ter[i][j] > 256) {
 	SDL_SetRenderDrawColor(screen->renderer, 0, 130, 0, 0);
 	rect.x = ((float)(screen->sizeX) / screen->taille_Ter_x)*i;
 	rect.y = ((float)(screen->sizeY) / screen->taille_Ter_y)*j;

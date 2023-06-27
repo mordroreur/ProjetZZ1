@@ -1,5 +1,5 @@
 #include "ticksGest.h"
-
+#define PI 3.1415
 
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
@@ -25,19 +25,32 @@ void mainTickGest(ecran *screen){
     generateTree(&(screen->niveau), 0, screen->niveau.nbSommets-1);
     generateGraphe(&(screen->niveau), 0.5);
     
+    screen->niveau.Sommets = (int **) malloc(sizeof(int *) * screen->niveau.nbSommets);
+    for(int i = 0; i < screen->niveau.nbSommets; i++){
+      screen->niveau.Sommets[i] = (int *) malloc(sizeof(int) * 2);
+    }
+
+    for(int i = 0; i < screen->niveau.nbSommets; i++){
+      screen->niveau.Sommets[i][0] = 50 + cos(((360/screen->niveau.nbSommets * i) * 2 * PI)/360)*40;
+      screen->niveau.Sommets[i][1] = 50 + sin(((360/screen->niveau.nbSommets * i) * 2 * PI)/360)*40;
+    }
 
 
-
-    /*
+    
+    /*    
+    for(int i = 1; i < screen->niveau.nbSommets; i++){
+      for(int j = 1 ;j < screen->niveau.nbSommets; j++){
+	screen->niveau.arretes[i][j] = 0;
+      }
+    }
+    
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       for(int j = 0 ;j < screen->niveau.nbSommets; j++){
 	printf("%f  ", screen->niveau.arretes[i][j]);
       }
       printf("\n");
-    }
-    */
-
-
+      }*/
+    
     
     screen->etapeDuJeu = 4;
     
@@ -77,7 +90,6 @@ void *ChercheMinGraphe(void *param){
 void generateTree(graphe* g, int bas, int haut){
   if(bas < haut){
     int k = rand()%(haut-(bas+1)+1)+(bas+1);
-    printf("%d  et %d == %d\n", bas+1, haut, k);
     g->arretes[bas][bas+1] = 1;
     g->arretes[bas+1][bas] = 1;
     if(k+1 <= haut){

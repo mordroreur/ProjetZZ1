@@ -11,7 +11,7 @@
 typedef struct graph{
   int nbSommets;
   float ** arretes;
-  int *Sommets[2];
+  int **Sommets;
   liste reso;
 }graphe;
 

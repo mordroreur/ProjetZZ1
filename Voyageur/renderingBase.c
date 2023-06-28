@@ -220,6 +220,10 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   InitImage();
+
+  screen->niveau.nbSommets = 5;
+  screen->niveau.proba = 0.5;
+  
   screen->etapeDuJeu = 2;
   
   while(screen->etapeDuJeu){

@@ -5,7 +5,7 @@
 
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
-    screen->niveau.nbSommets = 9;
+    
     screen->niveau.arretes = (float **) malloc(sizeof(float*) * screen->niveau.nbSommets); // alloue le tableau principal
     if(screen->niveau.arretes == NULL) {screen->etapeDuJeu = 0; printf("MALLOC ERROR\n");}
     for(int i = 0; i < screen->niveau.nbSommets; i++) {
@@ -25,7 +25,7 @@ void mainTickGest(ecran *screen){
       }
     }
     generateTree(&(screen->niveau), 0, screen->niveau.nbSommets-1);
-    generateGraphe(&(screen->niveau), 0.5);
+    generateGraphe(&(screen->niveau), screen->niveau.proba);
     
     positionneGraphe(&(screen->niveau));
 

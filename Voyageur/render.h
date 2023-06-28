@@ -2,6 +2,7 @@
 #define RENDER_HEADER_
 
 #include "renderingUtil.h"
+#include <string.h>
 
 
 void mainRendering(ecran *screen);

@@ -7,6 +7,9 @@ void mainRendering(ecran *screen){
   case 4: drawGraph(screen); break;
   case 5: drawGraph(screen); break;
   case 666: drawParametre(screen); break;
+  case 667: drawParametre(screen); break;
+  case 668: drawParametre(screen); break;
+  case 669: drawParametre(screen); break;
   default: loadingScreen(screen); break;
   }
 }
@@ -71,11 +74,46 @@ void rotateButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int y
 void drawParametre(ecran *screen)
 {
   int nbreSommet = screen->niveau.nbSommets;
-  char nbSom[20];
-  sprintf(nbSom, "%d", nbSom);
+  float probabilite = screen->niveau.proba;
+  char nbSom[30]; char proba[60]; char nbSom2[10]; char proba2[30];
+  if (screen->etapeDuJeu == 666 || screen->etapeDuJeu == 667)
+  {
+    sprintf(nbSom, "Nombre de sommets: %d", nbreSommet);
+    sprintf(proba, "Probabilite de liaison: %.5f", probabilite);
+  }
+  else
+  {
+    strcpy(nbSom, "Nombre de sommets:");
+    strcpy(proba, "Probabilite de liaison:");
+    sprintf(nbSom2, "%d", nbreSommet);
+    sprintf(proba2, "%.5f", probabilite);
+  }
+
   SDL_SetRenderDrawColor(screen->renderer, 50, 50, 50, 100);
-  DrawString("Nombre de sommets: ", 50, 10, 5, 'c', 255, 255, 255, screen);
-  
+  if (screen->etapeDuJeu == 666)
+  {
+    DrawString(nbSom, 50, 40, 5, 'c', 253, 212, 4, screen);
+    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
+  }
+  else if (screen->etapeDuJeu == 667)
+  {
+    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 50, 60, 5, 'c', 253, 212, 4, screen);
+  }
+  else if (screen->etapeDuJeu == 668)
+  {
+    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 70, 40, 5, 'c', 253, 212, 4, screen);
+    DrawString(proba2, 70, 60, 5, 'c', 255, 255, 255, screen);
+  }
+  else
+  {
+    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 70, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba2, 70, 60, 5, 'c', 253, 212, 4, screen);
+  }
 }
 
 void drawMenu(ecran *screen)

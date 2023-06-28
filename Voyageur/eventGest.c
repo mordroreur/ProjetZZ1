@@ -1,15 +1,42 @@
 #include "eventGest.h"
 
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
+  int etat = screen->etapeDuJeu;
   switch (key.keysym.sym)
   {
     case SDLK_ESCAPE:
-      if (screen->etapeDuJeu == 1 || screen->etapeDuJeu == 2)
+      if (etat == 1 || etat == 2)
         screen->etapeDuJeu = 0;
-      if (screen->etapeDuJeu == 3 || screen->etapeDuJeu == 4 || screen->etapeDuJeu == 5)
+      else if (etat == 3 || etat == 4 || etat == 5)
         screen->etapeDuJeu = 7; 
-      if (screen->etapeDuJeu == 666)
+      else if (etat== 666 || etat == 667)
         screen->etapeDuJeu = 2;
+      else if (etat == 668)
+        screen->etapeDuJeu = 666;
+      else if (etat = 669)
+        screen->etapeDuJeu = 667;
+    break;
+    case SDLK_RETURN:
+      if (etat == 668)
+        screen->etapeDuJeu = 666;
+      else if (etat == 669)
+        screen->etapeDuJeu = 667;
+      else if (etat == 666)
+        screen->etapeDuJeu = 668;
+      else if (etat == 667)
+        screen->etapeDuJeu = 669;
+    break;
+    case SDLK_UP:
+      if (etat == 666)
+        screen->etapeDuJeu = 667;
+      if (etat == 667)
+        screen->etapeDuJeu = 666;
+    break;
+    case SDLK_DOWN:
+      if (etat == 666)
+        screen->etapeDuJeu = 667;
+      if (etat == 667)
+        screen->etapeDuJeu = 666;
     break;
   }
 }

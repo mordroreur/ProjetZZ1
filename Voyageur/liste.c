@@ -1,12 +1,11 @@
 #include "liste.h"
 
 
-liste * LL_create()
+liste LL_create()
 {
-  liste * l = (liste *)malloc(sizeof(liste));
-  l->taille = 0;
-  l->deb = NULL;
-  l->fin = NULL;
+  liste l;
+  l.taille = 0;
+  l.deb = NULL;
   return l;
 }
 
@@ -14,12 +13,10 @@ liste * LL_create()
 void LL_add_first(liste * l, int val)
 {
   maillon *m = (maillon *)malloc(sizeof(maillon));
-  m->value = 0;
+  m->value = val;
+  
   m->suivant = l->deb;
-  l->deb = m->suivant;
-  if(l->taille == 0){
-    l->fin = m->suivant;
-  }
+  l->deb = m;
   l->taille++;
 }
 
@@ -34,11 +31,10 @@ void LL_free(liste * l)
     m1 = m1->suivant;
     free(m2);
   }
-  free(l);
 }
 
-/*
-int contains(liste * l, int n)
+
+int LL_contains(liste * l, int n)
 {
   maillon *m = l->deb;
   while(m != NULL && m->value != n)
@@ -51,36 +47,85 @@ int contains(liste * l, int n)
   return 0;
 }
 
-int size(liste * l)
+
+int LL_size(liste * l)
 {
-    int n = 0;
-    while(l != NULL)
-    {
-        l = l->suivant;
-        n++;
-    }
-    return n;
+  return l->taille;
 }
 
-void afficheListe(liste * l)
+void LL_afficheListe(liste * l)
 {
-    printf("--- Liste ---\n");
-    while(l != NULL)
+  maillon *m = l->deb;
+  printf("--- Liste ---\n");
+  while(m != NULL)
     {
-        printf("->%d ", l->value);
-        l = l->suivant;
+      if(m != l->deb){
+	printf("%d ", m->value);
+      }else{
+	printf("->%d ", m->value);
+      }
+      m = m->suivant;
     }
     printf("\n");
 }
 
-int get(liste * l, int n)
-{
-    int i = 0;
-    while(i < n)
-    {
-        l = l->suivant;
-        i++;
-    }
-    return l->value;
+void LL_add_last(liste *l, int val){
+  maillon *nouv = (maillon*)malloc(sizeof(maillon));
+  nouv->value = val;
+  nouv->suivant = NULL;
+  maillon **m = &(l->deb);
+  while((*m)->suivant != NULL){
+    m = &((*m)->suivant);
+  }
+  (*m)->suivant = nouv;
+  l->taille++;
 }
-*/
+
+int LL_get_n(liste *l, int index){
+  int i = 0;
+  maillon *m = l->deb;
+
+  while (m != NULL && i != index) {
+    m = m->suivant;
+    i++;
+  }
+
+  if(i == index){
+    return m->value;
+  }else{
+    return -1;
+  }
+}
+
+
+void LL_remove_n(liste *l, int index){
+  if(index == 0){
+    LL_remove_head(l);
+  }else{
+    int i = 0;
+    maillon *m = l->deb;
+    while(m->suivant != NULL && i != index-1){
+      m = m->suivant;
+      i++;
+    }
+    if(m->suivant != NULL){
+      maillon *m1 = m->suivant;
+      m->suivant = m1->suivant;
+      free(m1);
+      l->taille--;
+    }    
+  }
+}
+
+void LL_remove_head(liste *l){
+  maillon *m = l->deb;
+  if(m != NULL){
+    l->deb = m->suivant;
+    free(m);
+    l->taille--;
+  }
+}
+
+void LL_remove_tail(liste *l){
+  LL_remove_n(l, l->taille-1);
+}

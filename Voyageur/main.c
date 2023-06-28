@@ -25,6 +25,12 @@ int main(){
   ecran mainScreen = createScreen(sizex, sizey, isFullscreen);
 
   mainScreen.etapeDuJeu = 1;
+
+  if(debugging){
+    srand(42);
+  }else{
+    srand(time(NULL));
+  }
   
   startMainBoucle(&mainScreen);
 

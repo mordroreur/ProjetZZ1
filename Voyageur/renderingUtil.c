@@ -29,8 +29,8 @@ long int getTime(){
 }
 
 void InitImage(){
-  int nbImage = 1;
-  int nbPlanche = 1;
+  int nbImage = 3;
+  int nbPlanche = 3;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -46,14 +46,24 @@ void InitImage(){
   
 
   
-  fileImage[0] = IMG_Load("Ressources/Image/BoiteVide.png");
-  PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
-  TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
-  debX[0] = 0; debY[0] = 0; wichFile = 0;
+  fileImage[0] = IMG_Load("Ressources/Image/playButton.png");
+  PixelXnb[0] = 100; PixelYnb[0] = 50;XImagenb[0] = 1; YImagenb[0] = 1;
+  TotalImagenb[0] = 1; ImYoffset[0] = 0; ImXoffset[0] = 0;
+  debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
+
+  fileImage[1] = IMG_Load("Ressources/Image/quitButton.png");
+  PixelXnb[1] = 100; PixelYnb[1] = 50;XImagenb[1] = 1; YImagenb[1] = 1;
+  TotalImagenb[1] = 1; ImYoffset[1] = 0; ImXoffset[1] = 0;
+  debX[1] = 0; debY[1] = 0; wichFile[1] = 1;
+
+  fileImage[2] = IMG_Load("Ressources/Image/parametre.png");
+  PixelXnb[2] = 25; PixelYnb[2] = 25;XImagenb[2] = 1; YImagenb[2] = 1;
+  TotalImagenb[2] = 1; ImYoffset[2] = 0; ImXoffset[2] = 0;
+  debX[2] = 0; debY[2] = 0; wichFile[2] = 2;
 
   for(int i = 0; i < nbPlanche; i++){
-    if(fileImage[0] == NULL){
-      fprintf(stderr, "error: image 0 not found\n");
+    if(fileImage[i] == NULL){
+      fprintf(stderr, "error: image %d not found\n", i);
       exit(EXIT_FAILURE);
     }
   }
@@ -220,3 +230,23 @@ void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char cen
   
 }
 
+
+
+
+int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen)
+{
+
+  if(center == 'c'){
+    if(posMX < screen->sizeX*((x+sizeX/2)/100) && posMX > screen->sizeX*((x-sizeX/2)/100) && posMY < screen->sizeY*((y+sizeY/2)/100) && posMY > screen->sizeY*((y-sizeY/2)/100)){
+      return 1;
+    }
+    return 0;
+  }else if(center == 'n'){
+    if(posMX < screen->sizeX*((x+sizeX)/100) && posMX > screen->sizeX*((x)/100) && posMY < screen->sizeY*((y+sizeY)/100) && posMY > screen->sizeY*((y)/100)){
+      return 1;
+    }else{
+      return 0;
+    }
+  }
+  return 0;
+}

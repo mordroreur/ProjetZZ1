@@ -2,6 +2,8 @@
 #include "liste.h"
 #include <math.h>
 
+#define VITTESSE 2
+
 extern int debugging;
 
 void mainRendering(ecran *screen){
@@ -39,7 +41,7 @@ void drawGraphSoluce(ecran *screen) {
       trouve[i] = 0;
     }
     
-    while (nbLasteCase < LL_size((screen->niveau.PlayerReso)) && dejaDraw + screen->niveau.arretes[lastCase][NextCase] < screen->niveau.drawFinal) {
+    while (nbLasteCase < LL_size((screen->niveau.PlayerReso)) && dejaDraw + screen->niveau.arretes[lastCase][NextCase] < (screen->niveau.drawFinal)/VITTESSE) {
       nbLasteCase++;
       dejaDraw += screen->niveau.arretes[lastCase][NextCase];
       lastCase = NextCase;
@@ -51,10 +53,11 @@ void drawGraphSoluce(ecran *screen) {
       x = screen->niveau.Sommets[screen->niveau.startCase][0];
       y = screen->niveau.Sommets[screen->niveau.startCase][1];
     }else{
-      x = (screen->niveau.Sommets[lastCase][0] - screen->niveau.Sommets[NextCase][0])* ((dejaDraw - screen->niveau.drawFinal) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][0];
-      y = (screen->niveau.Sommets[lastCase][1] - screen->niveau.Sommets[NextCase][1])* ((dejaDraw - screen->niveau.drawFinal) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][1];
+      x = (screen->niveau.Sommets[lastCase][0] - screen->niveau.Sommets[NextCase][0])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][0];
+      y = (screen->niveau.Sommets[lastCase][1] - screen->niveau.Sommets[NextCase][1])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][1];
     }
 
+    //printf("%d %d %f\n", dejaDraw, screen->niveau.drawFinal, screen->niveau.arretes[lastCase][NextCase]);
    
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       for(int j = i; j < screen->niveau.nbSommets; j++){

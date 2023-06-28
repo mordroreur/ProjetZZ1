@@ -32,14 +32,15 @@ void mainTickGest(ecran *screen){
       }
     }
     */
-    /*    
+        
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       for(int j = 0 ;j < screen->niveau.nbSommets; j++){
 	printf("%f  ", screen->niveau.arretes[i][j]);
       }
       printf("\n");
       }
-    */
+
+    
 
     screen->niveau.playerCase = rand()%screen->niveau.nbSommets;
     screen->niveau.startCase = screen->niveau.playerCase; 
@@ -284,7 +285,7 @@ void changeArreteSize(graphe * g){
   for(int i = 0; i < g->nbSommets; i++){
     for(int j = i; j < g->nbSommets; j++){
       if(g->arretes[i][j] > 0){
-	g->arretes[i][j] = sqrt( pow(g->Sommets[i][0] + g->Sommets[j][0], 2) + pow(g->Sommets[i][1] + g->Sommets[j][1], 2));
+	g->arretes[i][j] = sqrt( pow(g->Sommets[i][0] - g->Sommets[j][0], 2) + pow(g->Sommets[i][1] - g->Sommets[j][1], 2));
 	g->arretes[j][i] = g->arretes[i][j];
       }
     }

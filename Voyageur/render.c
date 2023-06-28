@@ -6,7 +6,8 @@ void mainRendering(ecran *screen){
   case 2: drawMenu(screen); break;
   case 4: drawGraph(screen); break;
   case 5: drawGraph(screen); break;
-  default: loadingScreen(screen);break;
+  case 666: drawParametre(screen); break;
+  default: loadingScreen(screen); break;
   }
 }
 
@@ -44,24 +45,53 @@ void drawGraph(ecran *screen){
   
 }
 
+void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c)
+{
+  if (isInButton(xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
+  {
+    DrawImage(numIm, xIm, yIm, wIm + 5, hIm + 5, c, 0, 0, 0, 0, 0, 0, screen);
+  } else {
+    DrawImage(numIm, xIm, yIm, wIm, hIm, c, 0, 0, 0, 0, 0, 0, screen);
+  }
+}
+
+void rotateButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, int * angle)
+{
+  if (isInButton(xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
+  {
+    if (*angle < 180)
+      (*angle) += 5;
+  } else {
+    if (*angle > 0)
+      (*angle) -= 5;
+  }
+  DrawImage(numIm, xIm, yIm, wIm , hIm , c, 0, 0, 0, *angle, 0, 0, screen);
+}
+
+void drawParametre(ecran *screen)
+{
+  int nbreSommet = screen->niveau.nbSommets;
+  char nbSom[20];
+  sprintf(nbSom, "%d", nbSom);
+  SDL_SetRenderDrawColor(screen->renderer, 50, 50, 50, 100);
+  DrawString("Nombre de sommets: ", 50, 10, 5, 'c', 255, 255, 255, screen);
+  
+}
+
 void drawMenu(ecran *screen)
 {
   
-int posMX, posMY;
-SDL_GetMouseState(&posMX, &posMY);
+  int posMX, posMY;
+  SDL_GetMouseState(&posMX, &posMY);
+  static int angle = 0;
+  int * pangle = &angle;
   
   DrawString("Voyageur", 50, 10, 25, 'c', 64, 64, 64, screen);
   DrawString("voyage, voyage...", 50, 27, 10, 'c', 64, 64, 64, screen);
-  DrawImage(1, 50, 75, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(2, 10, 90, 7, 7, 'c', 0, 0, 0, 0, 0, 0, screen);
 
-  if (isInButton(50, 50, 30, 20, 'c', posMX, posMY, screen))
-  {
-    DrawImage(0, 50, 50, 35, 25, 'c', 0, 0, 0, 0, 0, 0, screen);
-  } else {
-    DrawImage(0, 50, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  }
-
+  enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c');
+  enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c');
+  rotateButton(screen, posMX, posMY, 2,  10, 90, 7, 7, 'c', pangle);
 }
 
 void loadingScreen(ecran *screen){

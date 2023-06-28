@@ -1,4 +1,5 @@
 #include "ticksGest.h"
+#include "liste.h"
 #include <math.h>
 #include <stdlib.h>
 #define PI 3.1415
@@ -47,7 +48,13 @@ void mainTickGest(ecran *screen){
       printf("\n");
       }
     */
+
+    screen->niveau.playerCase = rand()%screen->niveau.nbSommets;
+    screen->niveau.startCase = screen->niveau.playerCase; 
+    screen->niveau.PlayerReso = LL_create();
+    LL_add_first(&(screen->niveau.PlayerReso), screen->niveau.playerCase);
     
+    SDL_Delay(10);
     screen->etapeDuJeu = 4;
     
   }else if(screen->etapeDuJeu == 4){
@@ -57,6 +64,10 @@ void mainTickGest(ecran *screen){
     if(!RetourDuThreadDuMin){
       screen->etapeDuJeu = 5;
     }
+  }else if(screen->etapeDuJeu == 7){
+    SDL_Delay(15);
+    libererGraphe(&(screen->niveau));
+    screen->etapeDuJeu = 2;
   }
 }
 
@@ -202,6 +213,26 @@ void positionneGraphe(graphe * g){
     for(int i = 0; i < g->nbSommets; i++){
       g->Sommets[i][0] += decalageX;
       g->Sommets[i][1] += decalageY;
-    } 
+    }
+    free(cases);
   }
+}
+
+void libererGraphe(graphe *g){
+  if(g->arretes){
+    for(int i = 0; i < g->nbSommets; i++){
+      free(g->arretes[i]);
+    }
+    free(g->arretes);
+  }
+
+  
+  if(g->Sommets){
+    for(int i = 0; i < g->nbSommets; i++){
+      free(g->Sommets[i]);
+    }
+    free(g->Sommets);
+    }
+
+  LL_free(&(g->PlayerReso));
 }

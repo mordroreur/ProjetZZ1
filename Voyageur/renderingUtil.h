@@ -14,6 +14,11 @@ typedef struct graph{
   float ** arretes;
   int **Sommets;
   liste reso;
+  int startCase;
+
+  int drawFinal;
+  liste PlayerReso;
+  int playerCase;
 }graphe;
 
 

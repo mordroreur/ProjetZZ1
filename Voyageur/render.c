@@ -1,4 +1,8 @@
 #include "render.h"
+#include "liste.h"
+#include <math.h>
+
+extern int debugging;
 
 void mainRendering(ecran *screen){
   switch(screen->etapeDuJeu){
@@ -17,16 +21,26 @@ void mainRendering(ecran *screen){
 
 void drawGraph(ecran *screen){
 
+
+  int posMX, posMY;
+  int nbT = SDL_GetTicks()/500;
+    
+  SDL_GetMouseState(&posMX, &posMY);
+  
   SDL_SetRenderDrawColor(screen->renderer, 0, 0, 0, 0);
   SDL_RenderFillRect(screen->renderer, NULL);
   SDL_Point p;
   char tmp[12];
   
-
+  
   for(int i = 0; i < screen->niveau.nbSommets; i++){
     for(int j = i; j < screen->niveau.nbSommets; j++){
       if(screen->niveau.arretes[i][j] > 0){
-	SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+	if(i == screen->niveau.playerCase || j == screen->niveau.playerCase){
+	  SDL_SetRenderDrawColor(screen->renderer, 130, 130, 255, 0);
+	}else{
+	  SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+	}
 
 	SDL_RenderDrawLine(screen->renderer,
 			   screen->sizeX * screen->niveau.Sommets[i][0]/100,
@@ -38,13 +52,35 @@ void drawGraph(ecran *screen){
   }
 
   for(int i = 0; i < screen->niveau.nbSommets; i++){
-    SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+    if(LL_contains(&(screen->niveau.PlayerReso), i)){
+      SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
+    }else{
+      SDL_SetRenderDrawColor(screen->renderer, 190, 10, 10, 0);
+    }
+    
     p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
     p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
-    drawFillCircle(screen->renderer, p, screen->sizeY/20);
-    sprintf(tmp, "%d", i+1);
-    DrawString(tmp, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 2, 'c', 64, 64, 64, screen);
+    if(i != screen->niveau.playerCase && screen->niveau.arretes[screen->niveau.playerCase][i] > 0 && sqrt(pow(posMX-p.x, 2) + pow(posMY-p.y, 2)) < screen->sizeY/25.0){
+      if(nbT%2){
+	drawFillCircle(screen->renderer, p, screen->sizeY/28.0);
+      }else{
+	drawFillCircle(screen->renderer, p, screen->sizeY/25.0);
+      }
+      
+    }else{
+      drawFillCircle(screen->renderer, p, screen->sizeY/30.0);
+    }
+    
+    if(debugging){
+      sprintf(tmp, "%d", i+1);
+      DrawString(tmp, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 4, 'c', 64, 64, 64, screen);
+    }
   }
+
+  DrawImage(0, screen->niveau.Sommets[screen->niveau.playerCase][0],
+	    screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 3,
+	    'c', 0, 0, 0, 0, 0, NULL, screen);
+
   
 }
 
@@ -140,15 +176,15 @@ void loadingScreen(ecran *screen){
   nb3 = (nb3+65)% 96 - 48;
 
   
-  SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+  SDL_SetRenderDrawColor(screen->renderer, 0, 0, 0, 0);
   SDL_RenderFillRect(screen->renderer, NULL);
 
   //DrawImage(0, 25, 25, 25, 25, 'n', 0, 0, 0, 0, screen);
   
-  DrawString("Loading", 50, 50, 10, 'c', 0, 0, 0, screen);
-  DrawString("                .", 50, 47.5 + abs(nb)/10.0, 10, 'c', 0, 0, 0, screen);
-  DrawString("                  .", 50, 47.5 + abs(nb2)/10.0, 10, 'c', 0, 0, 0, screen);
-  DrawString("                    .", 50, 47.5 + abs(nb3)/10.0, 10, 'c', 0, 0, 0, screen);
+  DrawString("Loading", 50, 50, 10, 'c', 255, 255, 255, screen);
+  DrawString("                .", 50, 47.5 + abs(nb)/10.0, 10, 'c', 255, 255, 255, screen);
+  DrawString("                  .", 50, 47.5 + abs(nb2)/10.0, 10, 'c', 255, 255, 255, screen);
+  DrawString("                    .", 50, 47.5 + abs(nb3)/10.0, 10, 'c', 255, 255, 255, screen);
 
   //DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran *screen)
 }

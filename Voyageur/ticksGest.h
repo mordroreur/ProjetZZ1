@@ -9,7 +9,7 @@ void generateTree(graphe* g, int bas, int haut);
 void generateGraphe(graphe* g, float proba);
 void changeArreteSize(graphe *g);
 void positionneGraphe(graphe *g);
-
+void libererGraphe(graphe *g);
 
   
 #endif /* TICKGEST_HEADER_ */

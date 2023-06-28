@@ -131,6 +131,7 @@ void drawMenu(ecran *screen)
   int * pangle = &angle;
   int * plarge = &large;
   int * plarge2 = &large2;
+  float rapport = (screen->sizeX / screen->sizeY);
   
   DrawImage(3, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
   
@@ -140,7 +141,7 @@ void drawMenu(ecran *screen)
   DrawImage(4, 50, 63, 37, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c', plarge);
   enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c', plarge2);
-  rotateButton(screen, posMX, posMY, 2,  10, 90, 10, 15, 'c', pangle);
+  rotateButton(screen, posMX, posMY, 2,  10, 90, rapport*15, 15, 'c', pangle);
 }
 
 void loadingScreen(ecran *screen){

@@ -123,7 +123,6 @@ void drawParametre(ecran *screen)
 
 void drawMenu(ecran *screen)
 {
-  
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
   static int angle = 0;
@@ -133,12 +132,15 @@ void drawMenu(ecran *screen)
   int * plarge = &large;
   int * plarge2 = &large2;
   
+  DrawImage(3, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
+  
   DrawString("Voyageur", 50, 10, 25, 'c', 64, 64, 64, screen);
   DrawString("voyage, voyage...", 50, 27, 10, 'c', 64, 64, 64, screen);
 
+  DrawImage(4, 50, 63, 37, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c', plarge);
   enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c', plarge2);
-  rotateButton(screen, posMX, posMY, 2,  10, 90, 7, 7, 'c', pangle);
+  rotateButton(screen, posMX, posMY, 2,  10, 90, 10, 15, 'c', pangle);
 }
 
 void loadingScreen(ecran *screen){

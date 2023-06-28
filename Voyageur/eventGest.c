@@ -15,6 +15,8 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
         screen->etapeDuJeu = 666;
       else if (etat == 669)
         screen->etapeDuJeu = 667;
+      else
+        screen->etapeDuJeu = 0;
     break;
     case SDLK_RETURN:
       if (etat == 668)
@@ -29,14 +31,34 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
     case SDLK_UP:
       if (etat == 666)
         screen->etapeDuJeu = 667;
-      if (etat == 667)
+      else if (etat == 667)
         screen->etapeDuJeu = 666;
+      else if (etat == 668)
+        screen->niveau.nbSommets += 10;
+      else if (etat == 669 && screen->niveau.proba + 0.1 -1 <= 0.0002)
+        screen->niveau.proba += 0.1;
     break;
     case SDLK_DOWN:
       if (etat == 666)
         screen->etapeDuJeu = 667;
-      if (etat == 667)
+      else if (etat == 667)
         screen->etapeDuJeu = 666;
+      else if (etat == 668 && screen->niveau.nbSommets - 10 >= 2)
+        screen->niveau.nbSommets -= 10;
+      else if (etat == 669 && screen->niveau.proba - 0.1 >= 0)
+        screen->niveau.proba -= 0.1;
+    break;
+    case SDLK_RIGHT:
+      if (etat == 668)
+        screen->niveau.nbSommets += 1;
+      else if (etat == 669 && screen->niveau.proba + 0.01 -1 <= 0.0002)
+        screen->niveau.proba += 0.01;
+    break;
+    case SDLK_LEFT:
+      if (etat == 668 && screen->niveau.nbSommets - 1 >= 2)
+        screen->niveau.nbSommets -= 1;
+      else if (etat == 669 && screen->niveau.proba - 0.01 >= 0)
+        screen->niveau.proba -= 0.01;
     break;
   }
 }
@@ -53,6 +75,9 @@ void LeftClick(ecran *screen) {
     }
     else if (isInButton(10, 90, 7, 7, 'c', posMX, posMY, screen)){
       screen->etapeDuJeu = 666; // paramètre
+    }
+    else if (isInButton(50, 75, 30, 20, 'c', posMX, posMY, screen)){
+      screen->etapeDuJeu = 0;
     }
   }
 }

@@ -89,8 +89,7 @@ int LL_get_n(liste *l, int index){
     m = m->suivant;
     i++;
   }
-
-  if(i == index){
+  if(i == index && m != NULL){
     return m->value;
   }else{
     return -1;

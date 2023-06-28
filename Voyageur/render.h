@@ -9,6 +9,7 @@ void drawMenu(ecran *screen);
 void drawParametre(ecran *screen);
 void loadingScreen(ecran *screen);
 void drawGraph(ecran *screen);
+void drawGraphSoluce(ecran *screen);
 
 void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c);
 void rotateButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, int * angle);

@@ -13,11 +13,11 @@ typedef struct graph{
   int nbSommets;
   float ** arretes;
   int **Sommets;
-  liste reso;
+  liste *reso;
   int startCase;
 
   int drawFinal;
-  liste PlayerReso;
+  liste *PlayerReso;
   int playerCase;
 }graphe;
 

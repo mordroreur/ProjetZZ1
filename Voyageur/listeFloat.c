@@ -70,15 +70,19 @@ void LLf_afficheListef(listef * l)
 }
 
 void LLf_add_last(listef *l, float val){
-  maillonf *nouv = (maillonf*)malloc(sizeof(maillonf));
-  nouv->value = val;
-  nouv->suivant = NULL;
-  maillonf **m = &(l->deb);
-  while((*m)->suivant != NULL){
-    m = &((*m)->suivant);
+  if(l->deb != NULL){
+    maillonf *nouv = (maillonf*)malloc(sizeof(maillonf));
+    nouv->value = val;
+    nouv->suivant = NULL;
+    maillonf **m = &(l->deb);
+    while((*m)->suivant != NULL){
+      m = &((*m)->suivant);
+    }
+    (*m)->suivant = nouv;
+    l->taille++;
+  }else{
+    LLf_add_first(l, val);
   }
-  (*m)->suivant = nouv;
-  l->taille++;
 }
 
 float LLf_get_n(listef *l, int index){

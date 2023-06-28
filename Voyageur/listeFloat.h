@@ -1,5 +1,5 @@
-#ifndef __GUARDIAN_LISTE_HEADER__
-#define __GUARDIAN_LISTE_HEADER__
+#ifndef __GUARDIAN_LISTEFLOAT_HEADER__
+#define __GUARDIAN_LISTEFLOAT_HEADER__
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,4 +29,4 @@ void LLf_remove_n(listef *l, int index);
 void LLf_remove_head(listef *l);
 void LLf_remove_tail(listef *l);
 
-#endif /*__GUARDIAN_LISTEF_HEADER__*/
+#endif /*__GUARDIAN_LISTEFLOAT_HEADER__*/

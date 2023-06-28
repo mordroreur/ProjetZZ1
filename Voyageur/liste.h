@@ -17,7 +17,7 @@ typedef struct liste{
 }liste;
 
 
-liste LL_create();
+liste* LL_create();
 void LL_add_first(liste *l, int val);
 void LL_free(liste *l);
 int LL_contains(liste *l, int n);

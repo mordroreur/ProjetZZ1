@@ -33,21 +33,21 @@ void drawGraphSoluce(ecran *screen) {
     int lastCase = screen->niveau.startCase;
     int nbLasteCase = 0;
     int dejaDraw = 0;
-    int NextCase = LL_get_n(&(screen->niveau.PlayerReso), LL_size(&(screen->niveau.PlayerReso)) - nbLasteCase -1);
+    int NextCase = LL_get_n(screen->niveau.PlayerReso, LL_size(screen->niveau.PlayerReso) - nbLasteCase -1);
 
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       trouve[i] = 0;
     }
     
-    while (nbLasteCase < LL_size(&(screen->niveau.PlayerReso)) && dejaDraw + screen->niveau.arretes[lastCase][NextCase] < screen->niveau.drawFinal) {
+    while (nbLasteCase < LL_size((screen->niveau.PlayerReso)) && dejaDraw + screen->niveau.arretes[lastCase][NextCase] < screen->niveau.drawFinal) {
       nbLasteCase++;
       dejaDraw += screen->niveau.arretes[lastCase][NextCase];
       lastCase = NextCase;
       trouve[lastCase] = 1;
-      NextCase = LL_get_n(&(screen->niveau.PlayerReso), LL_size(&(screen->niveau.PlayerReso)) - nbLasteCase -1);
+      NextCase = LL_get_n((screen->niveau.PlayerReso), LL_size((screen->niveau.PlayerReso)) - nbLasteCase -1);
     }
     
-    if(nbLasteCase >= LL_size(&(screen->niveau.PlayerReso))){
+    if(nbLasteCase >= LL_size((screen->niveau.PlayerReso))){
       x = screen->niveau.Sommets[screen->niveau.startCase][0];
       y = screen->niveau.Sommets[screen->niveau.startCase][1];
     }else{
@@ -137,7 +137,7 @@ void drawGraph(ecran *screen){
   }
 
   for(int i = 0; i < screen->niveau.nbSommets; i++){
-    if(LL_contains(&(screen->niveau.PlayerReso), i)){
+    if(LL_contains(screen->niveau.PlayerReso, i)){
       SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
     }else{
       SDL_SetRenderDrawColor(screen->renderer, 190, 10, 10, 0);

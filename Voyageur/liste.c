@@ -1,11 +1,12 @@
 #include "liste.h"
+#include <stdlib.h>
 
 
-liste LL_create()
+liste* LL_create()
 {
-  liste l;
-  l.taille = 0;
-  l.deb = NULL;
+  liste* l = (liste *)malloc(sizeof(liste));
+  l->taille = 0;
+  l->deb = NULL;
   return l;
 }
 
@@ -31,6 +32,8 @@ void LL_free(liste * l)
     m1 = m1->suivant;
     free(m2);
   }
+
+  free(l);
 }
 
 

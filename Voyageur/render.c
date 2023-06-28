@@ -172,14 +172,19 @@ void drawGraph(ecran *screen){
   
 }
 
-void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c)
+void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, int * large)
 {
   if (isInButton(xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
   {
-    DrawImage(numIm, xIm, yIm, wIm + 5, hIm + 5, c, 0, 0, 0, 0, 0, 0, screen);
-  } else {
-    DrawImage(numIm, xIm, yIm, wIm, hIm, c, 0, 0, 0, 0, 0, 0, screen);
+    if (*large < 5)
+      (*large)++;
   }
+  else
+  {
+    if (*large > 0)
+      (*large)--;
+  }
+  DrawImage(numIm, xIm, yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
 }
 
 void rotateButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, int * angle)
@@ -203,14 +208,14 @@ void drawParametre(ecran *screen)
   if (screen->etapeDuJeu == 666 || screen->etapeDuJeu == 667)
   {
     sprintf(nbSom, "Nombre de sommets: %d", nbreSommet);
-    sprintf(proba, "Probabilite de liaison: %.5f", probabilite);
+    sprintf(proba, "Probabilite de liaison: %.2f", probabilite);
   }
   else
   {
     strcpy(nbSom, "Nombre de sommets:");
     strcpy(proba, "Probabilite de liaison:");
     sprintf(nbSom2, "%d", nbreSommet);
-    sprintf(proba2, "%.5f", probabilite);
+    sprintf(proba2, "%.2f", probabilite);
   }
 
   SDL_SetRenderDrawColor(screen->renderer, 50, 50, 50, 100);
@@ -228,32 +233,39 @@ void drawParametre(ecran *screen)
   {
     DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
     DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
-    DrawString(nbSom2, 70, 40, 5, 'c', 253, 212, 4, screen);
-    DrawString(proba2, 70, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 65, 40, 5, 'c', 253, 212, 4, screen);
+    DrawString(proba2, 65, 60, 5, 'c', 255, 255, 255, screen);
   }
   else
   {
     DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
     DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
-    DrawString(nbSom2, 70, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba2, 70, 60, 5, 'c', 253, 212, 4, screen);
+    DrawString(nbSom2, 65, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba2, 65, 60, 5, 'c', 253, 212, 4, screen);
   }
 }
 
 void drawMenu(ecran *screen)
 {
-  
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
   static int angle = 0;
+  static int large = 0;
+  static int large2 = 0;
   int * pangle = &angle;
+  int * plarge = &large;
+  int * plarge2 = &large2;
+  float rapport = (screen->sizeX / screen->sizeY);
+  
+  DrawImage(3, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
   
   DrawString("Voyageur", 50, 10, 25, 'c', 64, 64, 64, screen);
   DrawString("voyage, voyage...", 50, 27, 10, 'c', 64, 64, 64, screen);
 
-  enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c');
-  enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c');
-  rotateButton(screen, posMX, posMY, 2,  10, 90, 7, 7, 'c', pangle);
+  DrawImage(4, 50, 63, 37, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
+  enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c', plarge);
+  enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c', plarge2);
+  rotateButton(screen, posMX, posMY, 2,  10, 90, rapport*15, 15, 'c', pangle);
 }
 
 void loadingScreen(ecran *screen){

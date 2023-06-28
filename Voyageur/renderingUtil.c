@@ -29,8 +29,8 @@ long int getTime(){
 }
 
 void InitImage(){
-  int nbImage = 3;
-  int nbPlanche = 3;
+  int nbImage = 5;
+  int nbPlanche = 5;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -56,10 +56,21 @@ void InitImage(){
   TotalImagenb[1] = 1; ImYoffset[1] = 0; ImXoffset[1] = 0;
   debX[1] = 0; debY[1] = 0; wichFile[1] = 1;
 
-  fileImage[2] = IMG_Load("Ressources/Image/parametre.png");
-  PixelXnb[2] = 25; PixelYnb[2] = 25;XImagenb[2] = 1; YImagenb[2] = 1;
+  fileImage[2] = IMG_Load("Ressources/Image/parametress.png");
+  PixelXnb[2] = 768; PixelYnb[2] = 768;XImagenb[2] = 1; YImagenb[2] = 1;
   TotalImagenb[2] = 1; ImYoffset[2] = 0; ImXoffset[2] = 0;
   debX[2] = 0; debY[2] = 0; wichFile[2] = 2;
+  
+  
+  fileImage[3] = IMG_Load("Ressources/Image/backgroundMenu.png");
+  PixelXnb[3] = 400; PixelYnb[3] = 200;XImagenb[3] = 1; YImagenb[3] = 1;
+  TotalImagenb[3] = 1; ImYoffset[2] = 0; ImXoffset[2] = 0;
+  debX[3] = 0; debY[3] = 0; wichFile[3] = 3;
+
+  fileImage[4] = IMG_Load("Ressources/Image/forme.png");
+  PixelXnb[4] = 100; PixelYnb[4] = 100;XImagenb[4] = 1; YImagenb[4] = 1;
+  TotalImagenb[4] = 1; ImYoffset[4] = 0; ImXoffset[4] = 0;
+  debX[4] = 0; debY[4] = 0; wichFile[4] = 4;
 
   for(int i = 0; i < nbPlanche; i++){
     if(fileImage[i] == NULL){

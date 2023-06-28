@@ -1,8 +1,43 @@
 #include "eventGest.h"
 
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
-  if(key.keysym.sym == SDLK_ESCAPE){
-    screen->etapeDuJeu = 0;
+  int etat = screen->etapeDuJeu;
+  switch (key.keysym.sym)
+  {
+    case SDLK_ESCAPE:
+      if (etat == 1 || etat == 2)
+        screen->etapeDuJeu = 0;
+      else if (etat == 4 || etat == 5)
+        screen->etapeDuJeu = 7; 
+      else if (etat == 666 || etat == 667)
+        screen->etapeDuJeu = 2;
+      else if (etat == 668)
+        screen->etapeDuJeu = 666;
+      else if (etat == 669)
+        screen->etapeDuJeu = 667;
+    break;
+    case SDLK_RETURN:
+      if (etat == 668)
+        screen->etapeDuJeu = 666;
+      else if (etat == 669)
+        screen->etapeDuJeu = 667;
+      else if (etat == 666)
+        screen->etapeDuJeu = 668;
+      else if (etat == 667)
+        screen->etapeDuJeu = 669;
+    break;
+    case SDLK_UP:
+      if (etat == 666)
+        screen->etapeDuJeu = 667;
+      if (etat == 667)
+        screen->etapeDuJeu = 666;
+    break;
+    case SDLK_DOWN:
+      if (etat == 666)
+        screen->etapeDuJeu = 667;
+      if (etat == 667)
+        screen->etapeDuJeu = 666;
+    break;
   }
 }
 
@@ -15,6 +50,9 @@ void LeftClick(ecran *screen) {
   {
     if (isInButton(50, 50, 30, 20, 'c', posMX, posMY, screen)){
       screen->etapeDuJeu = 3;
+    }
+    else if (isInButton(10, 90, 7, 7, 'c', posMX, posMY, screen)){
+      screen->etapeDuJeu = 666; // paramètre
     }
   }
 }

@@ -4,6 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <math.h>
+#include <time.h>
 
 #define WIDTH 1920
 #define HEIGHT 1080
@@ -21,6 +22,13 @@ typedef struct boule
 } boule;
 
 TTF_Font * RobotoFont;
+
+int nbrAleatoire(int min, int max) 
+{
+    srand(time(NULL));  // Initialisation de la graine pour la génération aléatoire
+    int nombreAleatoire = (rand() % (max - min + 1)) + min;
+    return nombreAleatoire;
+}
 
 void DrawString(char *s, float x, float y, float size, char center, int R, int G, int B, SDL_Renderer *screen){
   SDL_Color Color = {R, G, B};
@@ -147,10 +155,8 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
   SDL_Event event;
   int program_on = 1;
   int px; int py;
-  int index1 = 0;
-  int index2 = 0;
-  int score1 = 0;
-  int score2 = 0;
+  int index1 = 0; int index2 = 0;
+  int score1 = 0; int score2 = 0;
   char str[12];
   /* direction pion*/
   int j1g = 0; int j1d = 0; int j1b = 0; int j1h = 0;
@@ -159,6 +165,14 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
   int j1gg = 0; int j1dd = 1; int j1bb = 0; int j1hh = 0;
   int j2gg = 1; int j2dd = 0; int j2bb = 0; int j2hh = 0;
   SDL_Rect position, position2;
+  /*zone morte*/
+  SDL_Rect zone_morte;
+  zone_morte.x = nbrAleatoire(0, WIDTH);
+  zone_morte.y = nbrAleatoire(0, HEIGHT);
+  zone_morte.w = 100;
+  zone_morte.h = 100;
+  int duree = 5000;
+
   position.x = 0; position.y = 0;
   position2.x = 1920/2 - sizePion; position2.y = 1080/2 - sizePion;
   SDL_QueryTexture(pion[0], NULL, NULL, &position.w, &position.h);
@@ -319,11 +333,27 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
       }
     }
     
+    /*score des joueurs*/
     sprintf(str, "%d", score1);
     DrawString(str, 5, 5, 2, 'c', 250, 0, 0, renderer);
     sprintf(str, "%d", score2);
     DrawString(str, 95, 5, 2, 'c', 0, 0, 250, renderer);
-    
+    /*-------------------*/
+
+    duree -= 1;
+    if (duree < 0)
+    {
+      zone_morte.x = nbrAleatoire(0, WIDTH);
+      zone_morte.y = nbrAleatoire(0, HEIGHT);
+      while (sqrt(pow((zone_morte.x + 100/2) - (position.x + sizePion/2) ,2) + pow((zone_morte.y + 100/2) - (position.y + sizePion/2) ,2)) < sizeBoule
+      || sqrt(pow((zone_morte.x + 100/2) - (position2.x + sizePion/2) ,2) + pow((zone_morte.y + 100/2) - (position2.y + sizePion/2) ,2)) < sizeBoule)
+      {
+        zone_morte.x = nbrAleatoire(0, WIDTH);
+        zone_morte.y = nbrAleatoire(0, HEIGHT);
+      }
+    }
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDrawRect(renderer, &zone_morte);
     if (j1dd)
       SDL_RenderCopyEx(renderer, pion[0], NULL, &position, 0, NULL, SDL_FLIP_NONE);
     else if (j1gg)

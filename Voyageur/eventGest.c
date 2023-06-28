@@ -7,7 +7,7 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
     case SDLK_ESCAPE:
       if (etat == 1 || etat == 2)
         screen->etapeDuJeu = 0;
-      else if (etat == 4 || etat == 5)
+      else if (etat == 4 || etat == 5 || etat == 6)
         screen->etapeDuJeu = 7; 
       else if (etat == 666 || etat == 667)
         screen->etapeDuJeu = 2;

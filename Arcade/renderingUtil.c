@@ -29,6 +29,13 @@ long int getTime(){
 }
 
 void InitImage(){
+  RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
+  if (RobotoFont == NULL) {
+    fprintf(stderr, "error: font not found\n");
+    exit(EXIT_FAILURE);
+  }
+
+  
   int nbImage = 1;
   int nbPlanche = 1;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
@@ -49,7 +56,7 @@ void InitImage(){
   fileImage[0] = IMG_Load("Ressources/Image/BoiteVide.png");
   PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
   TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
-  debX[0] = 0; debY[0] = 0; wichFile = 0;
+  debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
 
   for(int i = 0; i < nbPlanche; i++){
     if(fileImage[0] == NULL){
@@ -60,11 +67,6 @@ void InitImage(){
   
   
   
-  RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
-  if (RobotoFont == NULL) {
-    fprintf(stderr, "error: font not found\n");
-    exit(EXIT_FAILURE);
-  }
   
   
 }

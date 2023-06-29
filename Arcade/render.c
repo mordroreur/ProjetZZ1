@@ -4,10 +4,30 @@ void mainRendering(ecran *screen){
   switch(screen->etapeDuJeu){
   case 1: loadingScreen(screen);break;
   case 2: DrawMenu(screen);break;
+  case 4: DrawGame(screen);break;
   default: loadingScreen(screen);break;
   }
 }
 
+
+void DrawGame(ecran *screen){
+  if(screen->whichBack == 0){
+    SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+    SDL_RenderFillRect(screen->renderer, NULL);
+  }
+
+  for(int i = 0; i < screen->nbPlayer; i++){
+    DrawImage(0, screen->pla[i].pos.x, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
+
+    for(int j = 0; j < screen->maxBoule; j++){
+      if(screen->pla[i].boubou[j].vie >= 0){
+	DrawImage(0, screen->pla[i].boubou[j].pos.x, screen->pla[i].boubou[j].pos.y, screen->pla[i].boubou[j].pos.w, screen->pla[i].boubou[j].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
+      }
+    }
+  }
+
+  
+}
 
 void DrawMenu(ecran *screen){
   int posMX, posMY;
@@ -26,15 +46,7 @@ void DrawMenu(ecran *screen){
     rect.w = screen->sizeX/2;
     rect.y = screen->sizeY;
     SDL_RenderFillRect(screen->renderer, &rect);
-    DrawString("HOST", 25, 25, 10, 'c', 0, 0, 0, screen);
-  }else if(isInButton(75, 50, 50, 100, 'c', posMX, posMY, screen)){
-    SDL_SetRenderDrawColor(screen->renderer, 0, 0, 255, 0);
-    rect.x = screen->sizeX/2;
-    rect.y = 0;
-    rect.w = screen->sizeX;
-    rect.y = screen->sizeY;
-    SDL_RenderFillRect(screen->renderer, &rect);
-    DrawString("JOIN", 75, 25, 10, 'c', 0, 0, 0, screen);
+    DrawString("Play", 25, 25, 10, 'c', 0, 0, 0, screen);
   }
 }
 

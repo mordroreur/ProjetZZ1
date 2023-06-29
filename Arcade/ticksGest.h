@@ -5,5 +5,6 @@
 
 void mainTickGest(ecran *screen);
 void *ChercheMinGraphe(void *param);
+void generateLaby(ecran *screen);
 
 #endif /* TICKGEST_HEADER_ */

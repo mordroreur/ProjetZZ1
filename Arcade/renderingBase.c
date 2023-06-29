@@ -2,7 +2,7 @@
 #include "renderingUtil.h"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
-#include <unistd.h>
+
 
 extern int debugging;
 
@@ -221,7 +221,13 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   InitImage();
-  screen->s_ecoute = -1;
+
+  screen->nbObjetsMax = 0;
+  screen->maxBoule = 3;
+  screen->maxVie = 3;
+  screen->nbPlayer = 2;
+
+  
   screen->etapeDuJeu = 2;
   
   while(screen->etapeDuJeu){
@@ -350,10 +356,6 @@ void *BouclePrincipaleDesTicks(void *unEcran){
     }
 
     
-  }
-
-  if(screen->s_ecoute != -1){
-    close(screen->s_ecoute);
   }
   return NULL;
 }

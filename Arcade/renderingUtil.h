@@ -75,7 +75,7 @@ typedef struct Ecran{
   int nbObjetsMax;
   objet* tbObjet;
 
-
+  int modePlay;
   int maxBoule;
   int maxVie;
   int nbPlayer;

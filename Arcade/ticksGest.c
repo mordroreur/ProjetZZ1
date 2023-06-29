@@ -17,7 +17,7 @@ void mainTickGest(ecran *screen){
       screen->pla[i].kill = 0;
       screen->pla[i].mort = 0;
 
-      screen->pla[i].vie = 5;
+      screen->pla[i].vie = screen->maxVie;
       screen->pla[i].index = 0;
 
       screen->pla[i].maxBouleVie = 100;
@@ -85,10 +85,29 @@ void mainTickGest(ecran *screen){
 	for(int k = 0; k < screen->nbPlayer; k++){
 	  if(screen->pla[i].equipe != screen->pla[k].equipe){
 	    if(sqrt(pow(b->pos.x - screen->pla[k].pos.x, 2) + pow(b->pos.y - screen->pla[k].pos.y, 2)) < (b->pos.w+b->pos.h)/2 + (screen->pla[k].pos.w + screen->pla[k].pos.h)/2){
-	      screen->pla[k].mort++;
+	      
+              screen->pla[k].mort++;
 	      screen->pla[k].vie--;
+
+              if(screen->pla[k].vie == 0){
+		int nbequipe = -1;
+		for(int l = 0; l < screen->nbPlayer; l++){
+		  if(screen->pla[l].vie != 0){
+		    if(nbequipe == -1){
+		      nbequipe = screen->pla[l].equipe;
+		    }else if(nbequipe != screen->pla[l].equipe){
+		      nbequipe = -2;
+		    }
+		    if(nbequipe != -2){
+		      screen->etapeDuJeu = 5;
+		    }
+		  }
+		}
+		
+	      }
+	      
 	      screen->pla[i].kill++;
-	      b->vie = -1;
+	      b->vie = 0;
 	    }
 	  }
 	}

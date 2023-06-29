@@ -1,14 +1,29 @@
 #include "render.h"
+#include "renderingUtil.h"
+#include <stdio.h>
 
 void mainRendering(ecran *screen){
   switch(screen->etapeDuJeu){
   case 1: loadingScreen(screen);break;
   case 2: DrawMenu(screen);break;
   case 4: DrawGame(screen);break;
+  case 5: DrawGame(screen);DrawVictoire(screen);break;
   default: loadingScreen(screen);break;
   }
 }
 
+
+void DrawVictoire(ecran *screen){
+  int equipe = 0;
+  for(int i = 0; i < screen->nbPlayer; i++){
+    if(screen->pla[i].vie != 0){
+      equipe = screen->pla[i].equipe;
+    }
+  }
+  char tmp[30];
+  sprintf(tmp, "victoire de l'equipe %d!!!", equipe);
+  DrawString(tmp, 50, 50, 10, 'c', 120, 255, 120, screen);
+}
 
 void DrawGame(ecran *screen){
   if(screen->whichBack == 0){

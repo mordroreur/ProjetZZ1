@@ -29,8 +29,17 @@ long int getTime(){
 }
 
 void InitImage(){
-  int nbImage = 5;
-  int nbPlanche = 5;
+
+  RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
+  if (RobotoFont == NULL) {
+    fprintf(stderr, "error: font not found\n");
+    exit(EXIT_FAILURE);
+  }
+
+
+
+  int nbImage = 7;
+  int nbPlanche = 7;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -62,8 +71,8 @@ void InitImage(){
   debX[2] = 0; debY[2] = 0; wichFile[2] = 2;
   
   
-  fileImage[3] = IMG_Load("Ressources/Image/backgroundMenu.png");
-  PixelXnb[3] = 400; PixelYnb[3] = 200;XImagenb[3] = 1; YImagenb[3] = 1;
+  fileImage[3] = IMG_Load("Ressources/Image/back_menu.png");
+  PixelXnb[3] = 1024; PixelYnb[3] = 512;XImagenb[3] = 1; YImagenb[3] = 1;
   TotalImagenb[3] = 1; ImYoffset[2] = 0; ImXoffset[2] = 0;
   debX[3] = 0; debY[3] = 0; wichFile[3] = 3;
 
@@ -72,22 +81,23 @@ void InitImage(){
   TotalImagenb[4] = 1; ImYoffset[4] = 0; ImXoffset[4] = 0;
   debX[4] = 0; debY[4] = 0; wichFile[4] = 4;
 
+  fileImage[5] = IMG_Load("Ressources/Image/return.png");
+  PixelXnb[5] = 100; PixelYnb[5] = 50;XImagenb[5] = 1; YImagenb[5] = 1;
+  TotalImagenb[5] = 1; ImYoffset[5] = 0; ImXoffset[5] = 0;
+  debX[5] = 0; debY[5] = 0; wichFile[5] = 5;
+
+  fileImage[6] = IMG_Load("Ressources/Image/back_parametre.png");
+  PixelXnb[6] = 1024; PixelYnb[6] = 486; XImagenb[6] = 1; YImagenb[6] = 1;
+  TotalImagenb[6] = 1; ImYoffset[6] = 0; ImXoffset[6] = 0;
+  debX[6] = 0; debY[6] = 0; wichFile[6] = 6;
+
   for(int i = 0; i < nbPlanche; i++){
     if(fileImage[i] == NULL){
       fprintf(stderr, "error: image %d not found\n", i);
       exit(EXIT_FAILURE);
     }
   }
-  
-  
-  
-  RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
-  if (RobotoFont == NULL) {
-    fprintf(stderr, "error: font not found\n");
-    exit(EXIT_FAILURE);
-  }
-  
-  
+
 }
 
 void freeImageMalloc(){

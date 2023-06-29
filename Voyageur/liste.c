@@ -21,6 +21,20 @@ void LL_add_first(liste * l, int val)
   l->taille++;
 }
 
+void LL_add_n(liste *l, int val, int index){
+  maillon *nouv = (maillon*)malloc(sizeof(maillon));
+  nouv->value = val;
+  nouv->suivant = NULL;
+  maillon **m = &(l->deb);
+  int i = 0;
+  while((*m)->suivant != NULL && i != index){
+    m = &((*m)->suivant);
+    i++;
+  }
+  (*m)->suivant = nouv;
+  l->taille++;
+}
+
 
 void LL_free(liste * l)
 {

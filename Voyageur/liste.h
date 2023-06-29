@@ -19,6 +19,7 @@ typedef struct liste{
 
 liste* LL_create();
 void LL_add_first(liste *l, int val);
+void LL_add_n(liste *l, int val, int index);
 void LL_free(liste *l);
 int LL_contains(liste *l, int n);
 int LL_size(liste *l);

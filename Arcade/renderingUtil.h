@@ -22,6 +22,41 @@ typedef struct Ecran{
   
 }ecran;
 
+typedef struct player
+{
+    int x;
+    int y;
+    int pioche;
+    int mur;
+    int vitesse;
+    int coffre;
+    int nbrLingo;
+    int kill;
+    int mort;
+    char nom[20];
+} player;
+
+typedef struct laby
+{
+    int size;
+    int ** ter;
+} laby;
+
+/*player * newPlayer(char * name, int xPos, int yPos, int vitesse)
+{
+    player * p = (player*) malloc(sizeof(player));
+    p->x = xPos;
+    p->y = yPos;
+    p->pioche = 0;
+    p->mur = 0;
+    p->vitesse = vitesse;
+    p->coffre = 0;
+    p->nbrLingo = 0;
+    p->kill = 0;
+    p->mort = 0;
+    sprintf(p->nom, name);
+    return p;
+}*/
 
 long int getTime();
 void DrawString(char *s, float x, float y, float size, char center, int R, int G, int B, ecran *screen);

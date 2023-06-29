@@ -47,8 +47,10 @@ int main(int argc, char const *argv[])
     SDL_Texture* textTexture;
     SDL_Color color = {0, 0, 0, 255};
     char Val[10];
-    if (argc > 0)
+    if (argc > 1)
         course = atoi(argv[1]);
+    else
+        course = 0;
     
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_Log("Error : SDL initialisation - %s\n", SDL_GetError());

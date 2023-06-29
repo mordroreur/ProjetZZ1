@@ -160,14 +160,14 @@ void drawGraph(ecran *screen){
     }
     
     if(debugging){
-      sprintf(tmp, "%d", i+1);
+      sprintf(tmp, "%d", i);
       DrawString(tmp, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 4, 'c', 64, 64, 64, screen);
     }
   }
 
-  DrawImage(0, screen->niveau.Sommets[screen->niveau.playerCase][0],
-	    screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 3,
-	    'c', 0, 0, 0, 0, 0, NULL, screen);
+  // DrawImage(0, screen->niveau.Sommets[screen->niveau.playerCase][0],
+	//     screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 3,
+	//     'c', 0, 0, 0, 0, 0, NULL, screen);
 
   
 }

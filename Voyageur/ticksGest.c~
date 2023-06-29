@@ -279,13 +279,16 @@ void choixchemin(graphe * GC, float *** pheromone,int dureepherom, int posdep, f
 
     printf("DebSommet\n");
     int posnext = choixsommet(GC,pos,pheromone,dureepherom,Tabou);
+<<<<<<< HEAD
+        printf("FinSommet\n");
+=======
     if(posnext != -1){
       LL_add_first(Tabou,posnext);
       
       LL_add_last(chemintemp,posnext);
       pos = posnext;
     }
-
+>>>>>>> 4d416426b4212804eb0c5752851fdb524ee5a61a
     
   }
   printf("Deb phéro\n");
@@ -345,6 +348,22 @@ float ** addpheromone(graphe * GC, liste *solutemp, float ** pheromtmp){
 
 int choixsommet(graphe * GC, int pos, float *** pheromone, int dureepherom, liste *Tabou){
   liste *cheminposs = listsommet(GC,pos,Tabou);
+<<<<<<< HEAD
+  listef probasommet = probasommetposs(GC,pos,cheminposs,pheromone,dureepherom);
+
+
+  
+  float choixalea = (rand()%100)/100.0;
+  int i = 0;
+  float Sprobasommet = 0.0;
+  while(Sprobasommet < choixalea){
+    printf("%lf %f %f\n", LLf_get_n(&probasommet, i-1), Sprobasommet, choixalea);
+    Sprobasommet += LLf_get_n(&probasommet, i-1);
+    if(Sprobasommet < 0){
+      exit(0);
+    }
+    i++;
+=======
   int tmp = -1;
  
   if(LL_size(cheminposs) != 0){
@@ -366,7 +385,7 @@ int choixsommet(graphe * GC, int pos, float *** pheromone, int dureepherom, list
     
     LL_free(cheminposs);
     LLf_free(&probasommet);
-
+>>>>>>> 4d416426b4212804eb0c5752851fdb524ee5a61a
   }
   return(tmp);
 }

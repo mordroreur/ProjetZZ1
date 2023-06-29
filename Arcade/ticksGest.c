@@ -79,8 +79,8 @@ void mainTickGest(ecran *screen){
 
 	}else if(nbDep == 2){
 	  if(b->vitX != 0) {b->pos.x += 1/sqrt(2)*b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}
-	  if(b->vitY != 0) {b->pos.y += 1/sqrt(2) * b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.y -= 100;}}
-	  }
+	  if(b->vitY != 0) {b->pos.y += 1/sqrt(2) * b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.x -= 100;}}
+	}
 
 	for(int k = 0; k < screen->nbPlayer; k++){
 	  if(screen->pla[i].equipe != screen->pla[k].equipe){

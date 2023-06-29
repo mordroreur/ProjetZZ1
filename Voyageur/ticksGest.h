@@ -7,6 +7,8 @@
 void mainTickGest(ecran *screen);
 void *ChercheMinGraphe(void *param);
 float ** CreateTab(int haut, int larg);
+void resosimple(graphe *G, graphe * GC);
+liste * rechemin(graphe * G, int deb, int fin);
 float ** TransfGraphCompl(graphe * G);
 float TestSolution(liste *solu, graphe * GC);
 float rechfourmi(graphe * G, int nbfourmi, int nbjour, graphe * GC, int pos, int dureepherom);
@@ -21,7 +23,7 @@ listef probasommetposs(graphe * GC, liste *cheminposs, float ** pheromone);
 float recuitsimul(graphe * G, graphe * GC, float tinit, float tfin, int nbiter, int nblistinit);
 liste * choixlistdep(int nblistinit,graphe * GC);
 liste * genlistalea(graphe * GC);
-
+liste * genlistvois(liste * listeact, graphe * GC);
 
 void generateTree(graphe* g, int bas, int haut);
 void generateGraphe(graphe* g, float proba);

@@ -108,6 +108,59 @@ float ** CreateTab(int haut, int larg){
   return(Newtab);
 }
 
+void resosimple(graphe *G, graphe * GC){
+  liste * resosimple = LL_create();
+  int N = LL_size(GC->reso);
+  if(G->arretes[N-1][0]){LL_add_last(resosimple,LL_get_n(GC->reso,0));}
+  else{
+    liste * cheminint = LL_create();
+    cheminint = rechemin(G, LL_get_n(GC->reso,N-1), LL_get_n(GC->reso,0));
+    int t = LL_size(cheminint);
+    for(int k=0; k<t; k++){
+      LL_add_last(resosimple, LL_get_n(cheminint,k));
+    }
+    LL_free(cheminint);
+  }
+  for(int i=0; i<N-1; i++){ 
+    if(G->arretes[i][i+1]){LL_add_last(resosimple,LL_get_n(GC->reso,i+1));}
+    else{
+      liste * cheminint = LL_create();
+      cheminint = rechemin(G, LL_get_n(GC->reso,i), LL_get_n(GC->reso,i+1));
+      int t = LL_size(cheminint);
+      for(int k=0; k<t; k++){
+        LL_add_last(resosimple, LL_get_n(cheminint,k));
+      }
+      LL_free(cheminint);
+    }
+  }
+}
+
+liste * rechemin(graphe * G, int deb, int fin){
+  liste * listeint = LL_create();
+  int N = G->nbSommets;
+  int INFINI = 10000;
+  float ** MC = CreateTab(G->nbSommets, G->nbSommets);
+  for(int k=0; k<N;k++){
+    for(int i=0; i<N; i++){
+      for(int j=0; j<N; j++){
+        if(k==0){
+          if(G->arretes[i][j]==0){ MC[i][j]=INFINI;}
+          else {MC[i][j]=G->arretes[i][j];}
+        }
+        else if(i != j){
+          MC[i][j]=fmin(MC[i][j],MC[i][k-1] + MC[k-1][j]);
+          if(i==deb && j==fin){
+            LL_add_last(listeint,k-1);
+          }
+        }
+      }
+    }
+
+  }
+  return(listeint);
+}
+
+
 
 float ** TransfGraphCompl(graphe * G){
   int N = G->nbSommets;
@@ -176,6 +229,7 @@ void choixchemin(graphe * GC, float ** pheromone, int pos, float ** pheromtmp){
     LL_add_first(solutemp,Sommet);
     pos = Sommet;
   }
+
   addpheromone(GC, solutemp, pheromtmp);
   if(!LL_size(GC->reso)){
     LL_free(GC->reso);
@@ -280,13 +334,13 @@ float recuitsimul(graphe * G, graphe * GC, float tinit, float tfin, int nbiter, 
   float alpha = (tinit-tfin)/nbiter;
   for(int k=0; k<nbiter; k++){
     t = t-alpha;
-    listvoisin = genlistvois();
+    listvoisin = genlistvois(listedep, GC);
     float diffsol = TestSolution(listvoisin, GC) - TestSolution(listedep, GC);
     if(diffsol < 0){
       listedep = listvoisin;
     }
     else{
-      float p = exp(-(diffsol/t))
+      float p = exp(-(diffsol/t));
       float floatrand = (rand()%100)/100.0;
       if(floatrand<p){
         listedep = listvoisin;
@@ -331,15 +385,21 @@ liste * genlistalea(graphe * GC){
   return(listalea);
 }
 
-liste * genlistvois(liste * listeact,){
+liste * genlistvois(liste * listeact, graphe * GC){
+  int N = GC->nbSommets;
   liste * listvoisin = LL_create();
+  for(int i=0; i<N; i++){
+    LL_add_last(listvoisin,LL_get_n(listeact,i));
+  }
   int rand1 = rand()%N;
-  int rand1 = rand()%N;
+  int rand2 = rand()%N;
   int val1 = LL_get_n(listeact,rand1);
   int val2 = LL_get_n(listeact,rand2);
-  
-  listvoisin =
-
+  LL_remove_n(listvoisin,rand1);
+  LL_add_n(listvoisin, val1, rand1);
+  LL_remove_n(listvoisin,rand2);
+  LL_add_n(listvoisin, val2, rand2);
+  return(listvoisin);
 }
 
 

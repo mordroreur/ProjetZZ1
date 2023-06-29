@@ -32,14 +32,14 @@ void mainTickGest(ecran *screen){
       }
     }
     */
-        
+    /*
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       for(int j = 0 ;j < screen->niveau.nbSommets; j++){
 	printf("%f  ", screen->niveau.arretes[i][j]);
       }
       printf("\n");
       }
-
+    */
     
 
     screen->niveau.playerCase = rand()%screen->niveau.nbSommets;
@@ -78,10 +78,17 @@ void *ChercheMinGraphe(void *param){
     graphe GC;
     GC.nbSommets=screen->niveau.nbSommets;
     GC.reso=LL_create();
-    rechfourmi(&(screen->niveau),10,10,&GC, screen->niveau.startCase,4);
+    rechfourmi(&(screen->niveau),10,10,&GC, screen->niveau.startCase-1,4);
     resosimple(&screen->niveau, &GC);
     printf("FINIIIII\n");
     LL_afficheListe(screen->niveau.reso);
+
+
+    //recuitsimul(&screen->niveau, &GC, 100, 0.001, 100, 20);
+    //printf("FINIIIII\n");
+    //LL_afficheListe(GC.reso);
+
+
     return NULL;
 }
 
@@ -111,13 +118,10 @@ float ** CreateTab(int haut, int larg){
 
 void resosimple(graphe *G, graphe * GC){
   liste * resosimple = LL_create();
-  int N = LL_size(GC->reso);
-  printf("ICI %d\n", N);
+  GC->arretes = TransfGraphCompl(G);
+  int N = G->nbSommets;
   if(G->arretes[N-1][0]){
-    int tmp = LL_get_n(GC->reso,0);
-    printf("LA %d\n", tmp);
     LL_add_last(resosimple,LL_get_n(GC->reso,0));
-    printf("Pas la\n");
   }else{
     liste * cheminint = LL_create();
     cheminint = rechemin(G, LL_get_n(GC->reso,N-1), LL_get_n(GC->reso,0));
@@ -127,7 +131,6 @@ void resosimple(graphe *G, graphe * GC){
     }
     LL_free(cheminint);
   }
-  printf("fin boucle 1\n");
   for(int i=0; i<N-1; i++){ 
     if(G->arretes[i][i+1]){LL_add_last(resosimple,LL_get_n(GC->reso,i+1));}
     else{
@@ -332,6 +335,13 @@ listef probasommetposs(graphe * GC, liste *cheminposs, float ** pheromone){
 }
 
 
+
+
+
+
+
+
+
 float recuitsimul(graphe * G, graphe * GC, float tinit, float tfin, int nbiter, int nblistinit){
   int N = G->nbSommets;
   GC->arretes = TransfGraphCompl(G);
@@ -356,6 +366,7 @@ float recuitsimul(graphe * G, graphe * GC, float tinit, float tfin, int nbiter, 
     }
 
   }
+
   GC->reso = listedep;
   return(TestSolution(listedep, GC));
 }
@@ -395,20 +406,31 @@ liste * genlistalea(graphe * GC){
 
 liste * genlistvois(liste * listeact, graphe * GC){
   int N = GC->nbSommets;
-  liste * listvoisin = LL_create();
+  int *tab = (int *)malloc(sizeof(int)*N);
+  if(!tab){exit(0);}
+  
   for(int i=0; i<N; i++){
-    LL_add_last(listvoisin,LL_get_n(listeact,i));
+    tab[i] = LL_get_n(listeact,i);
   }
+  
+
   int rand1 = rand()%N;
   int rand2 = rand()%N;
-  int val1 = LL_get_n(listeact,rand1);
-  int val2 = LL_get_n(listeact,rand2);
-  LL_remove_n(listvoisin,rand1);
-  LL_add_n(listvoisin, val1, rand1);
-  LL_remove_n(listvoisin,rand2);
-  LL_add_n(listvoisin, val2, rand2);
+
+  
+  int tmp = tab[rand1];
+  tab[rand1] = tab[rand2];
+  tab[rand2] = tmp;
+  
+  liste *listvoisin = LL_create();
+
+  for(int i = 0; i < N; i++){
+    LL_add_last(listvoisin, tab[i]);
+  }
+
   return(listvoisin);
 }
+
 
 
 

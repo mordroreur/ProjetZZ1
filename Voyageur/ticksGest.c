@@ -16,7 +16,7 @@ void mainTickGest(ecran *screen){
 
 
 
-    screen->niveau.arretes = CreateTab(screen->niveau.nbSommets);
+    screen->niveau.arretes = CreateTab(screen->niveau.nbSommets,screen->niveau.nbSommets);
     generateTree(&(screen->niveau), 0, screen->niveau.nbSommets-1);
     generateGraphe(&(screen->niveau), screen->niveau.proba);
     
@@ -68,23 +68,28 @@ void mainTickGest(ecran *screen){
 
 
 
+
+
+
+
+
 void *ChercheMinGraphe(void *param){
     ecran *screen = param;
     graphe GC;
     GC.nbSommets=screen->niveau.nbSommets;
     GC.reso=LL_create();
-    rechfourmi(&(screen->niveau),10,&GC, screen->niveau.startCase);
+    rechfourmi(&(screen->niveau),10,10,&GC, screen->niveau.startCase,4);
     printf("FINIIIII\n");
     LL_afficheListe(GC.reso);
     return NULL;
 }
 
 
-float ** CreateTab(int taille){
-  float ** Newtab = (float **) malloc(sizeof(float*) * taille); // alloue le tableau principal
+float ** CreateTab(int haut, int larg){
+  float ** Newtab = (float **) malloc(sizeof(float*) * haut); // alloue le tableau principal
   if(Newtab == NULL) {printf("MALLOC ERROR\n"); exit(0);}
-  for(int i = 0; i < taille; i++) {
-    Newtab[i] = (float *) malloc(sizeof(float)*taille);// alloue les sous tableaux
+  for(int i = 0; i < haut; i++) {
+    Newtab[i] = (float *) malloc(sizeof(float)*larg);// alloue les sous tableaux
     if(Newtab[i] == NULL) {//cas d'erreur on libere tout ce qui est alloue
       for(int j = 0; j < i; j++) {
         free(Newtab[j]); 
@@ -95,7 +100,7 @@ float ** CreateTab(int taille){
       exit(0);
     }
     else{
-      for(int j = 0; j < taille; j++) {
+      for(int j = 0; j < larg; j++) {
       Newtab[i][j] = 0;
       }
     }
@@ -103,11 +108,64 @@ float ** CreateTab(int taille){
   return(Newtab);
 }
 
+void resosimple(graphe *G, graphe * GC){
+  liste * resosimple = LL_create();
+  int N = LL_size(GC->reso);
+  if(G->arretes[N-1][0]){LL_add_last(resosimple,LL_get_n(GC->reso,0));}
+  else{
+    liste * cheminint = LL_create();
+    cheminint = rechemin(G, LL_get_n(GC->reso,N-1), LL_get_n(GC->reso,0));
+    int t = LL_size(cheminint);
+    for(int k=0; k<t; k++){
+      LL_add_last(resosimple, LL_get_n(cheminint,k));
+    }
+    LL_free(cheminint);
+  }
+  for(int i=0; i<N-1; i++){ 
+    if(G->arretes[i][i+1]){LL_add_last(resosimple,LL_get_n(GC->reso,i+1));}
+    else{
+      liste * cheminint = LL_create();
+      cheminint = rechemin(G, LL_get_n(GC->reso,i), LL_get_n(GC->reso,i+1));
+      int t = LL_size(cheminint);
+      for(int k=0; k<t; k++){
+        LL_add_last(resosimple, LL_get_n(cheminint,k));
+      }
+      LL_free(cheminint);
+    }
+  }
+}
+
+liste * rechemin(graphe * G, int deb, int fin){
+  liste * listeint = LL_create();
+  int N = G->nbSommets;
+  int INFINI = 10000;
+  float ** MC = CreateTab(G->nbSommets, G->nbSommets);
+  for(int k=0; k<N;k++){
+    for(int i=0; i<N; i++){
+      for(int j=0; j<N; j++){
+        if(k==0){
+          if(G->arretes[i][j]==0){ MC[i][j]=INFINI;}
+          else {MC[i][j]=G->arretes[i][j];}
+        }
+        else if(i != j){
+          MC[i][j]=fmin(MC[i][j],MC[i][k-1] + MC[k-1][j]);
+          if(i==deb && j==fin){
+            LL_add_last(listeint,k-1);
+          }
+        }
+      }
+    }
+
+  }
+  return(listeint);
+}
+
+
 
 float ** TransfGraphCompl(graphe * G){
   int N = G->nbSommets;
   int INFINI = 10000;
-  float ** MC = CreateTab(G->nbSommets);
+  float ** MC = CreateTab(G->nbSommets, G->nbSommets);
   for(int k=0; k<N;k++){
     for(int i=0; i<N; i++){
       for(int j=0; j<N; j++){
@@ -141,19 +199,27 @@ float TestSolution(liste *solu, graphe * GC){
   return(poids);
 }
 
-float rechfourmi(graphe * G, int nbfourmi, graphe * GC, int pos){
+float rechfourmi(graphe * G, int nbfourmi, int nbjour, graphe * GC, int pos, int dureepherom){
   int N = G->nbSommets;  
+  float ** pheromtmp = CreateTab(N,1);
   GC->arretes = TransfGraphCompl(G);
   GC->nbSommets = N;
-  float ** pheromone = CreateTab(N);
-  for(int k=0; k<nbfourmi; k++){
-    choixchemin(GC, pheromone, pos);
+  float ** pheromone = CreateTab(N,dureepherom);
+   
+  for(int i=0; i<nbjour; i++){
+    for(int k=0; k<nbfourmi; k++){
+      choixchemin(GC, pheromone, pos, pheromtmp);
+    }
+    majpheromone(GC, pheromone, dureepherom, pheromtmp);
+    
   }
   return(TestSolution(GC->reso, GC));
 }
 
-void choixchemin(graphe * GC, float ** pheromone, int pos){
+void choixchemin(graphe * GC, float ** pheromone, int pos, float ** pheromtmp){
+  
   int N = GC->nbSommets;
+  
   int Sommet = -1;
   liste *Tabou = LL_create();
   liste *solutemp = LL_create();
@@ -163,7 +229,8 @@ void choixchemin(graphe * GC, float ** pheromone, int pos){
     LL_add_first(solutemp,Sommet);
     pos = Sommet;
   }
-  majpheromone(GC, solutemp, pheromone);
+
+  addpheromone(GC, solutemp, pheromtmp);
   if(!LL_size(GC->reso)){
     LL_free(GC->reso);
     GC->reso = solutemp;
@@ -186,15 +253,22 @@ void choixchemin(graphe * GC, float ** pheromone, int pos){
   }
 }
 
-void majpheromone(graphe * GC, liste *solutemp, float **pheromone){
+void majpheromone(graphe * GC, float **pheromone, int dureepherom, float ** pheromtmp){
   int N = GC->nbSommets;
-  int disparition = fmin(4,GC->nbSommets);
-  float poidstemp = TestSolution(solutemp,GC);
   for(int i=0; i<N; i++){
-    for(int k=0; k<disparition-1; k++){
+    for(int k=0; k<dureepherom-1; k++){
       pheromone[i][k]=pheromone[i][k+1];
     }
-    pheromone[i][disparition] = 1/poidstemp;
+    pheromone[i][dureepherom] = pheromtmp[i][0];
+  }
+}
+
+void addpheromone(graphe * GC, liste *solutemp, float ** pheromtmp){
+  
+  int N = GC->nbSommets;
+  float poidstemp = TestSolution(solutemp,GC);
+  for(int i=0; i<N; i++){
+    pheromtmp[i][0] += 1/poidstemp;
   }
 }
 
@@ -248,6 +322,89 @@ listef probasommetposs(graphe * GC, liste *cheminposs, float ** pheromone){
   }
   return(probasommet);
 }
+
+
+float recuitsimul(graphe * G, graphe * GC, float tinit, float tfin, int nbiter, int nblistinit){
+  int N = G->nbSommets;
+  GC->arretes = TransfGraphCompl(G);
+  GC->nbSommets = N;
+  liste * listedep = choixlistdep(nblistinit, GC);
+  liste * listvoisin = LL_create();
+  float t = tinit;
+  float alpha = (tinit-tfin)/nbiter;
+  for(int k=0; k<nbiter; k++){
+    t = t-alpha;
+    listvoisin = genlistvois(listedep, GC);
+    float diffsol = TestSolution(listvoisin, GC) - TestSolution(listedep, GC);
+    if(diffsol < 0){
+      listedep = listvoisin;
+    }
+    else{
+      float p = exp(-(diffsol/t));
+      float floatrand = (rand()%100)/100.0;
+      if(floatrand<p){
+        listedep = listvoisin;
+      }
+    }
+
+  }
+  GC->reso = listedep;
+  return(TestSolution(listedep, GC));
+}
+
+
+
+liste * choixlistdep(int nblistinit,graphe * GC){
+  float poidslistdep = 1000000;
+  liste * listedep = LL_create();
+  for(int k=0; k<nblistinit; k++){
+    liste * listtmp = genlistalea(GC);
+    float poidstmp = TestSolution(listtmp, GC);
+    if(poidstmp < poidslistdep){
+      listedep = listtmp;
+    }
+  }
+  return(listedep);
+}
+
+
+liste * genlistalea(graphe * GC){
+  int N = GC->nbSommets;
+  liste * listalea = LL_create();
+  liste * listneutre = LL_create();
+  for(int k=0; k<N; k++){
+    LL_add_last(listneutre,k);
+  }
+  int n = LL_size(listneutre);
+  while(n>0){
+    int indicerand = rand()%n;
+    LL_add_last(listalea,LL_get_n(listneutre,indicerand));
+    LL_remove_n(listneutre,indicerand);
+    n--;
+  }
+  return(listalea);
+}
+
+liste * genlistvois(liste * listeact, graphe * GC){
+  int N = GC->nbSommets;
+  liste * listvoisin = LL_create();
+  for(int i=0; i<N; i++){
+    LL_add_last(listvoisin,LL_get_n(listeact,i));
+  }
+  int rand1 = rand()%N;
+  int rand2 = rand()%N;
+  int val1 = LL_get_n(listeact,rand1);
+  int val2 = LL_get_n(listeact,rand2);
+  LL_remove_n(listvoisin,rand1);
+  LL_add_n(listvoisin, val1, rand1);
+  LL_remove_n(listvoisin,rand2);
+  LL_add_n(listvoisin, val2, rand2);
+  return(listvoisin);
+}
+
+
+
+
 
 
 

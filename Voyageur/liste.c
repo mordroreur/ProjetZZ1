@@ -87,15 +87,19 @@ void LL_afficheListe(liste * l)
 }
 
 void LL_add_last(liste *l, int val){
-  maillon *nouv = (maillon*)malloc(sizeof(maillon));
-  nouv->value = val;
-  nouv->suivant = NULL;
-  maillon **m = &(l->deb);
-  while((*m)->suivant != NULL){
-    m = &((*m)->suivant);
+  if(l->deb == NULL){
+    LL_add_first(l, val);
+  }else{
+    maillon *nouv = (maillon*)malloc(sizeof(maillon));
+    nouv->value = val;
+    nouv->suivant = NULL;
+    maillon **m = &(l->deb);
+    while((*m)->suivant != NULL){
+      m = &((*m)->suivant);
+    }
+    (*m)->suivant = nouv;
+    l->taille++;
   }
-  (*m)->suivant = nouv;
-  l->taille++;
 }
 
 int LL_get_n(liste *l, int index){

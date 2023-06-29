@@ -79,8 +79,9 @@ void *ChercheMinGraphe(void *param){
     GC.nbSommets=screen->niveau.nbSommets;
     GC.reso=LL_create();
     rechfourmi(&(screen->niveau),10,10,&GC, screen->niveau.startCase,4);
+    resosimple(&screen->niveau, &GC);
     printf("FINIIIII\n");
-    LL_afficheListe(GC.reso);
+    LL_afficheListe(screen->niveau.reso);
     return NULL;
 }
 
@@ -111,8 +112,13 @@ float ** CreateTab(int haut, int larg){
 void resosimple(graphe *G, graphe * GC){
   liste * resosimple = LL_create();
   int N = LL_size(GC->reso);
-  if(G->arretes[N-1][0]){LL_add_last(resosimple,LL_get_n(GC->reso,0));}
-  else{
+  printf("ICI %d\n", N);
+  if(G->arretes[N-1][0]){
+    int tmp = LL_get_n(GC->reso,0);
+    printf("LA %d\n", tmp);
+    LL_add_last(resosimple,LL_get_n(GC->reso,0));
+    printf("Pas la\n");
+  }else{
     liste * cheminint = LL_create();
     cheminint = rechemin(G, LL_get_n(GC->reso,N-1), LL_get_n(GC->reso,0));
     int t = LL_size(cheminint);
@@ -121,6 +127,7 @@ void resosimple(graphe *G, graphe * GC){
     }
     LL_free(cheminint);
   }
+  printf("fin boucle 1\n");
   for(int i=0; i<N-1; i++){ 
     if(G->arretes[i][i+1]){LL_add_last(resosimple,LL_get_n(GC->reso,i+1));}
     else{
@@ -133,6 +140,7 @@ void resosimple(graphe *G, graphe * GC){
       LL_free(cheminint);
     }
   }
+  G->reso = resosimple;
 }
 
 liste * rechemin(graphe * G, int deb, int fin){

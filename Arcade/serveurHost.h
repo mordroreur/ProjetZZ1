@@ -4,7 +4,7 @@
 #include "renderingUtil.h"
 
 
-void launchServeur(ecran *screen);
+void *launchServeur(void* param);
 
 
 

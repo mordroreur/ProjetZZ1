@@ -13,7 +13,10 @@
 
 
 
-void ConnectServeur(ecran *screen){
+void *ConnectServeur(void *param){
+  ecran *screen = (ecran *)param;
+
+
   char buffer[200],texte[200];
   int sock,i,c;
   struct sockaddr_in addr;
@@ -29,8 +32,13 @@ void ConnectServeur(ecran *screen){
     screen->etapeDuJeu = 2;
   }else{
     printf("connexion passe\n");
+
+    bzero(texte,sizeof(texte));
+    bzero(buffer,sizeof(buffer));
+    send(sock,"NOM",strlen("NOM")+1,0);
     
-    while (1) {
+    while (screen->etapeDuJeu) {
+   
       bzero(texte,sizeof(texte));
       bzero(buffer,sizeof(buffer));
       i = 0;
@@ -44,4 +52,5 @@ void ConnectServeur(ecran *screen){
     }
     close(sock);
   }
+  return NULL;
 }

@@ -3,7 +3,7 @@
 
 #include "renderingUtil.h"
 
-void ConnectServeur(ecran *screen);
+void *ConnectServeur(void * param);
 
 
 #endif /*__H_GUARDIAN_SERVEUR_JOIN__*/

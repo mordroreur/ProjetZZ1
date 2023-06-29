@@ -205,6 +205,13 @@ void drawParametre(ecran *screen)
   int nbreSommet = screen->niveau.nbSommets;
   float probabilite = screen->niveau.proba;
   char nbSom[30]; char proba[60]; char nbSom2[10]; char proba2[30];
+  int posMX, posMY;
+  SDL_GetMouseState(&posMX, &posMY);
+  static int large = 0;
+  int * plarge = &large;
+
+  DrawImage(6, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(4, 50, 50, 37, 45, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->etapeDuJeu == 666 || screen->etapeDuJeu == 667)
   {
     sprintf(nbSom, "Nombre de sommets: %d", nbreSommet);
@@ -231,18 +238,19 @@ void drawParametre(ecran *screen)
   }
   else if (screen->etapeDuJeu == 668)
   {
-    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
-    DrawString(nbSom2, 65, 40, 5, 'c', 253, 212, 4, screen);
-    DrawString(proba2, 65, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom, 48, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 47, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 61, 40, 5, 'c', 253, 212, 4, screen);
+    DrawString(proba2, 61, 60, 5, 'c', 255, 255, 255, screen);
   }
   else
   {
-    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
-    DrawString(nbSom2, 65, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba2, 65, 60, 5, 'c', 253, 212, 4, screen);
+    DrawString(nbSom, 48, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 47, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 61, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba2, 61, 60, 5, 'c', 253, 212, 4, screen);
   }
+  enlargeButton(screen, posMX, posMY, 5, 17, 85, 25, 15, 'c', plarge);
 }
 
 void drawMenu(ecran *screen)
@@ -259,13 +267,13 @@ void drawMenu(ecran *screen)
   
   DrawImage(3, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
   
-  DrawString("Voyageur", 50, 10, 25, 'c', 64, 64, 64, screen);
+  DrawString("Voyageur", 50, 10, 25, 'c', 255, 255, 255, screen);
   DrawString("voyage, voyage...", 50, 27, 10, 'c', 64, 64, 64, screen);
 
   DrawImage(4, 50, 63, 37, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c', plarge);
   enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c', plarge2);
-  rotateButton(screen, posMX, posMY, 2,  10, 90, rapport*15, 15, 'c', pangle);
+  rotateButton(screen, posMX, posMY, 2,  10, 86, rapport*15, 28, 'c', pangle);
 }
 
 void loadingScreen(ecran *screen){

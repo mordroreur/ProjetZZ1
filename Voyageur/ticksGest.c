@@ -79,7 +79,7 @@ void *ChercheMinGraphe(void *param){
     GC.nbSommets=screen->niveau.nbSommets;
     GC.reso=LL_create();
     rechfourmi(&(screen->niveau),10,10,&GC, screen->niveau.startCase-1,4);
-    resosimple(&screen->niveau, &GC);
+    //resosimple(&screen->niveau, &GC);
     printf("FINIIIII\n");
     LL_afficheListe(screen->niveau.reso);
 
@@ -116,61 +116,60 @@ float ** CreateTab(int haut, int larg){
   return(Newtab);
 }
 
-void resosimple(graphe *G, graphe * GC){
-  liste * resosimple = LL_create();
-  GC->arretes = TransfGraphCompl(G);
-  int N = G->nbSommets;
-  int t = LL_size(GC->reso);
-  liste * cheminit = LL_create();
-  cheminit = rechemin(G,GC,N-1,0);
-  int tint = LL_size(cheminit);
-  for(int k=0; k<tint; k++){
-    LL_add_last(resosimple,LL_get_n(cheminit,k));
-  }
-  for(int i=0; i<t; i++){
-    liste * cheminit2 = LL_create();
-    cheminit2 = rechemin(G,GC,i,i+1);
-    int tint2 = LL_size(cheminit);
-    for(int j=0; j<tint2; j++){
-      LL_add_last(resosimple,LL_get_n(cheminit2,j));
-    }
-    LL_free(cheminit2);
-  }
-  G->reso = resosimple;
-}
+// void resosimple(graphe *G, graphe * GC){
+//   liste * resosimple = LL_create();
+//   GC->arretes = TransfGraphCompl(G);
+//   int N = G->nbSommets;
+//   int t = LL_size(GC->reso);
+//   liste * Tabou = LL_create();
+//   for(int i=0; i<N; i++){
+//     if(G->arretes[deb][i] == 0){
+//       LL_add_first(Tabou,i);
+//     }
+//   }
+//   liste * cheminit = LL_create();
+//   cheminit = rechemin(G,GC,N-1,0);
+//   int tint = LL_size(cheminit);
+//   for(int k=0; k<tint; k++){
+//     LL_add_last(resosimple,LL_get_n(cheminit,k));
+//   }
+//   for(int i=0; i<t; i++){
+//     liste * cheminit2 = LL_create();
+//     cheminit2 = rechemin(G,GC,i,i+1);
+//     int tint2 = LL_size(cheminit);
+//     for(int j=0; j<tint2; j++){
+//       LL_add_last(resosimple,LL_get_n(cheminit2,j));
+//     }
+//     LL_free(cheminit2);
+//   }
+//   G->reso = resosimple;
+// }
 
 
-liste * rechemin(graphe * G,graphe * GC, int deb, int fin){
-  liste * chemint = LL_create();
-  if(G->arretes[deb][fin]){
-    LL_add_first(chemint,fin);
-    return(chemint);
-  }
-  else{
-    int pos = -1;
-    liste * Tabou = LL_create();
-    int N = G->nbSommets;
-    for(int i=0; i<N; i++){
-      if(G->arretes[deb][i] == 0){
-        LL_add_first(Tabou,i);
-      }
-    }
-    liste * sommetvois = listsommet(GC, deb, Tabou);
-    int V = LL_size(sommetvois);
-    for(int k=0; k<V; k++){
-      pos = LL_get_n(sommetvois,k);
-      liste * chemintbis = LL_create();
-      chemintbis = (rechemin(G,GC,pos,fin));
-      for(int j=0; j<V; j++){
-        LL_add_last(chemint, LL_get_n(chemintbis,j));
-        LL_add_first(chemint,deb);
-        return(chemint);
-      }
-      LL_free(chemintbis);
-    }
-  }
-  return(chemint);
-}
+// liste * rechemin(graphe * G,graphe * GC, int deb, int fin, liste * Tabou){
+//   liste * chemint = LL_create();
+//   if(G->arretes[deb][fin]){
+//     LL_add_first(chemint,fin);
+//     return(chemint);
+//   }
+//   else{
+//     int pos = -1;
+//     liste * sommetvois = listsommet(GC, deb, Tabou);
+//     int V = LL_size(sommetvois);
+//     for(int k=0; k<V; k++){
+//       pos = LL_get_n(sommetvois,k);
+//       liste * chemintbis = LL_create();
+//       chemintbis = (rechemin(G,GC,pos,fin));
+//       for(int j=0; j<V; j++){
+//         LL_add_last(chemint, LL_get_n(chemintbis,j));
+//         LL_add_first(chemint,deb);
+//         return(chemint);
+//       }
+//       LL_free(chemintbis);
+//     }
+//   }
+//   return(chemint);
+// }
 
 
 

@@ -7,8 +7,8 @@
 void mainTickGest(ecran *screen);
 void *ChercheMinGraphe(void *param);
 float ** CreateTab(int haut, int larg);
-void resosimple(graphe *G, graphe * GC);
-liste * rechemin(graphe * G,graphe * GC, int deb, int fin);
+//void resosimple(graphe *G, graphe * GC);
+//liste * rechemin(graphe * G,graphe * GC, int deb, int fin);
 float ** TransfGraphCompl(graphe * G);
 float TestSolution(liste *solu, graphe * GC);
 float rechfourmi(graphe * G, int nbfourmi, int nbjour, graphe * GC, int pos, int dureepherom);

@@ -6,5 +6,7 @@
 
 void mainRendering(ecran *screen);
 void loadingScreen(ecran *screen);
+void DrawMenu(ecran *screen);
+
 
 #endif /* RENDER_HEADER_ */

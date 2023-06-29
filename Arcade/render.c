@@ -3,7 +3,38 @@
 void mainRendering(ecran *screen){
   switch(screen->etapeDuJeu){
   case 1: loadingScreen(screen);break;
+  case 2: DrawMenu(screen);break;
   default: loadingScreen(screen);break;
+  }
+}
+
+
+void DrawMenu(ecran *screen){
+  int posMX, posMY;
+  //  int nbT = SDL_GetTicks()/500;
+  SDL_GetMouseState(&posMX, &posMY);
+
+  SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+  SDL_RenderFillRect(screen->renderer, NULL);
+  SDL_Rect rect;
+  
+  
+  if(isInButton(25, 50, 50, 100, 'c', posMX, posMY, screen)){
+    SDL_SetRenderDrawColor(screen->renderer, 0, 255, 0, 0);
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = screen->sizeX/2;
+    rect.y = screen->sizeY;
+    SDL_RenderFillRect(screen->renderer, &rect);
+    DrawString("HOST", 25, 25, 10, 'c', 0, 0, 0, screen);
+  }else if(isInButton(75, 50, 50, 100, 'c', posMX, posMY, screen)){
+    SDL_SetRenderDrawColor(screen->renderer, 0, 0, 255, 0);
+    rect.x = screen->sizeX/2;
+    rect.y = 0;
+    rect.w = screen->sizeX;
+    rect.y = screen->sizeY;
+    SDL_RenderFillRect(screen->renderer, &rect);
+    DrawString("JOIN", 75, 25, 10, 'c', 0, 0, 0, screen);
   }
 }
 

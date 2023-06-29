@@ -21,7 +21,7 @@ void *ConnectServeur(void *param){
   int sock,i,c;
   struct sockaddr_in addr;
   struct hostent *entree;
-  addr.sin_port=htons(4242);
+  addr.sin_port=htons(42420);
   addr.sin_family=AF_INET;
   entree=(struct hostent *)gethostbyname("localhost");
   bcopy((char *)entree->h_addr,(char *)&addr.sin_addr,entree->h_length);
@@ -35,8 +35,12 @@ void *ConnectServeur(void *param){
 
     bzero(texte,sizeof(texte));
     bzero(buffer,sizeof(buffer));
-    send(sock,"NOM",strlen("NOM")+1,0);
+    strcpy(texte, "NOM");
+    send(sock,texte,strlen(texte)+1,0);
+
+    recv(sock,buffer,sizeof(buffer),0);
     
+    /*
     while (screen->etapeDuJeu) {
    
       bzero(texte,sizeof(texte));
@@ -49,7 +53,8 @@ void *ConnectServeur(void *param){
       recv(sock,buffer,sizeof(buffer),0);
       printf("recu %s\n",buffer);
       if (strcmp("FIN",texte) == 0) break;
-    }
+      }*/
+    
     close(sock);
   }
   return NULL;

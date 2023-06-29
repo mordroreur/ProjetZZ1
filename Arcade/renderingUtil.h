@@ -6,21 +6,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
-typedef struct Ecran{
-
-  SDL_Window *window;
-  SDL_Renderer *renderer;
-
-
-  int isFullScreen;
-  int sizeX;
-  int sizeY;
-  int otherX;
-  int otherY;
-
-  int etapeDuJeu;
-  
-}ecran;
 
 typedef struct player
 {
@@ -41,6 +26,30 @@ typedef struct laby
     int size;
     int ** ter;
 } laby;
+
+
+
+typedef struct Ecran{
+
+  SDL_Window *window;
+  SDL_Renderer *renderer;
+
+
+  int isFullScreen;
+  int sizeX;
+  int sizeY;
+  int otherX;
+  int otherY;
+
+  int etapeDuJeu;
+
+  int s_ecoute;
+
+  int nbPlayer;
+  player pla[4];
+  laby lab;
+  
+}ecran;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)
 {

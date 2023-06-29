@@ -40,11 +40,7 @@ typedef struct player
   int dirX;
   int dirY;
 
-  int equipe;
-  
   int index;
-  int debBoule;
-  int nbBouleActive;
   
 } player;
 

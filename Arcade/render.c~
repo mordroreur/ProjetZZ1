@@ -21,18 +21,8 @@ void DrawGame(ecran *screen){
 
     if(screen->pla[i].pos.x < 3){
       DrawImage(0, screen->pla[i].pos.x+100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
-      if(screen->pla[i].pos.y < 3){
-	DrawImage(0, screen->pla[i].pos.x+100, screen->pla[i].pos.y+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
-      }else if (screen->pla[i].pos.y > 97) {
-	DrawImage(0, screen->pla[i].pos.x+100, screen->pla[i].pos.y-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
-      }
     }else if (screen->pla[i].pos.x > 97) {
       DrawImage(0, screen->pla[i].pos.x-100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
-      if(screen->pla[i].pos.y < 3){
-	DrawImage(0, screen->pla[i].pos.x-100, screen->pla[i].pos.y+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
-      }else if (screen->pla[i].pos.y > 97) {
-	DrawImage(0, screen->pla[i].pos.x-100, screen->pla[i].pos.y-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
-      }
     }
 
     if(screen->pla[i].pos.y < 3){

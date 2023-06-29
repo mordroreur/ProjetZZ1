@@ -18,6 +18,8 @@ void mainTickGest(ecran *screen){
       screen->pla[i].vie = 5;
       screen->pla[i].index = 0;
 
+      screen->pla[i].maxBouleVie = 100;
+      
       screen->pla[i].nbBoule = 100;
       screen->pla[i].boubou = (boule *)malloc(sizeof(boule) * screen->pla[i].nbBoule);
       for(int j = 0; j < screen->pla[i].nbBoule; j++){
@@ -51,14 +53,17 @@ void mainTickGest(ecran *screen){
       if(screen->pla[i].input[4]){
 	screen->pla[i].input[4] = 0;
 	screen->pla[i].boubou[screen->pla[i].index].pos = screen->pla[i].pos;
-	screen->pla[i].boubou[screen->pla[i].index].vie = screen->maxVie;
+	screen->pla[i].boubou[screen->pla[i].index].vie = screen->pla[i].maxBouleVie;
 	screen->pla[i].boubou[screen->pla[i].index].speed = 2*screen->pla[i].vitesse;
 	screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX;
 	screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY;
+	screen->pla[i].index = (screen->pla[i].index+1)%screen->pla[i].nbBoule;
       }
 
 
-
+      for(int j = 0; j < screen->pla[i].nbBoule; j++){
+	screen->pla[i].boubou[j].vie--;
+      }
       
     }
   }

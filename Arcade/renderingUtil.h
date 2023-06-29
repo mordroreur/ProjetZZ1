@@ -32,7 +32,7 @@ typedef struct player
   
   int kill;
   int mort;
-
+  int maxBouleVie;
   int vie;
 
   int nbBoule;
@@ -70,7 +70,8 @@ typedef struct Ecran{
   
   int nbObjetsMax;
   objet* tbObjet;
-  
+
+
   int maxBoule;
   int maxVie;
   int nbPlayer;

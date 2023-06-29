@@ -19,7 +19,19 @@ void DrawGame(ecran *screen){
   for(int i = 0; i < screen->nbPlayer; i++){
     DrawImage(0, screen->pla[i].pos.x, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
 
-    for(int j = 0; j < screen->maxBoule; j++){
+    if(screen->pla[i].pos.x < 3){
+      DrawImage(0, screen->pla[i].pos.x+100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
+    }else if (screen->pla[i].pos.x > 97) {
+      DrawImage(0, screen->pla[i].pos.x-100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
+    }
+
+    if(screen->pla[i].pos.y < 3){
+      DrawImage(0, screen->pla[i].pos.x, screen->pla[i].pos.y+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
+    }else if (screen->pla[i].pos.y > 97) {
+      DrawImage(0, screen->pla[i].pos.x, screen->pla[i].pos.y-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
+    }
+
+    for(int j = 0; j < screen->pla[i].nbBoule; j++){
       if(screen->pla[i].boubou[j].vie >= 0){
 	DrawImage(0, screen->pla[i].boubou[j].pos.x, screen->pla[i].boubou[j].pos.y, screen->pla[i].boubou[j].pos.w, screen->pla[i].boubou[j].pos.h, 'c', 0, 0, 0, 0, 0, 0, screen);
       }

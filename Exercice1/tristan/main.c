@@ -108,7 +108,8 @@ int main(int argc, char **argv) {
     SDL_FreeSurface(CD);
     int x = 500;
     int y = 500;                                 
-    while (program_on) {   
+    while (program_on) { 
+        SDL_Delay(10);  
         SDL_SetWindowPosition(fenet, x, y); 
         SDL_SetRenderDrawColor(rendcolor, r, g, b, 255);
 

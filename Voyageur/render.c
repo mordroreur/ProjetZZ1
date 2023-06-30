@@ -5,6 +5,7 @@
 #define VITTESSE 2
 
 extern int debugging;
+#define PI 3.1415
 
 void mainRendering(ecran *screen){
   switch(screen->etapeDuJeu){
@@ -29,83 +30,144 @@ void drawGraphSoluce(ecran *screen) {
   SDL_Point p;
   char tmp[12];
 
-  int * trouve = (int *)malloc(sizeof(int) * screen->niveau.nbSommets);
-  if(trouve){
-    float x, y;
-    int lastCase = screen->niveau.startCase;
-    int nbLasteCase = 0;
-    int dejaDraw = 0;
-    int NextCase = LL_get_n(screen->niveau.PlayerReso, LL_size(screen->niveau.PlayerReso) - nbLasteCase -1);
 
-    for(int i = 0; i < screen->niveau.nbSommets; i++){
-      trouve[i] = 0;
-    }
-    
-    while (nbLasteCase < LL_size((screen->niveau.PlayerReso)) && dejaDraw + screen->niveau.arretes[lastCase][NextCase] < (screen->niveau.drawFinal)/VITTESSE) {
-      nbLasteCase++;
-      dejaDraw += screen->niveau.arretes[lastCase][NextCase];
-      lastCase = NextCase;
-      trouve[lastCase] = 1;
-      NextCase = LL_get_n((screen->niveau.PlayerReso), LL_size((screen->niveau.PlayerReso)) - nbLasteCase -1);
-    }
-    
-    if(nbLasteCase >= LL_size((screen->niveau.PlayerReso))){
-      x = screen->niveau.Sommets[screen->niveau.startCase][0];
-      y = screen->niveau.Sommets[screen->niveau.startCase][1];
-    }else{
-      x = (screen->niveau.Sommets[lastCase][0] - screen->niveau.Sommets[NextCase][0])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][0];
-      y = (screen->niveau.Sommets[lastCase][1] - screen->niveau.Sommets[NextCase][1])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][1];
-    }
-
-    //printf("%d %d %f\n", dejaDraw, screen->niveau.drawFinal, screen->niveau.arretes[lastCase][NextCase]);
-   
-    for(int i = 0; i < screen->niveau.nbSommets; i++){
-      for(int j = i; j < screen->niveau.nbSommets; j++){
-	if(screen->niveau.arretes[i][j] > 0){
+  for(int i = 0; i < screen->niveau.nbSommets; i++){
+	for(int j = i; j < screen->niveau.nbSommets; j++){
+	  if(screen->niveau.arretes[i][j] > 0){
 	    SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
 
-	  SDL_RenderDrawLine(screen->renderer,
-			     screen->sizeX * screen->niveau.Sommets[i][0]/100,
-			     screen->sizeY * screen->niveau.Sommets[i][1]/100,
-			     screen->sizeX * screen->niveau.Sommets[j][0]/100,
-			     screen->sizeY * screen->niveau.Sommets[j][1]/100);
+	    SDL_RenderDrawLine(screen->renderer,
+			       screen->sizeX * screen->niveau.Sommets[i][0]/100,
+			       screen->sizeY * screen->niveau.Sommets[i][1]/100,
+			       screen->sizeX * screen->niveau.Sommets[j][0]/100,
+			       screen->sizeY * screen->niveau.Sommets[j][1]/100);
+	  }
 	}
       }
-    }
-
-
-    for(int i = 0; i < screen->niveau.nbSommets; i++){
-      if(trouve[i]){
-	SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
-      }else{
-	SDL_SetRenderDrawColor(screen->renderer, 190, 10, 10, 0);
-      }
+  
+  if(screen->niveau.drawFinal/VITTESSE < screen->niveau.solTime){
     
-      p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
-      p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
-      drawFillCircle(screen->renderer, p, screen->sizeY/30.0);
+    int * trouve = (int *)malloc(sizeof(int) * screen->niveau.nbSommets);
+    if(trouve){
+      float x, y;
+      int lastCase = screen->niveau.startCase;
+      int nbLasteCase = 0;
+      int dejaDraw = 0;
+      int NextCase = LL_get_n(screen->niveau.PlayerReso, LL_size(screen->niveau.PlayerReso) - nbLasteCase -1);
+      
+      
+      float xIA, yIA;
+      int lastCaseIA = screen->niveau.startCase;
+      int nbLasteCaseIA = 0;
+      int dejaDrawIA = 0;
+      int NextCaseIA = LL_get_n(screen->niveau.reso, LL_size(screen->niveau.reso) - nbLasteCaseIA -1);
+      float angleIA;
+      
+      
+      float angle;
+    
+      for(int i = 0; i < screen->niveau.nbSommets; i++){
+	trouve[i] = 0;
+      }
+      
+      while (nbLasteCase < LL_size((screen->niveau.PlayerReso)) && dejaDraw + screen->niveau.arretes[lastCase][NextCase] < (screen->niveau.drawFinal)/VITTESSE) {
+	nbLasteCase++;
+	dejaDraw += screen->niveau.arretes[lastCase][NextCase];
+	lastCase = NextCase;
+	trouve[lastCase] = 1;
+	NextCase = LL_get_n((screen->niveau.PlayerReso), LL_size((screen->niveau.PlayerReso)) - nbLasteCase -1);
+	}
+      
+      while (nbLasteCaseIA < LL_size((screen->niveau.reso)) && dejaDrawIA + screen->niveau.arretes[lastCaseIA][NextCaseIA] < (screen->niveau.drawFinal)/VITTESSE) {
+	nbLasteCaseIA++;
+	dejaDrawIA += screen->niveau.arretes[lastCaseIA][NextCaseIA];
+	lastCaseIA = NextCaseIA;
+	NextCaseIA = LL_get_n((screen->niveau.reso), LL_size((screen->niveau.reso)) - nbLasteCaseIA -1);
+	}
+      if(nbLasteCaseIA == LL_size((screen->niveau.reso))){
+	NextCaseIA = lastCaseIA;
+      }
+      
+      if(nbLasteCase >= LL_size((screen->niveau.PlayerReso))){
+	x = screen->niveau.Sommets[screen->niveau.startCase][0];
+	y = screen->niveau.Sommets[screen->niveau.startCase][1];
+      }else{
+	x = (screen->niveau.Sommets[lastCase][0] - screen->niveau.Sommets[NextCase][0])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][0];
+	y = (screen->niveau.Sommets[lastCase][1] - screen->niveau.Sommets[NextCase][1])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][1];
+	angle = atanf((screen->niveau.Sommets[NextCase][1] - screen->niveau.Sommets[lastCase][1])/((float)screen->niveau.Sommets[NextCase][0] - screen->niveau.Sommets[lastCase][0])) * 180/PI;
+      }
+      
+      
+      xIA = (screen->niveau.Sommets[lastCaseIA][0] - screen->niveau.Sommets[NextCaseIA][0])* ((dejaDrawIA - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCaseIA][NextCaseIA]) + screen->niveau.Sommets[lastCaseIA][0];
+      yIA = (screen->niveau.Sommets[lastCaseIA][1] - screen->niveau.Sommets[NextCaseIA][1])* ((dejaDrawIA - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCaseIA][NextCaseIA]) + screen->niveau.Sommets[lastCaseIA][1];
+      angleIA = atanf((screen->niveau.Sommets[NextCaseIA][1] - screen->niveau.Sommets[lastCaseIA][1])/((float)screen->niveau.Sommets[NextCaseIA][0] - screen->niveau.Sommets[lastCaseIA][0])) * 180/PI;
+      
+      //printf("%d %d %f\n", dejaDraw, screen->niveau.drawFinal, screen->niveau.arretes[lastCase][NextCase]);
+   
+
+
+      for(int i = 0; i < screen->niveau.nbSommets; i++){
+	if(trouve[i]){
+	  SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
+	}else{
+	  SDL_SetRenderDrawColor(screen->renderer, 190, 10, 10, 0);
+	}
+    
+	p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
+	p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
+	drawFillCircle(screen->renderer, p, screen->sizeY/30.0);
 	
     
-      if(debugging){
-	sprintf(tmp, "%d", i+1);
-	DrawString(tmp, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 4, 'c', 64, 64, 64, screen);
+	if(debugging){
+	  sprintf(tmp, "%d", i+1);
+	  DrawString(tmp, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 4, 'c', 64, 64, 64, screen);
+	}
       }
+      //printf("%f\n", angle);
+      DrawImage(7, x, y, 3, 6, 'c', 0, 0, 0, angle+90, 0, NULL, screen);
+      DrawImage(8, xIA, yIA, 3, 6, 'c', 0, 0, 0, angleIA+90, 0, NULL, screen);
+
+    
+      screen->niveau.drawFinal++;
+      free(trouve); 
+
+      
     }
+    
+    
 
-    DrawImage(0, x, y, 3, 3, 'c', 0, 0, 0, 0, 0, NULL, screen);
+    
+  }else{
+      for(int i = 0; i < screen->niveau.nbSommets; i++){
+	SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
 
-    screen->niveau.drawFinal++;
-    free(trouve); 
-  }
+    
+	p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
+	p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
+	drawFillCircle(screen->renderer, p, screen->sizeY/30.0);	
+    
+	if(debugging){
+	  sprintf(tmp, "%d", i+1);
+	  DrawString(tmp, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 4, 'c', 64, 64, 64, screen);
+	}
+      }
+
+      
+      
+      DrawImage(7, screen->sizeX * screen->niveau.Sommets[screen->niveau.startCase][0]/100.0, screen->sizeY * screen->niveau.Sommets[screen->niveau.startCase][1]/100.0, 3, 6, 'c', 0, 0, 0, 0, 0, NULL, screen);
+
+
+      
+    }
   
   
   
 
   
 
-  /* DrawImage(0, screen->niveau.Sommets[screen->niveau.playerCase][0],
-	    screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 3,
-	    'c', 0, 0, 0, 0, 0, NULL, screen);*/
+  //DrawImage(0, screen->niveau.Sommets[screen->niveau.playerCase][0],
+  //screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 3,
+  //'c', 0, 0, 0, 0, 0, NULL, screen);
   
 }
 
@@ -165,9 +227,9 @@ void drawGraph(ecran *screen){
     }
   }
 
-  // DrawImage(0, screen->niveau.Sommets[screen->niveau.playerCase][0],
-	//     screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 3,
-	//     'c', 0, 0, 0, 0, 0, NULL, screen);
+   DrawImage(7, screen->niveau.Sommets[screen->niveau.playerCase][0],
+	     screen->niveau.Sommets[screen->niveau.playerCase][1], 3, 6,
+	     'c', 0, 0, 0, 0, 0, NULL, screen);
 
   
 }
@@ -205,6 +267,13 @@ void drawParametre(ecran *screen)
   int nbreSommet = screen->niveau.nbSommets;
   float probabilite = screen->niveau.proba;
   char nbSom[30]; char proba[60]; char nbSom2[10]; char proba2[30];
+  int posMX, posMY;
+  SDL_GetMouseState(&posMX, &posMY);
+  static int large = 0;
+  int * plarge = &large;
+
+  DrawImage(6, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(4, 50, 50, 37, 45, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->etapeDuJeu == 666 || screen->etapeDuJeu == 667)
   {
     sprintf(nbSom, "Nombre de sommets: %d", nbreSommet);
@@ -231,18 +300,19 @@ void drawParametre(ecran *screen)
   }
   else if (screen->etapeDuJeu == 668)
   {
-    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
-    DrawString(nbSom2, 65, 40, 5, 'c', 253, 212, 4, screen);
-    DrawString(proba2, 65, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom, 48, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 47, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 61, 40, 5, 'c', 253, 212, 4, screen);
+    DrawString(proba2, 61, 60, 5, 'c', 255, 255, 255, screen);
   }
   else
   {
-    DrawString(nbSom, 50, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba, 50, 60, 5, 'c', 255, 255, 255, screen);
-    DrawString(nbSom2, 65, 40, 5, 'c', 255, 255, 255, screen);
-    DrawString(proba2, 65, 60, 5, 'c', 253, 212, 4, screen);
+    DrawString(nbSom, 48, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba, 47, 60, 5, 'c', 255, 255, 255, screen);
+    DrawString(nbSom2, 61, 40, 5, 'c', 255, 255, 255, screen);
+    DrawString(proba2, 61, 60, 5, 'c', 253, 212, 4, screen);
   }
+  enlargeButton(screen, posMX, posMY, 5, 17, 85, 25, 15, 'c', plarge);
 }
 
 void drawMenu(ecran *screen)
@@ -259,13 +329,13 @@ void drawMenu(ecran *screen)
   
   DrawImage(3, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
   
-  DrawString("Voyageur", 50, 10, 25, 'c', 64, 64, 64, screen);
+  DrawString("Voyageur", 50, 10, 25, 'c', 255, 255, 255, screen);
   DrawString("voyage, voyage...", 50, 27, 10, 'c', 64, 64, 64, screen);
 
   DrawImage(4, 50, 63, 37, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   enlargeButton(screen, posMX, posMY, 0,  50, 50, 30, 20, 'c', plarge);
   enlargeButton(screen, posMX, posMY, 1,  50, 75, 30, 20, 'c', plarge2);
-  rotateButton(screen, posMX, posMY, 2,  10, 90, rapport*15, 15, 'c', pangle);
+  rotateButton(screen, posMX, posMY, 2,  10, 86, rapport*15, 28, 'c', pangle);
 }
 
 void loadingScreen(ecran *screen){

@@ -147,7 +147,6 @@ void startMainBoucle(ecran *screen){
     if(RetourDuThreadDesTicks){
       end_sdl(1, "", *screen);
     }
-    
   
   /************Début de la boucle frames**************************/
   while (screen->etapeDuJeu) {

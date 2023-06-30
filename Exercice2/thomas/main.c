@@ -98,10 +98,26 @@ int main(int argc, char const *argv[])
     while (on) {
         while(SDL_PollEvent(&event)) {
             switch (event.type) { 
-                case SDL_QUIT: on = 0; break;
+                case SDL_QUIT: 
+                    on = 0;
+                    for (int i = 0; i < nbrWin; i++)
+                    {
+                        SDL_DestroyRenderer(screen[i].renderer);
+                        SDL_DestroyWindow(screen[i].window);
+                    }
+                    return 0;
+                break;
                 case SDL_KEYUP:
                     switch (event.key.keysym.sym) {
-                        case SDLK_q:on = 0; break;
+                        case SDLK_q:
+                            on = 0;
+                            for (int i = 0; i < nbrWin; i++)
+                            {
+                                SDL_DestroyRenderer(screen[i].renderer);
+                                SDL_DestroyWindow(screen[i].window);
+                            }
+                            return 0;
+                        break;
                     }
                 break;
             }
@@ -162,5 +178,6 @@ int main(int argc, char const *argv[])
         SDL_RenderPresent(screen[i].renderer);          
         }
     }
+    free(screen);
     return 0;
 }

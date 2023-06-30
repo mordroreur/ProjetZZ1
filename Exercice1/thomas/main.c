@@ -7,7 +7,7 @@
 #include <time.h>
 
 #define WIDTH 1920
-#define HEIGHT 1080
+#define HEIGHT 1050
 #define sizePion 50
 #define sizeBoule 25
 #define vitesse 2
@@ -176,7 +176,7 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
   int duree = dureeZone;
 
   position.x = 0; position.y = 0;
-  position2.x = 1920/2 - sizePion; position2.y = 1080/2 - sizePion;
+  position2.x = WIDTH - sizePion; position2.y = HEIGHT - sizePion;
   SDL_QueryTexture(pion[0], NULL, NULL, &position.w, &position.h);
   SDL_QueryTexture(pion[1], NULL, NULL, &position2.w, &position2.h);
 
@@ -289,6 +289,7 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
+  /*------TEST DE COLISION DE BOULES-------*/
     for (int i = 0; i < 100; i++)
     {
       if (bouleTab[i].vie > 0)
@@ -310,7 +311,10 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
         {
           score1++;
           bouleTab[i].vie = -1;
-        } 
+        }
+        if (zone_morte.x < bouleTab[i].pos.x + sizeBoule/2 && zone_morte.x + sizeZone > bouleTab[i].pos.x + sizeBoule/2
+        &&  zone_morte.y < bouleTab[i].pos.y + sizeBoule/2 && zone_morte.y + sizeZone > bouleTab[i].pos.y + sizeBoule/2)
+          bouleTab[i].vie = -1;
       }
 
       if (bouleTab2[i].vie > 0)
@@ -332,15 +336,26 @@ void game(SDL_Window * window, SDL_Renderer * renderer, SDL_Texture ** pion, bou
         {
           score2++;
           bouleTab2[i].vie = -1;
-        }  
+        }
+        if (zone_morte.x < bouleTab2[i].pos.x + sizeBoule/2 && zone_morte.x + sizeZone > bouleTab2[i].pos.x + sizeBoule/2
+        &&  zone_morte.y < bouleTab2[i].pos.y + sizeBoule/2 && zone_morte.y + sizeZone > bouleTab2[i].pos.y + sizeBoule/2)
+          bouleTab2[i].vie = -1; 
       }
     }
-    
+    /*--------------------------------------*/
+
+    if(zone_morte.x < position.x + sizePion/2 && zone_morte.x + sizeZone > position.x + sizePion/2
+    &&  zone_morte.y < position.y + sizePion/2 && zone_morte.y + sizeZone > position.y + sizePion/2)
+      score2 = 10;
+    if(zone_morte.x < position2.x + sizePion/2 && zone_morte.x + sizeZone > position2.x + sizePion/2
+    &&  zone_morte.y < position2.y + sizePion/2 && zone_morte.y + sizeZone > position2.y + sizePion/2)
+      score1 = 10;
+
     /*score des joueurs*/
     sprintf(str, "%d", score1);
-    DrawString(str, 5, 5, 2, 'c', 250, 0, 0, renderer);
+    DrawString(str, 5, 5, 10, 'c', 250, 0, 0, renderer);
     sprintf(str, "%d", score2);
-    DrawString(str, 95, 5, 2, 'c', 0, 0, 250, renderer);
+    DrawString(str, 95, 5, 10, 'c', 0, 0, 250, renderer);
     /*-------------------*/
 
     duree -= 1;
@@ -419,7 +434,7 @@ int main(int argc, char const *argv[])
     exit(2);
   }
 
-  RobotoFont = TTF_OpenFont("Roboto-Black.ttf", 70);
+  RobotoFont = TTF_OpenFont("Roboto-Black.ttf", 110);
   if (RobotoFont == NULL) {
     fprintf(stderr, "error: font not found %s\n", TTF_GetError());
     exit(EXIT_FAILURE);

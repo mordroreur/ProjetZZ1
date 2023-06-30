@@ -6,6 +6,50 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
+
+typedef struct Rect{
+  float x;
+  float y;
+  float w;
+  float h;
+}frect;
+
+typedef struct boule
+{
+  int vie;
+  frect pos;
+  int speed;
+  int vitX;
+  int vitY;
+} boule;
+
+typedef struct player
+{
+
+  int input[5];
+  frect pos;
+  float vitesse;
+  
+  int kill;
+  int mort;
+
+  int vie;
+
+  int nbBoule;
+  boule* boubou;
+  int dirX;
+  int dirY;
+
+  int index;
+  
+} player;
+
+
+typedef struct objet{
+  int id;
+  SDL_Rect pos;
+}objet;
+
 typedef struct Ecran{
 
   SDL_Window *window;
@@ -19,28 +63,20 @@ typedef struct Ecran{
   int otherY;
 
   int etapeDuJeu;
+
+  int whichBack;
+  
+  player *pla;
+  
+  int nbObjetsMax;
+  objet* tbObjet;
+  
+  int maxBoule;
+  int maxVie;
+  int nbPlayer;
+  
   
 }ecran;
-
-typedef struct player
-{
-    int x;
-    int y;
-    int pioche;
-    int mur;
-    int vitesse;
-    int coffre;
-    int nbrLingo;
-    int kill;
-    int mort;
-    char nom[20];
-} player;
-
-typedef struct laby
-{
-    int size;
-    int ** ter;
-} laby;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)
 {

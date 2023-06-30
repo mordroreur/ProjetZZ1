@@ -204,6 +204,9 @@ int main(int argc, char **argv) {
         
     }
 
+    SDL_DestroyWindow(fenet);
+
+    SDL_Quit();
     return 0;
     }
 

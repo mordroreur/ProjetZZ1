@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
     int moverectx = vrect;
     int moverecty = vrect;
     double angle = 0;
-    
+    int rota = 1;
 
     SDL_Window 
     *fenet = NULL;                 
@@ -128,6 +128,10 @@ int main(int argc, char **argv) {
                         break;                     
                         case SDLK_q:                          
                             program_on = 0;                                       
+                            event_utile = SDL_TRUE;
+                            break;
+                        case SDLK_r:                          
+                            rota = -rota;                                      
                             event_utile = SDL_TRUE;
                             break;
                         default:                                 
@@ -188,8 +192,9 @@ int main(int argc, char **argv) {
     
     rect.x += moverectx;
     rect.y += moverecty;
-        angle = (angle+0.0325);
+        angle = (angle+rota*0.0325);
         if(angle>=6) angle = 0;
+        if(angle<0) angle = 6;
         SDL_RenderClear(rendcolor);
         SDL_SetRenderDrawColor(rendcolor, 0, 0, 0, 255);
         //SDL_RenderFillRect(rendcolor, &rect);
@@ -199,6 +204,9 @@ int main(int argc, char **argv) {
         
     }
 
+    SDL_DestroyWindow(fenet);
+
+    SDL_Quit();
     return 0;
     }
 

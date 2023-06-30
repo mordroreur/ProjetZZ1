@@ -112,8 +112,8 @@ float ** TransfGraphCompl(graphe * G){
 
 void *ChercheMinGraphe(void *param){
     ecran *screen = param;
-    graphe GC;
 
+    graphe GC;
     GC.nbSommets=screen->niveau.nbSommets;
     GC.reso=LL_create();
     GC.arretes = TransfGraphCompl(&screen->niveau);
@@ -240,7 +240,7 @@ float rechfourmi(graphe * G, graphe * GC,int nbfourmi, int nbjour, int pos, int 
     }
     majpheromone(GC, pheromone, dureepherom, pheromtmp);
   }
-  
+
   return GC->solTime;
 }
 

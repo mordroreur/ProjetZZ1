@@ -10,8 +10,8 @@ void mainTickGest(ecran *screen){
    for(int i = 0; i < screen->nbPlayer; i++){
       screen->pla[i].pos.x = 100*i + 5.0 * (1-(2*i));
       screen->pla[i].pos.y = 100*i + 5.0 *(1-(2*i));
-      screen->pla[i].pos.w = 5;
-      screen->pla[i].pos.h = 5;
+      screen->pla[i].pos.w = 12;
+      screen->pla[i].pos.h = 12;
       screen->pla[i].vitesse = 0.25;
   
       screen->pla[i].kill = 0;
@@ -84,7 +84,7 @@ void mainTickGest(ecran *screen){
 
 	for(int k = 0; k < screen->nbPlayer; k++){
 	  if(screen->pla[i].equipe != screen->pla[k].equipe){
-	    if(sqrt(pow(b->pos.x - screen->pla[k].pos.x, 2) + pow(b->pos.y - screen->pla[k].pos.y, 2)) < (b->pos.w+b->pos.h)/2 + (screen->pla[k].pos.w + screen->pla[k].pos.h)/2){
+	    if(sqrt(pow(b->pos.x - screen->pla[k].pos.x, 2) + pow(b->pos.y - screen->pla[k].pos.y, 2)) < (b->pos.w+b->pos.h)/10 + (screen->pla[k].pos.w + screen->pla[k].pos.h)/10){
 	      
               screen->pla[k].mort++;
 	      screen->pla[k].vie--;

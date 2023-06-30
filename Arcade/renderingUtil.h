@@ -82,8 +82,11 @@ typedef struct Ecran{
   int maxBoule;
   int maxVie;
   int nbPlayer;
-  
-  Mix_Music * musique[2];
+
+  /* rajout par Thomas*/
+  Mix_Music * musique[2]; //tableau qui contient toutes les musiques
+  int decalageB1; // décallage du bouton Play au menu
+  int decalageB2; // décallage du bouton quitter au menu
 }ecran;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)

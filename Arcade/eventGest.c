@@ -9,6 +9,8 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
 		Mix_PlayMusic(screen->musique[0], -1);
 		SDL_Delay(50);
 		screen->etapeDuJeu = 12;
+		screen->decalageB1 = 116;
+		screen->decalageB2 = 130;
 	}
 	else
 	    screen->etapeDuJeu = 0;

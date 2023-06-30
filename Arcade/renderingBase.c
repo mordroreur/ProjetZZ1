@@ -236,6 +236,8 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->maxVie = 3;
   screen->nbPlayer = 2;
   screen->modePlay = 0;
+  screen->decalageB1 = 116;
+  screen->decalageB2 = 130;
   
   screen->etapeDuJeu = 8;
   

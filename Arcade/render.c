@@ -14,9 +14,12 @@ void mainRendering(ecran *screen){
   }
 }
 
-void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, int * large)
+void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int * xIm, int yIm, int wIm, int hIm, char c, int * large)
 {
-  if (isInButton(xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
+  if (*xIm > 80)
+    (*xIm) -= 2;
+
+  if (isInButton(*xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
   {
     if (*large < 5)
       (*large)++;
@@ -26,7 +29,7 @@ void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int 
     if (*large > 0)
       (*large)--;
   }
-  DrawImage(numIm, xIm, yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(numIm, *xIm, yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
 }
 
 void DrawPreface(ecran * screen)
@@ -184,11 +187,11 @@ void DrawMenu(ecran *screen){
   static int large2 = 0;
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
-  int * plarge = &large;
-  int * plarge2 = &large2;
+  int * plarge = &large; 
+  int * plarge2 = &large2; 
   DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
-  enlargeButton(screen, posMX, posMY, 11,  80, 50, 30, 20, 'c', plarge);
-  enlargeButton(screen, posMX, posMY, 12,  80, 80, 30, 20, 'c', plarge2);
+  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
+  enlargeButton(screen, posMX, posMY, 12,  &(screen->decalageB2), 80, 30, 20, 'c', plarge2);
 }
 
 

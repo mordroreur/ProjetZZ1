@@ -8,6 +8,7 @@
 
 int main(){
 
+  printf("test\n");
   SDL_DisplayMode DM;  
   int width;
   int  height;
@@ -37,6 +38,7 @@ int main(){
   SDL_SetRenderDrawColor(balleRen, 255, 255, 255, 255);
   SDL_RenderClear(balleRen);
   SDL_RenderPresent(balleRen);
+  printf("test2\n");
 
   
   int Barre_x;
@@ -49,87 +51,128 @@ int main(){
 
   float speed = (height/128.0) * 1;
   
-  while(inGame){
+  while(inGame)
+  {
+    printf("test3\n");
     SDL_Delay(10);
     SDL_Event event;
     SDL_GetWindowPosition(barreWin, &Barre_x, &Barre_y);
     //printf("Le balle : %d\n", balleState);
 
-    if(balleState == -1){
+    if(balleState == -1)
+    {
       SDL_SetWindowPosition(balleWin, Barre_x + (width/16.0) - (height/64), Barre_y - (height/32));
-    }else{
+    } 
+    else 
+    {
       ballX += cos((balleState * 2 * PI)/360)*speed;
       ballY -= sin((balleState * 2 * PI)/360)*speed;
-      if(ballX < cos(balleState)*speed){
-	if(balleState < 180){
-	  balleState = 180 - balleState;
-	}else{
-	  balleState = 360 - balleState +180;
-	}
-      }else if(ballX > width-cos((balleState * 2 * PI)/360)*speed - (height/32)){
-	if(balleState < 180){
-	  balleState = 180-balleState;
-	}else{
-	  balleState = 360-balleState +180 % 360;
-	}
+      if(ballX < cos(balleState)*speed)
+      {
+	      if(balleState < 180)
+        {
+	        balleState = 180 - balleState;
+        } 
+        else 
+        {
+          balleState = 360 - balleState +180;
+        }
+      } 
+      else if(ballX > width-cos((balleState * 2 * PI)/360)*speed - (height/32))
+      {
+        if(balleState < 180)
+        {
+          balleState = 180-balleState;
+        }
+        else
+        {
+          balleState = 360-balleState +180 % 360;
+        }
       }
       
       
-      if(ballY < sin(balleState)*speed  + (height/32)){
-	printf("De : %d\n", balleState);
-	balleState = 360-balleState;
-	printf("%d\n", balleState);
-	ballY = (height/32.0)*1.2;
-      }else if(ballY > Barre_y+sin((balleState * 2 * PI)/360)*speed - (height/32.0) && ballX > Barre_x && ballX < Barre_x+(width/8)){
-	  balleState = 360 - balleState;
-	ballY = Barre_y - (height/32) -1;
-      }else if(ballY > height-sin((balleState * 2 * PI)/360)*speed - (height/16)){
-	balleState = -1;
-	life--;
-	if(life == 0){
-	  inGame = 0;
-	}
+      if(ballY < sin(balleState)*speed  + (height/32))
+      {
+        printf("De : %d\n", balleState);
+        balleState = 360-balleState;
+        printf("%d\n", balleState);
+        ballY = (height/32.0)*1.2;
       }
-      
+      else if(ballY > Barre_y+sin((balleState * 2 * PI)/360)*speed - (height/32.0) && ballX > Barre_x && ballX < Barre_x+(width/8))
+      {
+        balleState = 360 - balleState;
+        ballY = Barre_y - (height/32) -1;
+      }
+      else if(ballY > height-sin((balleState * 2 * PI)/360)*speed - (height/16))
+      {
+        balleState = -1;
+        life--;
+        if(life == 0)
+        {
+          printf("testICH\n");
+          inGame = 0;
+        }
+      }     
       SDL_SetWindowPosition(balleWin, ballX, ballY);
     }
-
-    
-    
-    while (SDL_PollEvent(&event)) {
+    printf("test4\n"); 
+    while (SDL_PollEvent(&event)) 
+    {
       
-      switch (event.type) {
-      case SDL_KEYDOWN:
-	if(event.key.keysym.sym == 27){
-	  inGame = 0;
-	}else if(event.key.keysym.sym == 1073741904){
-	  if(Barre_x > 0){
-	    Barre_x -= (height/40);
-	    if(Barre_x < 0){
-	      Barre_x = 0;
-	    }
-	  }
-	  SDL_SetWindowPosition(barreWin, Barre_x, Barre_y);
-	}else if(event.key.keysym.sym == 1073741903){
-	  if(Barre_x < width - (width/8)){
-	    Barre_x += (height/40);
-	    if(Barre_x > width - (width/8)){
-	      Barre_x = width - (width/8);
-	    }
-	  }
-	  SDL_SetWindowPosition(barreWin, Barre_x, Barre_y);
-	  
-	}else if(event.key.keysym.sym == 32 && balleState == -1){
-	  balleState = (rand()%160)+10;
-	  //	  printf("%d\n", balleState);
-	  ballX = Barre_x + (width/16.0) - (height/64);
-	  ballY = Barre_y - (height/32);
-	}else{
-	  printf("%d\n", event.key.keysym.sym);
-	}
-	break;
-      default: break;
+      switch (event.type) 
+      {
+        case SDL_KEYDOWN:
+          if(event.key.keysym.sym == 27)
+          {
+            printf("test5ICH\n");
+            inGame = 0;
+          }
+          else if(event.key.keysym.sym == 1073741904)
+          {
+            printf("test11\n");
+            if(Barre_x > 0)
+            {
+              Barre_x -= (height/40);
+              if(Barre_x < 0)
+              {
+                Barre_x = 0;
+              }
+            printf("test14\n");
+          }
+            SDL_SetWindowPosition(barreWin, Barre_x, Barre_y);
+          } 
+          else if(event.key.keysym.sym == 1073741903)
+          {
+            printf("test7\n");
+            if(Barre_x < width - (width/8))
+            {
+              Barre_x += (height/40);
+              if(Barre_x > width - (width/8))
+              {
+                Barre_x = width - (width/8);
+              }
+              printf("test10\n");
+            }
+            SDL_SetWindowPosition(barreWin, Barre_x, Barre_y);
+          }
+          else if(event.key.keysym.sym == 32 && balleState == -1)
+          {
+            printf("test9\n");
+            balleState = (rand()%160)+10;
+            //	  printf("%d\n", balleState);
+            ballX = Barre_x + (width/16.0) - (height/64);
+            ballY = Barre_y - (height/32);
+            printf("test8\n");
+          }
+          else
+          {
+            printf("%d\n", event.key.keysym.sym);
+          }
+        break;
+        default: break;
       }
     }
-  }  
+    printf("test5 %d\n", inGame);
+  }
+  printf("test6\n"); 
 }

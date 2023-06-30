@@ -5,7 +5,11 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   if(key.keysym.sym == SDLK_ESCAPE){
 
 	if (screen->etapeDuJeu == 5)
+	{
+		Mix_PlayMusic(screen->musique[0], -1);
+		SDL_Delay(50);
 		screen->etapeDuJeu = 12;
+	}
 	else
 	    screen->etapeDuJeu = 0;
   }else if(screen->etapeDuJeu == 4){
@@ -64,7 +68,7 @@ void LeftClick(ecran *screen) {
   SDL_GetMouseState(&posMX, &posMY);
   if(screen->etapeDuJeu == 2){
      if(isInButton(80, 50, 30, 20, 'c', posMX, posMY, screen)){
-       screen->etapeDuJeu = 3;
+       screen->etapeDuJeu = 9;
      }
 	 else if (isInButton(80, 80, 30, 20, 'c', posMX, posMY, screen))
 	 {

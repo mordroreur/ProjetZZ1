@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 
-static SDL_Surface **fileImage;
+static SDL_Surface ** fileImage;
 static SDL_Texture ** textureMenu;
 static int *wichFile;
 static int *PixelXnb;
@@ -135,24 +135,20 @@ void InitImage(){
 
 SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer) 
 {
-  printf("test1\n");
-  SDL_Surface *tmp = NULL; SDL_Texture *texture = NULL;
-  printf("test2 %s\n", path);
+  SDL_Surface *tmp = NULL;
+  SDL_Texture * texture = NULL;
   tmp = IMG_Load(path); // chargement de l'image 
-  printf("test3\n");
   if(!tmp){ // probleme chargement image donc affiche message d'erreur + return NULL
     fprintf(stderr, "Erreur SDL_Load : %s\n", SDL_GetError());
     return NULL;
   }
-printf("test4\n");
   texture = SDL_CreateTextureFromSurface(renderer, tmp); // si pas d'erreur on créer la texture
+  //SDL_Delay(300);
   SDL_FreeSurface(tmp); // on libère la mémoire de l'image
-printf("test5\n");
   if(!texture){ // probleme transfo image en texture , message + return NULL
     fprintf(stderr, "Erreur SDL_CreateTextureFromSurface : %s\n", SDL_GetError());
     return NULL;
   }
-  printf("test6\n");
   return texture; // tout c'est bien passé !
 }
 
@@ -162,24 +158,31 @@ int imagePreface(ecran* screen, int i)
   return 0;
 }
 
+void loadMusic(ecran * screen)
+{
+  screen->musique[0] = Mix_LoadMUS("Ressources/musique/musicMenu.mp3");
+  if (!screen->musique[0]) {printf("Error load musique 0\n!"); exit(EXIT_FAILURE);}
+  screen->musique[1] = Mix_LoadMUS("Ressources/musique/musicGame.mp3");
+  if (!screen->musique[1]) {printf("Error load musique 1\n!"); exit(EXIT_FAILURE);}
+}
+
 int loadImageMenu(SDL_Renderer * renderer)
 {
-    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*181); // créer tableau de texture
+    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*180); // créer tableau de texture
     if (!textureMenu) {
         fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");
         return -1;
     }
     for (int i = 0; i < 180; i++) 
     { 
-        char nom[50];
-        sprintf(nom, "Ressources/Image/img_menu/%04d.png", i);
+        char nom[60];
+        sprintf(nom, "Ressources/Image//img_menu/imgComp/%d.png", i);
         printf("%s\n", nom);
-        if (i != 26 || i != 60 || i != 82 || i != 99 || i != 145)
-          textureMenu[i] = IMG_LoadTexture(renderer, nom);//loadImage(nom, renderer);
+        textureMenu[i] = loadImage(nom, renderer);
         if(!textureMenu[i]) 
         { 
           fprintf(stderr, "Error loadImage for textureMenu : %s\n", SDL_GetError()); 
-        return -1;
+          return -1;
         }
     }
     return 0;

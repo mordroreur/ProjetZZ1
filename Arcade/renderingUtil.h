@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <time.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_image.h>
 
 
@@ -82,7 +83,7 @@ typedef struct Ecran{
   int maxVie;
   int nbPlayer;
   
-  
+  Mix_Music * musique[2];
 }ecran;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)
@@ -107,8 +108,9 @@ void InitImage();
 void freeImageMalloc();
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen);
 int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen);
-//int loadImageMenu(SDL_Renderer * renderer);
+int loadImageMenu(SDL_Renderer * renderer);
 int imagePreface(ecran* screen, int i);
 SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer);
+void loadMusic();
 
 #endif /* RENDERING_UTIL_HEADER_ */

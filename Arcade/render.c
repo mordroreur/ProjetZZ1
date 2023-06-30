@@ -9,6 +9,7 @@ void mainRendering(ecran *screen){
   case 4: DrawGame(screen);break;
   case 5: DrawGame(screen);DrawVictoire(screen);break;
   case 8: DrawPreface(screen); break;
+  case 9: DrawPreface2(screen); break;
   default: loadingScreen(screen);break;
   }
 }
@@ -31,8 +32,24 @@ void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int 
 void DrawPreface(ecran * screen)
 {
   imagePreface(screen, screen->etapeMenu++);
-  if (screen->etapeMenu == 112)
+  if (screen->etapeMenu >= 112)
+  {
     screen->etapeDuJeu = 2;
+    Mix_PlayMusic(screen->musique[0], -1);
+  }
+  SDL_Delay(20);
+}
+
+void DrawPreface2(ecran * screen)
+{
+  imagePreface(screen, screen->etapeMenu++);
+  if (screen->etapeMenu >= 180)
+  {
+    screen->etapeDuJeu = 3;
+    Mix_PlayMusic(screen->musique[1], -1);
+    screen->etapeMenu = 0;
+  }
+  SDL_Delay(20);
 }
 
 void DrawVictoire(ecran *screen)

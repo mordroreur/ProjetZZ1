@@ -64,6 +64,10 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
     printf("TTF_Init: %s\n", TTF_GetError());
     exit(2);
   }
+  if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
+  {
+    printf("%s", Mix_GetError());
+  }
 
   
   /* Taille de écran fournit par SDL */
@@ -79,7 +83,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
 void end_sdl(int ok, char const * msg, ecran screen) {
   char msg_formated[255];
   int l;
-
+  
   if (!ok){
     strncpy(msg_formated, msg, 250);
     l = strlen(msg_formated);
@@ -94,6 +98,7 @@ void end_sdl(int ok, char const * msg, ecran screen) {
   if(screen.window != NULL){
     SDL_DestroyWindow(screen.window);
   }
+  Mix_CloseAudio();
   SDL_Quit();
 
   if (!ok) {exit(EXIT_FAILURE);}
@@ -140,7 +145,6 @@ void startMainBoucle(ecran *screen){
   
   //SDL_CloseAudioDevice(deviceId);
   //SDL_FreeWAV(wavBuffer);
- 
   
   /************Début de la boucle des ticks***********************/
     pthread_t threadBoucleDesTicks;
@@ -149,7 +153,12 @@ void startMainBoucle(ecran *screen){
       end_sdl(1, "", *screen);
     }
     
-  
+  if (loadImageMenu(screen->renderer) == -1)
+  {
+    printf("Error in loadImageMenu\n");
+    exit( EXIT_FAILURE );
+  }
+  loadMusic(screen);
   /************Début de la boucle frames**************************/
   while (screen->etapeDuJeu) {
     NowTime = getTime();
@@ -199,7 +208,6 @@ void startMainBoucle(ecran *screen){
       tickCount = 0;
     }
   }
-
   
   /* on referme proprement */
   end_sdl(1, "Normal ending", *screen);
@@ -221,7 +229,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   InitImage();
-  //loadImageMenu(screen->renderer);
+
   screen->etapeMenu = 0;
   screen->nbObjetsMax = 0;
   screen->maxBoule = 3;
@@ -229,7 +237,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->nbPlayer = 2;
   screen->modePlay = 0;
   
-  screen->etapeDuJeu = 2;
+  screen->etapeDuJeu = 8;
   
   while(screen->etapeDuJeu){
 

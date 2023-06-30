@@ -79,12 +79,12 @@ void *ChercheMinGraphe(void *param){
     GC.nbSommets=screen->niveau.nbSommets;
     GC.reso=LL_create();
     printf("ICI\n");
-    rechfourmi(&(screen->niveau),&GC, 100,100,screen->niveau.startCase, 4);
+    rechfourmi(&(screen->niveau),&GC, 10,10,screen->niveau.startCase, 4);
     printf("LA\n");
     LL_afficheListe(GC.reso);
     
-    // resosimple(&screen->niveau, &GC);
-    // LL_afficheListe(screen->niveau.reso);
+    resosimple(&screen->niveau, &GC);
+    LL_afficheListe(screen->niveau.reso);
     printf("FINIIIII\n");
     
 
@@ -153,6 +153,7 @@ void resosimple(graphe *G, graphe * GC){
   int pos = -1;
   int arrive = -1;
   float dist = 10000.0;
+  printf("resosimple\n");
   for(int i=0; i<N-1; i++){
     pos = LL_get_n(GC->reso,i);
     arrive = LL_get_n(GC->reso,i+1);

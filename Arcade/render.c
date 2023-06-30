@@ -12,6 +12,10 @@ void mainRendering(ecran *screen){
   }
 }
 
+void DrawPreface()
+{
+  
+}
 
 void DrawVictoire(ecran *screen){
   int equipe = 0;

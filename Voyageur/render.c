@@ -94,13 +94,13 @@ void drawGraphSoluce(ecran *screen) {
       }else{
 	x = (screen->niveau.Sommets[lastCase][0] - screen->niveau.Sommets[NextCase][0])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][0];
 	y = (screen->niveau.Sommets[lastCase][1] - screen->niveau.Sommets[NextCase][1])* ((dejaDraw - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCase][NextCase]) + screen->niveau.Sommets[lastCase][1];
-	angle = atanf((screen->niveau.Sommets[NextCase][0] - screen->niveau.Sommets[lastCase][0])/((float)screen->niveau.Sommets[NextCase][1] - screen->niveau.Sommets[lastCase][1])) * 90/PI;
+	angle = atanf((screen->niveau.Sommets[NextCase][1] - screen->niveau.Sommets[lastCase][1])/((float)screen->niveau.Sommets[NextCase][0] - screen->niveau.Sommets[lastCase][0])) * 180/PI;
       }
       
       
       xIA = (screen->niveau.Sommets[lastCaseIA][0] - screen->niveau.Sommets[NextCaseIA][0])* ((dejaDrawIA - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCaseIA][NextCaseIA]) + screen->niveau.Sommets[lastCaseIA][0];
       yIA = (screen->niveau.Sommets[lastCaseIA][1] - screen->niveau.Sommets[NextCaseIA][1])* ((dejaDrawIA - (screen->niveau.drawFinal)/VITTESSE) / screen->niveau.arretes[lastCaseIA][NextCaseIA]) + screen->niveau.Sommets[lastCaseIA][1];
-      angleIA = atanf((screen->niveau.Sommets[NextCaseIA][0] - screen->niveau.Sommets[lastCaseIA][0])/((float)screen->niveau.Sommets[NextCaseIA][1] - screen->niveau.Sommets[lastCaseIA][1])) * 90/PI;
+      angleIA = atanf((screen->niveau.Sommets[NextCaseIA][1] - screen->niveau.Sommets[lastCaseIA][1])/((float)screen->niveau.Sommets[NextCaseIA][0] - screen->niveau.Sommets[lastCaseIA][0])) * 180/PI;
       
       //printf("%d %d %f\n", dejaDraw, screen->niveau.drawFinal, screen->niveau.arretes[lastCase][NextCase]);
    

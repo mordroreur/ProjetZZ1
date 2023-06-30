@@ -1,5 +1,6 @@
 #include "renderingUtil.h"
 #include <SDL2/SDL_render.h>
+#include <stdio.h>
 
 
 static SDL_Surface **fileImage;
@@ -36,8 +37,8 @@ void InitImage(){
   }
 
   
-  int nbImage = 4;
-  int nbPlanche = 1;
+  int nbImage = 10;
+  int nbPlanche = 7;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -72,8 +73,19 @@ void InitImage(){
 
   PixelXnb[3] = 240; PixelYnb[3] = 135;XImagenb[3] = 1; YImagenb[3] = 5;
   TotalImagenb[3] = 5; ImYoffset[3] = 0; ImXoffset[3] = 0;
-  debX[3] = 240*2; debY[3] = 0; wichFile[3] = 0;
+  debX[3] = 240*3; debY[3] = 0; wichFile[3] = 0;
 
+
+
+  for(int i = 1; i < 7; i++){
+    char tmp[30];
+    sprintf(tmp, "Ressources/Image/pay%d.png", i);
+    fileImage[i] = IMG_Load(tmp);
+    PixelXnb[3+i] = 1920; PixelYnb[3+i] = 1088;XImagenb[3+i] = 1; YImagenb[3+i] = 1;
+    TotalImagenb[3+i] = 1; ImYoffset[3+i] = 0; ImXoffset[3+i] = 0;
+    debX[3+i] = 0; debY[3+i] = 0; wichFile[3+i] = i;
+  }
+  
   
   //PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
   //TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;

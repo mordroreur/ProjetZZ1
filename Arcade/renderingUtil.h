@@ -45,6 +45,7 @@ typedef struct player
   int index;
   int debBoule;
   int nbBouleActive;
+  int shoot;
   
 } player;
 

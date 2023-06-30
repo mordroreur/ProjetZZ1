@@ -5,7 +5,10 @@
 
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
-    screen->whichBack = 0;
+    screen->whichBack = rand()%7;
+    if(screen->whichBack != 0){
+      screen->whichBack += 3;
+    }
     screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
    for(int i = 0; i < screen->nbPlayer; i++){
       screen->pla[i].pos.x = 100*i + 5.0 * (1-(2*i));
@@ -24,6 +27,7 @@ void mainTickGest(ecran *screen){
 
       screen->pla[i].debBoule = 0;
       screen->pla[i].nbBouleActive = 0;
+      screen->pla[i].shoot = 0;
 
       screen->pla[i].equipe = i;
       
@@ -57,6 +61,9 @@ void mainTickGest(ecran *screen){
 	if(screen->pla[i].input[3]) {screen->pla[i].pos.y += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = 1;if(screen->pla[i].pos.y > 100){screen->pla[i].pos.y -= 100;}}
       }
 
+      if(screen->pla[i].shoot != 0){
+	screen->pla[i].shoot--;
+      }
 
       if(screen->pla[i].input[4]){
 	screen->pla[i].input[4] = 0;
@@ -67,6 +74,7 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY;
 	screen->pla[i].index = (screen->pla[i].index+1)%screen->pla[i].nbBoule;
 	screen->pla[i].nbBouleActive++;
+	screen->pla[i].shoot = 36;
       }
 
 

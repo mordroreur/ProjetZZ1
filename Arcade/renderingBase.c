@@ -226,7 +226,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->maxBoule = 3;
   screen->maxVie = 3;
   screen->nbPlayer = 2;
-
+  screen->modePlay = 0;
   
   screen->etapeDuJeu = 2;
   

@@ -64,7 +64,10 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   }
 }
 
-void keyDown(SDL_KeyboardEvent key, ecran *screen) {}
+void keyDown(SDL_KeyboardEvent key, ecran *screen) {
+  (void) key;
+  (void) screen;
+}
 
 void LeftClick(ecran *screen) {
   int posMX, posMY;
@@ -99,6 +102,7 @@ void LeftClick(ecran *screen) {
   else if (screen->etapeDuJeu == 4 || screen->etapeDuJeu == 5) {
     for(int i = 0; i < screen->niveau.nbSommets; i++){
       if(i != screen->niveau.playerCase && screen->niveau.arretes[screen->niveau.playerCase][i] > 0 && sqrt(pow(posMX-screen->sizeX * screen->niveau.Sommets[i][0]/100.0, 2) + pow(posMY-screen->sizeY * screen->niveau.Sommets[i][1]/100.0, 2)) < screen->sizeY/25.0){
+	screen->niveau.solTime += screen->niveau.arretes[i][LL_get_n(screen->niveau.PlayerReso, 0)];
 	screen->niveau.playerCase = i;
 	LL_add_first(screen->niveau.PlayerReso, screen->niveau.playerCase);
 	if (screen->niveau.playerCase == screen->niveau.startCase) {
@@ -120,7 +124,8 @@ void LeftClick(ecran *screen) {
 
 
 void RightClick(ecran *screen) {
-  int posMX, posMY;
-  SDL_GetMouseState(&posMX, &posMY);
+  (void) screen;
+  //int posMX, posMY;
+  //SDL_GetMouseState(&posMX, &posMY);
  
 }

@@ -10,11 +10,11 @@
 #define HEIGHT 1080
 #define sizePion 50
 #define sizeBoule 25
-#define vitesse 1
+#define vitesse 2
 #define vieBoule 1000
-#define vitesseBoule 2
+#define vitesseBoule 4
 #define sizeZone (HEIGHT/3)
-#define dureeZone 100
+#define dureeZone 3000
 
 typedef struct boule
 {

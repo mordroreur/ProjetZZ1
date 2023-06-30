@@ -221,7 +221,8 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   InitImage();
-
+  //loadImageMenu(screen->renderer);
+  screen->etapeMenu = 0;
   screen->nbObjetsMax = 0;
   screen->maxBoule = 3;
   screen->maxVie = 3;

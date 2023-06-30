@@ -8,16 +8,35 @@ void mainRendering(ecran *screen){
   case 2: DrawMenu(screen);break;
   case 4: DrawGame(screen);break;
   case 5: DrawGame(screen);DrawVictoire(screen);break;
+  case 8: DrawPreface(screen); break;
   default: loadingScreen(screen);break;
   }
 }
 
-void DrawPreface()
+void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, int * large)
 {
-  
+  if (isInButton(xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
+  {
+    if (*large < 5)
+      (*large)++;
+  }
+  else
+  {
+    if (*large > 0)
+      (*large)--;
+  }
+  DrawImage(numIm, xIm, yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
 }
 
-void DrawVictoire(ecran *screen){
+void DrawPreface(ecran * screen)
+{
+  imagePreface(screen, screen->etapeMenu++);
+  if (screen->etapeMenu == 112)
+    screen->etapeDuJeu = 2;
+}
+
+void DrawVictoire(ecran *screen)
+{
   int equipe = 0;
   for(int i = 0; i < screen->nbPlayer; i++){
     if(screen->pla[i].vie != 0){
@@ -26,6 +45,16 @@ void DrawVictoire(ecran *screen){
   }
   char tmp[30];
   sprintf(tmp, "victoire de l'equipe %d!!!", equipe);
+
+  if (equipe == 0) {
+    int order[1] = {19};
+    DrawImage(1, 50, 50, 100, 100, 'c', 0, 1, 0, 0, 1, order, screen);
+  }else {
+    int order[1] = {19};
+    DrawImage(2, 50, 50, 100, 100, 'c', 0, 1, 0, 0, 1, order, screen);
+  }
+    
+
   DrawString(tmp, 50, 50, 10, 'c', 120, 255, 120, screen);
 }
 
@@ -93,24 +122,16 @@ void DrawGame(ecran *screen){
 }
 
 void DrawMenu(ecran *screen){
+  static int large = 0;
+  static int large2 = 0;
   int posMX, posMY;
-  //  int nbT = SDL_GetTicks()/500;
   SDL_GetMouseState(&posMX, &posMY);
-
-  SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
-  SDL_RenderFillRect(screen->renderer, NULL);
-  SDL_Rect rect;
-  
-  
-  if(isInButton(25, 50, 50, 100, 'c', posMX, posMY, screen)){
-    SDL_SetRenderDrawColor(screen->renderer, 0, 255, 0, 0);
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = screen->sizeX/2;
-    rect.y = screen->sizeY;
-    SDL_RenderFillRect(screen->renderer, &rect);
-    DrawString("Play", 25, 25, 10, 'c', 0, 0, 0, screen);
-  }
+  int * plarge = &large;
+  int * plarge2 = &large2;
+  printf("test, %d\n", screen->etapeDuJeu);
+  DrawImage(1, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
+  enlargeButton(screen, posMX, posMY, 2,  80, 50, 30, 20, 'c', plarge);
+  enlargeButton(screen, posMX, posMY, 3,  80, 80, 30, 20, 'c', plarge2);
 }
 
 
@@ -121,7 +142,6 @@ void loadingScreen(ecran *screen){
   int nb2 = (nb3+35)% 98 - 49;
   nb3 = (nb3+65)% 96 - 48;
 
-  
   SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
   SDL_RenderFillRect(screen->renderer, NULL);
 

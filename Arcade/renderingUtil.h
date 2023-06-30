@@ -59,7 +59,6 @@ typedef struct Ecran{
   SDL_Window *window;
   SDL_Renderer *renderer;
 
-
   int isFullScreen;
   int sizeX;
   int sizeY;
@@ -74,7 +73,9 @@ typedef struct Ecran{
   
   int nbObjetsMax;
   objet* tbObjet;
+  
 
+  int etapeMenu;
   int modePlay;
   int maxBoule;
   int maxVie;
@@ -105,6 +106,8 @@ void InitImage();
 void freeImageMalloc();
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen);
 int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen);
-
+//int loadImageMenu(SDL_Renderer * renderer);
+int imagePreface(ecran* screen, int i);
+SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer);
 
 #endif /* RENDERING_UTIL_HEADER_ */

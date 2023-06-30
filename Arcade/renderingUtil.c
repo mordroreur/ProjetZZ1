@@ -3,6 +3,7 @@
 
 
 static SDL_Surface **fileImage;
+static SDL_Texture ** textureMenu;
 static int *wichFile;
 static int *PixelXnb;
 static int *PixelYnb;
@@ -58,6 +59,31 @@ void InitImage(){
   TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
   debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
 
+  fileImage[1] = IMG_Load("Ressources/Image/img_menu/0112.png");
+  PixelXnb[1] = 1920; PixelYnb[1] = 1080; XImagenb[1] = 1; YImagenb[1] = 1;
+  TotalImagenb[1] = 1; ImYoffset[1] = 7; ImXoffset[1] = 0;
+  debX[1] = 0; debY[1] = 0; wichFile[1] = 1;
+
+  fileImage[2] = IMG_Load("Ressources/Image/play.png");
+  PixelXnb[2] = 475; PixelYnb[2] = 128; XImagenb[2] = 1; YImagenb[2] = 1;
+  TotalImagenb[2] = 1; ImYoffset[2] = 7; ImXoffset[2] = 0;
+  debX[2] = 0; debY[2] = 0; wichFile[2] = 2;
+
+  fileImage[3] = IMG_Load("Ressources/Image/quit.png");
+  PixelXnb[3] = 475; PixelYnb[3] = 128; XImagenb[3] = 1; YImagenb[3] = 1;
+  TotalImagenb[3] = 1; ImYoffset[3] = 7; ImXoffset[3] = 0;
+  debX[3] = 0; debY[3] = 0; wichFile[3] = 3;
+  
+  // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
+  // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
+  // TotalImagenb[4] = 1; ImYoffset[4] = 7; ImXoffset[4] = 0;
+  // debX[4] = 0; debY[4] = 0; wichFile[4] = 4;
+
+  // fileImage[5] = IMG_Load("Ressources/Image/vicBleu.png");
+  // PixelXnb[5] = 1920; PixelYnb[5] = 1080; XImagenb[5] = 1; YImagenb[5] = 1;
+  // TotalImagenb[5] = 1; ImYoffset[5] = 7; ImXoffset[5] = 0;
+  // debX[5] = 0; debY[5] = 0; wichFile[5] = 5;
+
   for(int i = 0; i < nbPlanche; i++){
     if(fileImage[0] == NULL){
       fprintf(stderr, "error: image 0 not found\n");
@@ -69,6 +95,58 @@ void InitImage(){
   
   
   
+}
+
+SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer) 
+{
+  printf("test1\n");
+  SDL_Surface *tmp = NULL; SDL_Texture *texture = NULL;
+  printf("test2 %s\n", path);
+  tmp = IMG_Load(path); // chargement de l'image 
+  printf("test3\n");
+  if(!tmp){ // probleme chargement image donc affiche message d'erreur + return NULL
+    fprintf(stderr, "Erreur SDL_Load : %s\n", SDL_GetError());
+    return NULL;
+  }
+printf("test4\n");
+  texture = SDL_CreateTextureFromSurface(renderer, tmp); // si pas d'erreur on créer la texture
+  SDL_FreeSurface(tmp); // on libère la mémoire de l'image
+printf("test5\n");
+  if(!texture){ // probleme transfo image en texture , message + return NULL
+    fprintf(stderr, "Erreur SDL_CreateTextureFromSurface : %s\n", SDL_GetError());
+    return NULL;
+  }
+  printf("test6\n");
+  return texture; // tout c'est bien passé !
+}
+
+int imagePreface(ecran* screen, int i)
+{
+  SDL_RenderCopyEx(screen->renderer, textureMenu[i], NULL, NULL, 0, NULL, SDL_FLIP_NONE);
+  return 0;
+}
+
+int loadImageMenu(SDL_Renderer * renderer)
+{
+    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*181); // créer tableau de texture
+    if (!textureMenu) {
+        fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");
+        return -1;
+    }
+    for (int i = 0; i < 180; i++) 
+    { 
+        char nom[50];
+        sprintf(nom, "Ressources/Image/img_menu/%04d.png", i);
+        printf("%s\n", nom);
+        if (i != 26 || i != 60 || i != 82 || i != 99 || i != 145)
+          textureMenu[i] = IMG_LoadTexture(renderer, nom);//loadImage(nom, renderer);
+        if(!textureMenu[i]) 
+        { 
+          fprintf(stderr, "Error loadImage for textureMenu : %s\n", SDL_GetError()); 
+        return -1;
+        }
+    }
+    return 0;
 }
 
 void freeImageMalloc(){

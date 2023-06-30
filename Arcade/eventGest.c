@@ -59,9 +59,13 @@ void LeftClick(ecran *screen) {
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
   if(screen->etapeDuJeu == 2){
-     if(isInButton(25, 50, 50, 100, 'c', posMX, posMY, screen)){
+     if(isInButton(80, 50, 30, 20, 'c', posMX, posMY, screen)){
        screen->etapeDuJeu = 3;
      }
+	 else if (isInButton(80, 80, 30, 20, 'c', posMX, posMY, screen))
+	 {
+		screen->etapeDuJeu = 0;
+	 }
   }
  
 }

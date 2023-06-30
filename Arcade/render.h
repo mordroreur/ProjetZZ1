@@ -6,6 +6,7 @@
 
 void mainRendering(ecran *screen);
 void loadingScreen(ecran *screen);
+void DrawPreface(ecran * screen);
 void DrawMenu(ecran *screen);
 void DrawGame(ecran *screen);
 void DrawVictoire(ecran *screen);

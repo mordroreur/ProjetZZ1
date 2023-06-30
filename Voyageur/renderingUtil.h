@@ -19,6 +19,7 @@ typedef struct graph{
   int drawFinal;
   liste *PlayerReso;
   int playerCase;
+  float solTime;
 }graphe;
 
 

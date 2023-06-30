@@ -9,17 +9,15 @@ void *ChercheMinGraphe(void *param);
 float ** CreateTab(int haut, int larg);
 float *** CreateTab3(int haut, int larg, int prof);
 void resosimple(graphe *G, graphe * GC);
-liste * voisins(graphe * G, int pos);
 float ** TransfGraphCompl(graphe * G);
 float TestSolution(liste *solu, graphe * GC);
 float rechfourmi(graphe * G, graphe * GC,int nbfourmi, int nbjour, int pos, int dureepherom);
 void choixchemin(graphe * GC, float *** pheromone,int dureepherom, int posdep, float ** pheromtmp);
 void majpheromone(graphe * GC, float ***pheromone, int dureepherom, float ** pheromtmp);
 float ** addpheromone(graphe * GC, liste *solutemp, float ** pheromtmp);
-int choixsommet(graphe * GC, int pos, float *** pheromone, int dureepherom, liste *Tabou);
-liste * listsommet(graphe * GC, int pos, liste* Tabou);
-listef probasommetposs(graphe * GC, int pos, liste *cheminposs, float *** pheromone, int dureepherom);
+int choixsommet(graphe * GC, int pos, float *** pheromone, int dureepherom, int *Tabou, int position);
 float pheromij(float *** pheromone, int i, int j, int dureepherom);
+
 
 float recuitsimul(graphe * G, graphe * GC, float tinit, float tfin, int nbiter, int nblistinit);
 liste * choixlistdep(int nblistinit,graphe * GC);

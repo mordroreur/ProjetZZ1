@@ -38,8 +38,8 @@ void InitImage(){
 
 
 
-  int nbImage = 7;
-  int nbPlanche = 7;
+  int nbImage = 9;
+  int nbPlanche = 9;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -91,6 +91,19 @@ void InitImage(){
   TotalImagenb[6] = 1; ImYoffset[6] = 0; ImXoffset[6] = 0;
   debX[6] = 0; debY[6] = 0; wichFile[6] = 6;
 
+  fileImage[7] = IMG_Load("Ressources/Image/voiture.png");
+  PixelXnb[7] = 603; PixelYnb[7] = 831; XImagenb[7] = 1; YImagenb[7] = 1;
+  TotalImagenb[7] = 1; ImYoffset[7] = 0; ImXoffset[7] = 0;
+  debX[7] = 0; debY[7] = 0; wichFile[7] = 7;
+
+  fileImage[8] = IMG_Load("Ressources/Image/voitureIA.png");
+  PixelXnb[8] = 603; PixelYnb[8] = 831; XImagenb[8] = 1; YImagenb[8] = 1;
+  TotalImagenb[8] = 1; ImYoffset[8] = 0; ImXoffset[8] = 0;
+  debX[8] = 0; debY[8] = 0; wichFile[8] = 8;
+
+
+
+  
   for(int i = 0; i < nbPlanche; i++){
     if(fileImage[i] == NULL){
       fprintf(stderr, "error: image %d not found\n", i);
@@ -122,7 +135,7 @@ void freeImageMalloc(){
 
 
 void DrawString(char *s, float x, float y, float size, char center, int R, int G, int B, ecran *screen){
-  SDL_Color Color = {R, G, B};
+  SDL_Color Color = {R, G, B, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(RobotoFont, s, Color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(screen->renderer, surfaceMessage);
   SDL_Rect Message_rect;

@@ -1,5 +1,6 @@
 #include "render.h"
 #include "liste.h"
+#include "renderingUtil.h"
 #include <math.h>
 
 #define VITTESSE 2
@@ -27,7 +28,6 @@ void drawGraphSoluce(ecran *screen) {
 
   SDL_SetRenderDrawColor(screen->renderer, 0, 0, 0, 0);
   SDL_RenderFillRect(screen->renderer, NULL);
-  SDL_Point p;
   char tmp[12];
 
 
@@ -107,15 +107,8 @@ void drawGraphSoluce(ecran *screen) {
 
 
       for(int i = 0; i < screen->niveau.nbSommets; i++){
-	if(trouve[i]){
-	  SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
-	}else{
-	  SDL_SetRenderDrawColor(screen->renderer, 190, 10, 10, 0);
-	}
-    
-	p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
-	p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
-	drawFillCircle(screen->renderer, p, screen->sizeY/30.0);
+	
+	DrawImage(trouve[i]?10:9, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 7, 0, 'c', 0, 0, 0, 0, 0, NULL, screen);
 	
     
 	if(debugging){
@@ -124,8 +117,8 @@ void drawGraphSoluce(ecran *screen) {
 	}
       }
       //printf("%f\n", angle);
-      DrawImage(7, x, y, 3, 6, 'c', 0, 0, 0, angle+90, 0, NULL, screen);
-      DrawImage(8, xIA, yIA, 3, 6, 'c', 0, 0, 0, angleIA+90, 0, NULL, screen);
+      DrawImage(7, x, y, 3, 6, 'c', 0, 0, 0, angle+83, 0, NULL, screen);
+      DrawImage(8, xIA, yIA, 3, 6, 'c', 0, 0, 0, angleIA+83, 0, NULL, screen);
 
     
       screen->niveau.drawFinal++;
@@ -139,12 +132,8 @@ void drawGraphSoluce(ecran *screen) {
     
   }else{
       for(int i = 0; i < screen->niveau.nbSommets; i++){
-	SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
 
-    
-	p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
-	p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
-	drawFillCircle(screen->renderer, p, screen->sizeY/30.0);	
+	DrawImage(10, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 7, 0, 'c', 0, 0, 0, 0, 0, NULL, screen);
     
 	if(debugging){
 	  sprintf(tmp, "%d", i+1);
@@ -202,23 +191,23 @@ void drawGraph(ecran *screen){
   }
 
   for(int i = 0; i < screen->niveau.nbSommets; i++){
+    int imgNB = 9;
     if(LL_contains(screen->niveau.PlayerReso, i)){
-      SDL_SetRenderDrawColor(screen->renderer, 120, 255, 120, 0);
-    }else{
-      SDL_SetRenderDrawColor(screen->renderer, 190, 10, 10, 0);
+      imgNB = 10;
     }
     
     p.x = screen->sizeX * screen->niveau.Sommets[i][0]/100;
     p.y = screen->sizeY * screen->niveau.Sommets[i][1]/100;
     if(i != screen->niveau.playerCase && screen->niveau.arretes[screen->niveau.playerCase][i] > 0 && sqrt(pow(posMX-p.x, 2) + pow(posMY-p.y, 2)) < screen->sizeY/25.0){
       if(nbT%2){
-	drawFillCircle(screen->renderer, p, screen->sizeY/28.0);
+	
+	DrawImage(imgNB, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 7.5, 0, 'c', 0, 0, 0, 0, 0, NULL, screen);
       }else{
-	drawFillCircle(screen->renderer, p, screen->sizeY/25.0);
+	DrawImage(imgNB, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 9, 0, 'c', 0, 0, 0, 0, 0, NULL, screen);
       }
       
     }else{
-      drawFillCircle(screen->renderer, p, screen->sizeY/30.0);
+      DrawImage(imgNB, screen->niveau.Sommets[i][0], screen->niveau.Sommets[i][1], 7, 0, 'c', 0, 0, 0, 0, 0, NULL, screen);
     }
     
     if(debugging){

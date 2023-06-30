@@ -38,8 +38,8 @@ void InitImage(){
 
 
 
-  int nbImage = 9;
-  int nbPlanche = 9;
+  int nbImage = 11;
+  int nbPlanche = 11;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -101,6 +101,15 @@ void InitImage(){
   TotalImagenb[8] = 1; ImYoffset[8] = 0; ImXoffset[8] = 0;
   debX[8] = 0; debY[8] = 0; wichFile[8] = 8;
 
+  fileImage[9] = IMG_Load("Ressources/Image/pasVue.png");
+  PixelXnb[9] = 46; PixelYnb[9] = 42; XImagenb[9] = 1; YImagenb[9] = 1;
+  TotalImagenb[9] = 1; ImYoffset[9] = 0; ImXoffset[9] = 0;
+  debX[9] = 0; debY[9] = 0; wichFile[9] = 9;
+
+  fileImage[10] = IMG_Load("Ressources/Image/vue.png");
+  PixelXnb[10] = 46; PixelYnb[10] = 42; XImagenb[10] = 1; YImagenb[10] = 1;
+  TotalImagenb[10] = 1; ImYoffset[10] = 0; ImXoffset[10] = 0;
+  debX[10] = 0; debY[10] = 0; wichFile[10] = 10;
 
 
   

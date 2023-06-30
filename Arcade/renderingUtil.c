@@ -1,5 +1,6 @@
 #include "renderingUtil.h"
 #include <SDL2/SDL_render.h>
+#include <stdio.h>
 
 
 static SDL_Surface **fileImage;
@@ -37,8 +38,8 @@ void InitImage(){
   }
 
   
-  int nbImage = 1;
-  int nbPlanche = 1;
+  int nbImage = 14;
+  int nbPlanche = 10;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -53,26 +54,30 @@ void InitImage(){
 
   
 
-  
-  fileImage[0] = IMG_Load("Ressources/Image/BoiteVide.png");
-  PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
-  TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
+  //3840/4 = 960 X
+  //  10800/20 = 540 Y
+    
+  fileImage[0] = IMG_Load("Ressources/Image/planche_sprite.png");
+
+
+  PixelXnb[0] = 240; PixelYnb[0] = 135;XImagenb[0] = 1; YImagenb[0] = 20;
+  TotalImagenb[0] = 20; ImYoffset[0] = 0; ImXoffset[0] = 0;
   debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
 
-  fileImage[1] = IMG_Load("Ressources/Image/img_menu/0112.png");
-  PixelXnb[1] = 1920; PixelYnb[1] = 1080; XImagenb[1] = 1; YImagenb[1] = 1;
-  TotalImagenb[1] = 1; ImYoffset[1] = 7; ImXoffset[1] = 0;
-  debX[1] = 0; debY[1] = 0; wichFile[1] = 1;
+  fileImage[7] = IMG_Load("Ressources/Image/img_menu/0112.png");
+  PixelXnb[10] = 1920; PixelYnb[10] = 1080; XImagenb[10] = 1; YImagenb[10] = 1;
+  TotalImagenb[10] = 1; ImYoffset[10] = 7; ImXoffset[10] = 0;
+  debX[10] = 0; debY[10] = 0; wichFile[10] = 7;
 
-  fileImage[2] = IMG_Load("Ressources/Image/play.png");
-  PixelXnb[2] = 475; PixelYnb[2] = 128; XImagenb[2] = 1; YImagenb[2] = 1;
-  TotalImagenb[2] = 1; ImYoffset[2] = 7; ImXoffset[2] = 0;
-  debX[2] = 0; debY[2] = 0; wichFile[2] = 2;
+  fileImage[8] = IMG_Load("Ressources/Image/play.png");
+  PixelXnb[11] = 475; PixelYnb[11] = 128; XImagenb[11] = 1; YImagenb[11] = 1;
+  TotalImagenb[11] = 1; ImYoffset[11] = 7; ImXoffset[11] = 0;
+  debX[11] = 0; debY[11] = 0; wichFile[11] = 8;
 
-  fileImage[3] = IMG_Load("Ressources/Image/quit.png");
-  PixelXnb[3] = 475; PixelYnb[3] = 128; XImagenb[3] = 1; YImagenb[3] = 1;
-  TotalImagenb[3] = 1; ImYoffset[3] = 7; ImXoffset[3] = 0;
-  debX[3] = 0; debY[3] = 0; wichFile[3] = 3;
+  fileImage[9] = IMG_Load("Ressources/Image/quit.png");
+  PixelXnb[12] = 475; PixelYnb[12] = 128; XImagenb[12] = 1; YImagenb[12] = 1;
+  TotalImagenb[12] = 1; ImYoffset[12] = 7; ImXoffset[12] = 0;
+  debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
   // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
@@ -84,9 +89,40 @@ void InitImage(){
   // TotalImagenb[5] = 1; ImYoffset[5] = 7; ImXoffset[5] = 0;
   // debX[5] = 0; debY[5] = 0; wichFile[5] = 5;
 
+
+
+  PixelXnb[1] = 240; PixelYnb[1] = 135;XImagenb[1] = 1; YImagenb[1] = 20;
+  TotalImagenb[1] = 20; ImYoffset[1] = 0; ImXoffset[1] = 0;
+  debX[1] = 240; debY[1] = 0; wichFile[1] = 0;
+
+  PixelXnb[2] = 240; PixelYnb[2] = 135;XImagenb[2] = 1; YImagenb[2] = 5;
+  TotalImagenb[2] = 5; ImYoffset[2] = 0; ImXoffset[2] = 0;
+  debX[2] = 240*2; debY[2] = 0; wichFile[2] = 0;
+
+  PixelXnb[3] = 240; PixelYnb[3] = 135;XImagenb[3] = 1; YImagenb[3] = 5;
+  TotalImagenb[3] = 5; ImYoffset[3] = 0; ImXoffset[3] = 0;
+  debX[3] = 240*3; debY[3] = 0; wichFile[3] = 0;
+
+
+
+  for(int i = 1; i < 7; i++){
+    char tmp[30];
+    sprintf(tmp, "Ressources/Image/pay%d.png", i);
+    fileImage[i] = IMG_Load(tmp);
+    PixelXnb[3+i] = 1920; PixelYnb[3+i] = 1088;XImagenb[3+i] = 1; YImagenb[3+i] = 1;
+    TotalImagenb[3+i] = 1; ImYoffset[3+i] = 0; ImXoffset[3+i] = 0;
+    debX[3+i] = 0; debY[3+i] = 0; wichFile[3+i] = i;
+  }
+  
+  
+  //PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
+  //TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
+  //debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
+  
+  
   for(int i = 0; i < nbPlanche; i++){
-    if(fileImage[0] == NULL){
-      fprintf(stderr, "error: image 0 not found\n");
+    if(fileImage[i] == NULL){
+      fprintf(stderr, "error: image %d not found\n", i);
       exit(EXIT_FAILURE);
     }
   }

@@ -3,7 +3,11 @@
 
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   if(key.keysym.sym == SDLK_ESCAPE){
-    screen->etapeDuJeu = 0;
+
+	if (screen->etapeDuJeu == 5)
+		screen->etapeDuJeu = 12;
+	else
+	    screen->etapeDuJeu = 0;
   }else if(screen->etapeDuJeu == 4){
     switch (key.keysym.sym)
           {

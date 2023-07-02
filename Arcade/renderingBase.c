@@ -161,7 +161,6 @@ void startMainBoucle(ecran *screen){
 	end_sdl(1, "", *screen);
   }
   
-  int debug = 0;
 
 
   /************Début de la boucle frames**************************/
@@ -173,7 +172,6 @@ void startMainBoucle(ecran *screen){
     if (NowTime - LastFrame > timeForNewFrame) {
       if(repaint == 0){
 
-		//	printf("IN %d %d %d %d!!!!\n", debug++, screen->etapeDuJeu, screen->sizeX, screen->sizeY);
 
 		mainRendering(screen);
 
@@ -312,13 +310,11 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				tmp = screen->sizeY;
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
-				printf("La new taille : %d %d %d %d\n", screen->sizeY, screen->sizeX, screen->otherX, screen->otherY);
+
 				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen);
 	    
 			  }else{
 				SDL_SetWindowFullscreen(screen->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-
-				SDL_GetWindowSize(screen->window, &screen->sizeX, &screen->sizeY);
 
 				int tmp;
 				tmp = screen->sizeX;
@@ -328,7 +324,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				tmp = screen->sizeY;
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
-				printf("La new taille : %d %d %d %d\n", screen->sizeY, screen->sizeX, screen->otherX, screen->otherY);
+
 				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen);
 			  }
 			  if (screen->window == NULL)

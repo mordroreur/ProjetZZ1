@@ -54,8 +54,13 @@ typedef struct player
 
 
 typedef struct objet{
+
   int id;
+  
   SDL_Rect pos;
+
+  int vie;
+
 }objet;
 
 typedef struct Ecran{

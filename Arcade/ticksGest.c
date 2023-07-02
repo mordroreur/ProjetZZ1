@@ -12,8 +12,8 @@ void mainTickGest(ecran *screen){
 	for(int i = 0; i < screen->nbPlayer; i++){
       screen->pla[i].pos.x = 100*i + 5.0 * (1-(2*i));
       screen->pla[i].pos.y = 100*i + 5.0 *(1-(2*i));
-      screen->pla[i].pos.w = 12;
-      screen->pla[i].pos.h = 12;
+      screen->pla[i].pos.w = 6;
+      screen->pla[i].pos.h = 6;
       screen->pla[i].vitesse = 0.25;
   
       screen->pla[i].kill = 0;
@@ -68,7 +68,10 @@ void mainTickGest(ecran *screen){
       if(screen->pla[i].input[4]){
 		screen->pla[i].input[4] = 0;
 		if(screen->pla[i].peuTirer == 1){
-		  screen->pla[i].boubou[screen->pla[i].index].pos = screen->pla[i].pos;
+		  screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
+		  screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
+		  screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w;
+		  screen->pla[i].boubou[screen->pla[i].index].pos.h = screen->pla[i].pos.h;
 		  screen->pla[i].boubou[screen->pla[i].index].vie = screen->pla[i].maxBouleVie;
 		  screen->pla[i].boubou[screen->pla[i].index].speed = 2*screen->pla[i].vitesse;
 		  screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX;

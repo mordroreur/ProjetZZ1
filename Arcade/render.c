@@ -47,16 +47,33 @@ void DrawPreface(ecran * screen)
   SDL_Delay(20);
 }
 
+void DrawMenu(ecran *screen)
+{
+  static int large = 0;
+  static int large2 = 0;
+  int posMX, posMY;
+  SDL_GetMouseState(&posMX, &posMY);
+  int * plarge = &large; 
+  int * plarge2 = &large2;
+  imagePreface(screen, screen->etapeMenu++);
+  //SDL_Delay(20);
+  if (screen->etapeMenu >= 200)
+    screen->etapeMenu = 113;
+  //DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
+  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
+  enlargeButton(screen, posMX, posMY, 12,  &(screen->decalageB2), 80, 30, 20, 'c', plarge2);
+}
+
 void DrawPreface2(ecran * screen)
 {
   imagePreface(screen, screen->etapeMenu++);
-  if (screen->etapeMenu >= 180)
+  if (screen->etapeMenu >= 268)
   {
     screen->etapeDuJeu = 3;
     Mix_PlayMusic(screen->musique[1], -1);
     screen->etapeMenu = 0;
   }
-  SDL_Delay(20);
+  SDL_Delay(10);
 }
 
 void DrawVictoire(ecran *screen)
@@ -185,19 +202,6 @@ void DrawGame(ecran *screen){
 
   
 }
-
-void DrawMenu(ecran *screen){
-  static int large = 0;
-  static int large2 = 0;
-  int posMX, posMY;
-  SDL_GetMouseState(&posMX, &posMY);
-  int * plarge = &large; 
-  int * plarge2 = &large2; 
-  DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
-  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
-  enlargeButton(screen, posMX, posMY, 12,  &(screen->decalageB2), 80, 30, 20, 'c', plarge2);
-}
-
 
 void loadingScreen(ecran *screen){
 

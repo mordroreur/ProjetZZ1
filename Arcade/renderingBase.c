@@ -122,13 +122,6 @@ void startMainBoucle(ecran *screen){
   int LastFpsCount = 0;
   int LastTickCount = 0;
 
-  
-  /************Initialisation des variables de temps**************/
-  LastFrame = getTime();
-  TimeCount = getTime();
-  NowTime = getTime();
-
-
   //ManetteInit();
   /*
   wavSpec = (SDL_AudioSpec*)malloc(sizeof(SDL_AudioSpec)*1);
@@ -154,6 +147,11 @@ void startMainBoucle(ecran *screen){
 	  printf("Error in loadImageMenu\n");
 	  exit( EXIT_FAILURE );
 	}
+
+  /************Initialisation des variables de temps**************/
+  LastFrame = getTime();
+  TimeCount = getTime();
+  NowTime = getTime();
   
   pthread_t threadBoucleDesTicks;
   int RetourDuThreadDesTicks = pthread_create(&threadBoucleDesTicks, NULL, BouclePrincipaleDesTicks,  screen);

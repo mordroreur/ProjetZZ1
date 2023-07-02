@@ -84,5 +84,6 @@ void LeftClick(ecran *screen) {
 void RightClick(ecran *screen) {
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
+  (void) screen;
  
 }

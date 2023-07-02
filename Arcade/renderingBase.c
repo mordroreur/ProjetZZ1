@@ -6,6 +6,7 @@
 
 extern int debugging;
 
+
 long int repaint = 0;
 
 ecran createScreen(int sizex, int sizey, int fullscreen){
@@ -146,19 +147,21 @@ void startMainBoucle(ecran *screen){
   //SDL_CloseAudioDevice(deviceId);
   //SDL_FreeWAV(wavBuffer);
   
-  /************Début de la boucle des ticks***********************/
-    pthread_t threadBoucleDesTicks;
-    int RetourDuThreadDesTicks = pthread_create(&threadBoucleDesTicks, NULL, BouclePrincipaleDesTicks,  screen);
-    if(RetourDuThreadDesTicks){
-      end_sdl(1, "", *screen);
-    }
-    
-  if (loadImageMenu(screen->renderer) == -1)
-  {
-    printf("Error in loadImageMenu\n");
-    exit( EXIT_FAILURE );
+  /************Début de la boucle des ticks***********************/  
+  if (loadImageMenu(screen) == -1)
+	{
+	  printf("Error in loadImageMenu\n");
+	  exit( EXIT_FAILURE );
+	}
+  
+  pthread_t threadBoucleDesTicks;
+  int RetourDuThreadDesTicks = pthread_create(&threadBoucleDesTicks, NULL, BouclePrincipaleDesTicks,  screen);
+  if(RetourDuThreadDesTicks){
+	end_sdl(1, "", *screen);
   }
-  loadMusic(screen);
+  
+
+
   /************Début de la boucle frames**************************/
   while (screen->etapeDuJeu) {
     NowTime = getTime();
@@ -168,20 +171,20 @@ void startMainBoucle(ecran *screen){
     if (NowTime - LastFrame > timeForNewFrame) {
       if(repaint == 0){
 
-	mainRendering(screen);
+		mainRendering(screen);
+
+		
       
+		if(debugging){
+		  char affichageFrameDebug[5];
+		  sprintf(affichageFrameDebug, "%d", LastFpsCount);
+		  DrawString(affichageFrameDebug, 0, 0, 6, 'n', 0, 255, 0, screen);
+		  sprintf(affichageFrameDebug, "%d", LastTickCount);
+		  DrawString(affichageFrameDebug, 100, 0, 6, 'e', 0, 255, 0, screen);
+		}
       
-      
-	if(debugging){
-	  char affichageFrameDebug[5];
-	  sprintf(affichageFrameDebug, "%d", LastFpsCount);
-	  DrawString(affichageFrameDebug, 0, 0, 6, 'n', 0, 255, 0, screen);
-	  sprintf(affichageFrameDebug, "%d", LastTickCount);
-	  DrawString(affichageFrameDebug, 100, 0, 6, 'e', 0, 255, 0, screen);
-	}
-      
-	SDL_RenderPresent(screen->renderer);
-	SDL_RenderClear(screen->renderer);
+		SDL_RenderPresent(screen->renderer);
+		SDL_RenderClear(screen->renderer);
 	
       }		      
       LastFrame += timeForNewFrame;
@@ -228,7 +231,9 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   NowTime = getTime();
   LastTick = getTime();
 
+  
   InitImage();
+  loadMusic(screen);
 
   screen->etapeMenu = 0;
   screen->nbObjetsMax = 0;

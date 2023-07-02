@@ -1,6 +1,9 @@
 #include "renderingUtil.h"
+#include "render.h"
 #include <SDL2/SDL_render.h>
+#include <bits/pthreadtypes.h>
 #include <stdio.h>
+#include <pthread.h>
 
 
 static SDL_Surface ** fileImage;
@@ -31,12 +34,6 @@ long int getTime(){
 }
 
 void InitImage(){
-  RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
-  if (RobotoFont == NULL) {
-    fprintf(stderr, "error: font not found\n");
-    exit(EXIT_FAILURE);
-  }
-
   
   int nbImage = 14;
   int nbPlanche = 10;
@@ -133,8 +130,7 @@ void InitImage(){
   
 }
 
-SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer) 
-{
+SDL_Texture *loadImage(const char *path, SDL_Renderer *renderer) {
   SDL_Surface *tmp = NULL;
   SDL_Texture * texture = NULL;
   tmp = IMG_Load(path); // chargement de l'image 
@@ -166,20 +162,35 @@ void loadMusic(ecran * screen)
   if (!screen->musique[1]) {printf("Error load musique 1\n!"); exit(EXIT_FAILURE);}
 }
 
-int loadImageMenu(SDL_Renderer * renderer)
+int loadImageMenu(ecran* screen)
 {
+  RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
+  if (RobotoFont == NULL) {
+    fprintf(stderr, "error: font not found\n");
+    exit(EXIT_FAILURE);
+  }
+  
+  mainRendering(screen);
+  SDL_RenderPresent(screen->renderer);
+  SDL_RenderClear(screen->renderer);
+  
     textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*180); // créer tableau de texture
     if (!textureMenu) {
         fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");
         return -1;
     }
     for (int i = 0; i < 180; i++) 
-    { 
-        char nom[60];
-        sprintf(nom, "Ressources/Image//img_menu/imgComp/%d.png", i);
+    {
+	  if(i%3 == 0){
+		mainRendering(screen);
+		SDL_RenderPresent(screen->renderer);
+		SDL_RenderClear(screen->renderer);
+	  }
+	  char nom[60];
+	  sprintf(nom, "Ressources/Image//img_menu/imgComp/%d.png", i);
         printf("%s\n", nom);
-        textureMenu[i] = loadImage(nom, renderer);
-        if(!textureMenu[i]) 
+	  textureMenu[i] = loadImage(nom, screen->renderer);
+	  if(!textureMenu[i]) 
         { 
           fprintf(stderr, "Error loadImage for textureMenu : %s\n", SDL_GetError()); 
           return -1;
@@ -210,7 +221,7 @@ void freeImageMalloc(){
 
 
 void DrawString(char *s, float x, float y, float size, char center, int R, int G, int B, ecran *screen){
-  SDL_Color Color = {R, G, B};
+  SDL_Color Color = {R, G, B, 255};
   SDL_Surface* surfaceMessage = TTF_RenderText_Solid(RobotoFont, s, Color);
   SDL_Texture* Message = SDL_CreateTextureFromSurface(screen->renderer, surfaceMessage);
   SDL_Rect Message_rect;

@@ -1,6 +1,10 @@
 #include "render.h"
 #include "renderingUtil.h"
+#include <SDL2/SDL_timer.h>
+#include <bits/pthreadtypes.h>
+#include <pthread.h>
 #include <stdio.h>
+
 
 void mainRendering(ecran *screen){
   switch(screen->etapeDuJeu){
@@ -196,7 +200,7 @@ void DrawMenu(ecran *screen){
 
 
 void loadingScreen(ecran *screen){
-  
+
   int nb3 = SDL_GetTicks()/10;
   int nb = (nb3) % 100 - 50;
   int nb2 = (nb3+35)% 98 - 49;
@@ -212,5 +216,8 @@ void loadingScreen(ecran *screen){
   DrawString("                  .", 50, 47.5 + abs(nb2)/10.0, 10, 'c', 0, 0, 0, screen);
   DrawString("                    .", 50, 47.5 + abs(nb3)/10.0, 10, 'c', 0, 0, 0, screen);
 
-  //DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran *screen)
+  //DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char
+  //center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran
+  //*screen)
+
 }

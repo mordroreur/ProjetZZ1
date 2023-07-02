@@ -42,7 +42,9 @@ typedef struct player
   int dirY;
 
   int equipe;
-  
+
+
+  int peuTirer;
   int index;
   int debBoule;
   int nbBouleActive;
@@ -111,9 +113,9 @@ void InitImage();
 void freeImageMalloc();
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen);
 int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen);
-int loadImageMenu(SDL_Renderer * renderer);
+int loadImageMenu(ecran *screen);
 int imagePreface(ecran* screen, int i);
 SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer);
-void loadMusic();
+void loadMusic(ecran* screen);
 
 #endif /* RENDERING_UTIL_HEADER_ */

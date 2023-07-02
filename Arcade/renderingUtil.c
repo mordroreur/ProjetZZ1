@@ -174,12 +174,12 @@ int loadImageMenu(ecran* screen)
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);
   
-    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*269); // créer tableau de texture
+    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*262); // créer tableau de texture
     if (!textureMenu) {
         fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");
         return -1;
     }
-    for (int i = 0; i < 269; i++) 
+    for (int i = 0; i < 262; i++) 
     {
 	  if(i%3 == 0){
 		mainRendering(screen);

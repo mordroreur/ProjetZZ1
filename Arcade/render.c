@@ -56,8 +56,8 @@ void DrawMenu(ecran *screen)
   int * plarge = &large; 
   int * plarge2 = &large2;
   imagePreface(screen, screen->etapeMenu++);
-  //SDL_Delay(20);
-  if (screen->etapeMenu >= 200)
+  SDL_Delay(20);
+  if (screen->etapeMenu >= 193)
     screen->etapeMenu = 113;
   //DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
   enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
@@ -67,7 +67,7 @@ void DrawMenu(ecran *screen)
 void DrawPreface2(ecran * screen)
 {
   imagePreface(screen, screen->etapeMenu++);
-  if (screen->etapeMenu >= 268)
+  if (screen->etapeMenu >= 261)
   {
     screen->etapeDuJeu = 3;
     Mix_PlayMusic(screen->musique[1], -1);

@@ -1,6 +1,6 @@
 #include "main.h"
 
-int debugging = 0;
+int debugging = 1;
 
 
 int main(){

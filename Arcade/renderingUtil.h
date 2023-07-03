@@ -94,6 +94,8 @@ typedef struct Ecran{
   Mix_Music * musique[2]; //tableau qui contient toutes les musiques
   int decalageB1; // décallage du bouton Play au menu
   int decalageB2; // décallage du bouton quitter au menu
+  int decalageB3; // décallage parametre
+  int etapeParam; // dans quelle étape sommes-nous pour les parametres
 }ecran;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)

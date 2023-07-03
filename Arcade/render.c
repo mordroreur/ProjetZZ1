@@ -4,6 +4,7 @@
 #include <bits/pthreadtypes.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <string.h>
 
 
 void mainRendering(ecran *screen){
@@ -14,16 +15,20 @@ void mainRendering(ecran *screen){
   case 5: DrawGame(screen);DrawVictoire(screen);break;
   case 8: DrawPreface(screen); break;
   case 9: DrawPreface2(screen); break;
+  case 10: DrawParametre(screen); break;
   default: loadingScreen(screen);break;
   }
 }
 
-void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int * xIm, int yIm, int wIm, int hIm, char c, int * large)
+void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int * xIm, int * yIm, int wIm, int hIm, char c, int * large)
 {
+  if (*yIm < 18)
+    (*yIm) += 2;
+
   if (*xIm > 80)
     (*xIm) -= 2;
 
-  if (isInButton(*xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
+  if (isInButton(*xIm, *yIm, wIm, hIm, c, posMX, posMY, screen))
   {
     if (*large < 5)
       (*large)++;
@@ -33,7 +38,7 @@ void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int * xIm, in
     if (*large > 0)
       (*large)--;
   }
-  DrawImage(numIm, *xIm, yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(numIm, *xIm, *yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
 }
 
 void DrawPreface(ecran * screen)
@@ -49,19 +54,64 @@ void DrawPreface(ecran * screen)
 
 void DrawMenu(ecran *screen)
 {
-  static int large = 0;
-  static int large2 = 0;
+  static int large = 0;  int * plarge = &large;
+  static int large2 = 0; int * plarge2 = &large2;
+  static int large3 = 0; int * plarge3 = &large3;
+  int posY1 = 50; int posY2 = 80; int posX3 = 18;
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
-  int * plarge = &large; 
-  int * plarge2 = &large2;
+ 
   imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193)
     screen->etapeMenu = 113;
   //DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
-  enlargeButton(screen, posMX, posMY, 10,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
-  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB2), 80, 30, 20, 'c', plarge2);
+  enlargeButton(screen, posMX, posMY, 10,  &(screen->decalageB1), &posY1, 30, 20, 'c', plarge);
+  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB2), &posY2, 30, 20, 'c', plarge2);
+  enlargeButton(screen, posMX, posMY, 12, &posX3, &(screen->decalageB3), 30, 20, 'c', plarge3);
+}
+
+void DrawParametre(ecran *screen)
+{
+  int posMX, posMY;
+  static int x1 = 80; static int y3 = 18;
+  static int ypar = 150;
+  char volume[30];
+  char trouNoirAc[30] = "Trous Noirs: ON";
+  char trouNoirDe[30] = "Trous Noirs: OFF";
+  char bonusAc[30] = "Bonus: ON";
+  char bonusDe[30] = "Bonus: OFF";
+  sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
+  SDL_GetMouseState(&posMX, &posMY);
+  imagePreface(screen, screen->etapeMenu++);
+  SDL_Delay(20);
+  if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
+  if (x1 < 116) {x1 += 2;}  
+  if (y3 > -30) {y3 -= 2;}
+  if (ypar > 50) {ypar -= 2;}
+    
+  DrawImage(10, x1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(11, x1, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(12, 18, y3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(13, 50, ypar, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
+  if (screen->etapeParam == 0)
+  {
+    DrawString(volume, 50, ypar-10 , 5, 'c', 253, 212, 4, screen);
+    DrawString(bonusAc, 50, ypar, 5, 'c', 255, 255, 255, screen);
+    DrawString(trouNoirAc, 50, ypar+10, 5, 'c', 255, 255, 255, screen);
+  }
+  else if (screen->etapeParam == 1)
+  {
+    DrawString(volume, 50, ypar-10 , 5, 'c', 255, 255, 255, screen);
+    DrawString(bonusAc, 50, ypar, 5, 'c', 253, 212, 4, screen);
+    DrawString(trouNoirAc, 50, ypar+10, 5, 'c', 255, 255, 255, screen);
+  }
+  else if (screen->etapeParam == 2)
+  {
+    DrawString(volume, 50, ypar-10 , 5, 'c', 255, 255, 255, screen);
+    DrawString(bonusAc, 50, ypar, 5, 'c', 255, 255, 255, screen);
+    DrawString(trouNoirAc, 50, ypar+10, 5, 'c', 253, 212, 4, screen);
+  }
 }
 
 void DrawPreface2(ecran * screen)
@@ -75,6 +125,11 @@ void DrawPreface2(ecran * screen)
   }
   SDL_Delay(10);
 }
+
+// void DrawParametre(ecran * screen)
+// {
+
+// }
 
 void DrawVictoire(ecran *screen)
 {
@@ -96,9 +151,9 @@ void DrawVictoire(ecran *screen)
   }
     
 
-  DrawString(tmp, 50, 90, 10, 'c', 120, 255, 120, screen);
-  
-  
+  DrawString(tmp, 50, 90, 10, 'c', 120, 255, 120, screen); 
+
+
 }
 
 void DrawGame(ecran *screen){
@@ -223,10 +278,9 @@ void loadingScreen(ecran *screen){
   //DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char
   //center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran
   //*screen)
+  }
 
-}
-
-void loadingScreenWithBarre(ecran *screen, int max, int actu){
+  void loadingScreenWithBarre(ecran *screen, int max, int actu){
   
   int nb3 = SDL_GetTicks()/10;
   int nb = (nb3) % 100 - 50;

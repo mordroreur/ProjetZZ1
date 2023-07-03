@@ -1,4 +1,5 @@
 #include "eventGest.h"
+#include "IAtrain.h"
 
 
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
@@ -74,7 +75,8 @@ void LeftClick(ecran *screen) {
      }
 	 else if (isInButton(80, 80, 30, 20, 'c', posMX, posMY, screen))
 	 {
-		screen->etapeDuJeu = 0;
+		// screen->etapeDuJeu = 0;
+		startIAtraining(screen);
 	 }
   }
  

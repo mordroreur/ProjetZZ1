@@ -69,6 +69,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
   {
     printf("%s", Mix_GetError());
   }
+  Mix_VolumeMusic(100);
 
   
   /* Taille de écran fournit par SDL */
@@ -243,9 +244,11 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
   screen->modePlay = 1;
 
-  
   screen->decalageB1 = 116;
   screen->decalageB2 = 130;
+  screen->decalageB3 = -30;
+  screen->decalageB4 = 150;
+  screen->etapeParam = 0;
   
   screen->etapeDuJeu = 8;
   

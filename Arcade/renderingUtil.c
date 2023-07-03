@@ -35,8 +35,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 12;
-  int nbPlanche = 9;
+  int nbImage = 14;
+  int nbPlanche = 11;
 
 
 void InitImage(ecran *screen){
@@ -68,6 +68,16 @@ void InitImage(ecran *screen){
   PixelXnb[11] = 475; PixelYnb[11] = 128; XImagenb[11] = 1; YImagenb[11] = 1;
   TotalImagenb[11] = 1; ImYoffset[11] = 7; ImXoffset[11] = 0;
   debX[11] = 0; debY[11] = 0; wichFile[11] = 8;
+
+  fileImage[9] = IMG_Load("Ressources/Image/parametre.png");
+  PixelXnb[12] = 100; PixelYnb[12] = 50; XImagenb[12] = 1; YImagenb[12] = 1;
+  TotalImagenb[12] = 1; ImYoffset[12] = 7; ImXoffset[12] = 0;
+  debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
+
+  fileImage[10] = IMG_Load("Ressources/Image/forme.png");
+  PixelXnb[13] = 100; PixelYnb[13] = 100; XImagenb[13] = 1; YImagenb[13] = 1;
+  TotalImagenb[13] = 1; ImYoffset[13] = 7; ImXoffset[13] = 0;
+  debX[13] = 0; debY[13] = 0; wichFile[13] = 10;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
   // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
@@ -175,7 +185,6 @@ int loadImageMenu(ecran* screen)
   loadingScreenWithBarre(screen, 100, 0);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);
-  
     textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*262); // créer tableau de texture
     if (!textureMenu) {
         fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");

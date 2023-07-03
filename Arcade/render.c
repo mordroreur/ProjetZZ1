@@ -113,58 +113,61 @@ void DrawGame(ecran *screen){
   int orderNormal[12] = {0, 1, 2, 3, 4, 4, 4, 3, 2, 1, 0, 0};
   int orderTire[12] = {4, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 10};
   int *order = orderNormal;
+  float decalX = 0;
+  float decalY = 0;
   
   for(int i = 0; i < screen->nbPlayer; i++){
     if(screen->pla[i].vie != 0){
+
+      angle = 0;
+      flip = 0;
+      order = orderNormal;
+      decalX = 0;
+      decalY = 0;
       
       if(screen->pla[i].shoot != 0){
 	order = orderTire;
       }
-    
+
 
       
-      if(screen->pla[i].dirX == -1 && screen->pla[i].dirY == -1){angle = 45; flip = 1;}
-      else if(screen->pla[i].dirX == -1 && screen->pla[i].dirY == 0){flip = 1;}
-      else if(screen->pla[i].dirX == -1 && screen->pla[i].dirY == 1){angle = -45;flip = 1;}
+      if(screen->pla[i].dirX == -1 && screen->pla[i].dirY == -1){angle = 45; flip = 1; decalX = -screen->pla[i].pos.w *0.2;}
+      else if(screen->pla[i].dirX == -1 && screen->pla[i].dirY == 0){flip = 1;decalX = -screen->pla[i].pos.w *0.2; decalY = screen->pla[i].pos.h *0.3;}
+      else if(screen->pla[i].dirX == -1 && screen->pla[i].dirY == 1){angle = -45;flip = 1;decalY = screen->pla[i].pos.h *0.8; decalX = -screen->pla[i].pos.w *0.2;}
       else if(screen->pla[i].dirX == 0 && screen->pla[i].dirY == -1){angle = 90; flip = 1;}
-      else if(screen->pla[i].dirX == 0 && screen->pla[i].dirY == 1){angle = -90; flip = 1;}
+      else if(screen->pla[i].dirX == 0 && screen->pla[i].dirY == 1){angle = -90; flip = 1;decalY = screen->pla[i].pos.h *0.8;}
       else if(screen->pla[i].dirX == 1 && screen->pla[i].dirY == -1){angle = -45;}
-      else if(screen->pla[i].dirX == 1 && screen->pla[i].dirY == 1){angle = 45;}
+      else if(screen->pla[i].dirX == 1 && screen->pla[i].dirY == 0){decalX = screen->pla[i].pos.w *0.2; decalY = screen->pla[i].pos.h *0.3;}
+      else if(screen->pla[i].dirX == 1 && screen->pla[i].dirY == 1){angle = 45;decalY = screen->pla[i].pos.h *0.7; decalX = screen->pla[i].pos.w *0.2;}
+
+      float drawX = screen->pla[i].pos.x + decalX;
+      float drawY = screen->pla[i].pos.y + decalY;
       
-      //printf("dirX %d\n", angle);
+      
 
-      DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
-
-      SDL_Rect rect;
-      rect.x = (screen->pla[i].pos.x * screen->sizeX/100)-10;
-      rect.y = (screen->pla[i].pos.y * screen->sizeY/100)-10;
-      rect.w = 20;
-      rect.h = 20;
-
-      SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
-      SDL_RenderFillRect(screen->renderer, &rect);
+      DrawImage(screen->pla[i].equipe, drawX, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
       
       
       if(screen->pla[i].pos.x < 3){
-	DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x+100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe, drawX+100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	if(screen->pla[i].pos.y < 3){
-	  DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x+100, screen->pla[i].pos.y+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe, drawX+100, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	}else if (screen->pla[i].pos.y > 97) {
-	  DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x+100, screen->pla[i].pos.y-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle,nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe, drawX+100, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle,nbSprite, order, screen);
 	}
       }else if (screen->pla[i].pos.x > 97) {
-	DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x-100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe, drawX-100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	if(screen->pla[i].pos.y < 3){
-	  DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x-100, screen->pla[i].pos.y+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe, drawX-100, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	}else if (screen->pla[i].pos.y > 97) {
-	  DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x-100, screen->pla[i].pos.y-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe, drawX-100, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	}
       }
 
       if(screen->pla[i].pos.y < 3){
-	DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x, screen->pla[i].pos.y+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe, drawX, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
       }else if (screen->pla[i].pos.y > 97) {
-	DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x, screen->pla[i].pos.y-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe, drawX, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
       }
       
       for(int j = screen->pla[i].debBoule; j < screen->pla[i].debBoule+screen->pla[i].nbBouleActive; j++){
@@ -260,7 +263,12 @@ void loadingScreenWithBarre(ecran *screen, int max, int actu){
   rect.x = screen->sizeX/10;
   rect.y = screen->sizeY/8 *5;
   rect.h = screen->sizeY/10;
-  rect.w = screen->sizeX/10.0*(actu*8.0/max);
+  if(max != actu){
+    rect.w = screen->sizeX/10.0*(actu*8.0/max);
+  }else{
+    rect.w = screen->sizeX/10*8;
+  }
+  
   
   SDL_SetRenderDrawColor(screen->renderer, 100, 255, 100, 0);
   SDL_RenderFillRect(screen->renderer, &rect);

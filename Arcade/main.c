@@ -9,6 +9,8 @@ int main(){
   int sizey;
   int isFullscreen;
   int sound;
+  int bonus;
+  int trou;
   
   FILE *param = fopen(PARAM_NAME, "r");
   if(param == NULL){
@@ -17,15 +19,17 @@ int main(){
     sizey = 500;
     isFullscreen = 0;
     sound = 100;
+    bonus = 1;
+    trou = 1;
         
-    writeParamFile(sizex, sizey, isFullscreen, sound);
+    writeParamFile(sizex, sizey, isFullscreen, sound, bonus, trou);
     
   }else{
-    fscanf(param, "%d\n%d\n%d\n%d\n", &sizex, &sizey, &isFullscreen, &sound);
+    fscanf(param, "%d\n%d\n%d\n%d\n%d\n%d\n", &sizex, &sizey, &isFullscreen, &sound, &bonus, &trou);
     fclose(param);
   }
 
-  ecran mainScreen = createScreen(sizex, sizey, isFullscreen, sound);
+  ecran mainScreen = createScreen(sizex, sizey, isFullscreen, sound, bonus, trou);
 
   mainScreen.etapeDuJeu = 1;
   

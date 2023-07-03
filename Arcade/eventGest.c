@@ -1,4 +1,6 @@
 #include "eventGest.h"
+#include "renderingBase.h"
+#include <SDL2/SDL_mixer.h>
 
 
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
@@ -16,6 +18,7 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
 	{
 		screen->etapeParam = 0;
 		screen->etapeDuJeu = 11;
+		writeParamFile(screen->isFullScreen?screen->otherX:screen->sizeX, screen->isFullScreen?screen->otherY:screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 	}
 	else
 	    screen->etapeDuJeu = 0;

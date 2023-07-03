@@ -11,7 +11,7 @@ extern int debugging;
 
 long int repaint = 0;
 
-ecran createScreen(int sizex, int sizey, int fullscreen, int sound){
+ecran createScreen(int sizex, int sizey, int fullscreen, int sound, int bonus, int trou){
 
   ecran screen;
 
@@ -75,6 +75,9 @@ ecran createScreen(int sizex, int sizey, int fullscreen, int sound){
   
   /* Taille de écran fournit par SDL */
   SDL_GetWindowSize(screen.window, &screen.sizeX, &screen.sizeY);
+
+  screen.trousNoir = trou;
+  screen.bonus = bonus;
 
   screen.etapeDuJeu = 0;
 
@@ -313,7 +316,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
 
-				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1));
+				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 	    
 			  }else{
 				SDL_SetWindowFullscreen(screen->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -327,7 +330,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
 
-				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen, Mix_VolumeMusic(-1));
+				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 			  }
 			  if (screen->window == NULL)
 				end_sdl(0, "ERROR WINDOW CREATION", *screen);
@@ -362,7 +365,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 			  if(repaint == 0){
 				screen->sizeX = event.window.data1;
 				screen->sizeY = event.window.data2;
-				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1));
+				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 			  }
 			}
 			break;
@@ -388,10 +391,10 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
 
 
-void writeParamFile(int sizex, int sizey, int isFullscreen, int musique){
+void writeParamFile(int sizex, int sizey, int isFullscreen, int musique, int bonus, int trou){
 
   FILE *param = fopen(PARAM_NAME, "w");
-  fprintf(param, "%d\n%d\n%d\n%d\n", sizex, sizey, isFullscreen, musique);
+  fprintf(param, "%d\n%d\n%d\n%d\n%d\n%d\n", sizex, sizey, isFullscreen, musique, bonus, trou);
   fflush(param);
   fclose(param);
 

@@ -197,10 +197,10 @@ void DrawVictoire(ecran *screen)
 
   if (equipe == 0) {
     int order[1] = {19};
-    DrawImage(0, 50, 40, 100, 100, 'c', 0, 1, 0, 0, 1, order, screen);
+    DrawImage(0, 50, 60, 60, 30, 'c', 0, 1, 0, 0, 1, order, screen);
   }else {
     int order[1] = {19};
-    DrawImage(1, 50, 40, 100, 100, 'c', 0, 1, 0, 0, 1, order, screen);
+    DrawImage(1, 50, 60, 60, 30, 'c', 0, 1, 0, 0, 1, order, screen);
   }
     
 

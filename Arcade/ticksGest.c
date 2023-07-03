@@ -1,6 +1,7 @@
 #include "ticksGest.h"
 #include "renderingUtil.h"
 #include <math.h>
+#include <stdlib.h>
 
 #define SIZE 3
 
@@ -41,6 +42,8 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].dirX = 1 - 2*i;
 	screen->pla[i].dirY = 1 -2*i;
 
+	screen->nbObjetsMax = 0;
+	
 	for(int j = 0; j < 5; j++){
 	  screen->pla[i].input[j] = 0;
 	}      
@@ -82,6 +85,26 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].dirX = rand()%3 - 1;
 	screen->pla[i].dirY = rand()%3 - 1;
 
+	/*screen->nbObjetsMax = rand()%10 +4;
+	screen->tbObjet = (objet *)malloc(sizeof(objet) * screen->nbObjetsMax);
+	for(int i = 0; i < screen->nbObjetsMax-4; i++){
+	  screen->tbObjet[i].id = 1;
+	  screen->tbObjet[i].pos.x = rand()%100;
+	  screen->tbObjet[i].pos.y = rand()%100;
+	  screen->tbObjet[i].pos.w = rand()%5 + 2;
+	  screen->tbObjet[i].pos.h = rand()%5 + 2;
+	  screen->tbObjet[i].vie = 1;
+	}
+	for(int i = screen->nbObjetsMax-4; i < screen->nbObjetsMax; i++){
+	  screen->tbObjet[i].id = 4;
+	  poseBanane(screen, i);
+	  screen->tbObjet[i].pos.x = rand()%100;
+	  screen->tbObjet[i].pos.y = rand()%100;
+	  screen->tbObjet[i].pos.w = rand()%5 + 2;
+	  screen->tbObjet[i].pos.h = rand()%5 + 2;
+	  screen->tbObjet[i].vie = 1;
+	  }*/
+	
 	for(int j = 0; j < 5; j++){
 	  screen->pla[i].input[j] = 0;
 	}      

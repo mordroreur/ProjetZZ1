@@ -60,8 +60,8 @@ void DrawMenu(ecran *screen)
   if (screen->etapeMenu >= 193)
     screen->etapeMenu = 113;
   //DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
-  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
-  enlargeButton(screen, posMX, posMY, 12,  &(screen->decalageB2), 80, 30, 20, 'c', plarge2);
+  enlargeButton(screen, posMX, posMY, 10,  &(screen->decalageB1), 50, 30, 20, 'c', plarge);
+  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB2), 80, 30, 20, 'c', plarge2);
 }
 
 void DrawPreface2(ecran * screen)
@@ -223,5 +223,43 @@ void loadingScreen(ecran *screen){
   //DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char
   //center, int etatPremier, float TimebeforeNext, int flip, int angle, ecran
   //*screen)
+
+}
+
+void loadingScreenWithBarre(ecran *screen, int max, int actu){
+  
+  int nb3 = SDL_GetTicks()/10;
+  int nb = (nb3) % 100 - 50;
+  int nb2 = (nb3+35)% 98 - 49;
+  nb3 = (nb3+65)% 96 - 48;
+
+  SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+  SDL_RenderFillRect(screen->renderer, NULL);
+
+  //DrawImage(0, 25, 25, 25, 25, 'n', 0, 0, 0, 0, screen);
+  
+  DrawString("Loading", 50, 25, 10, 'c', 0, 0, 0, screen);
+  DrawString("                .", 50, 22.5 + abs(nb)/10.0, 10, 'c', 0, 0, 0, screen);
+  DrawString("                  .", 50, 22.5 + abs(nb2)/10.0, 10, 'c', 0, 0, 0, screen);
+  DrawString("                    .", 50, 22.5 + abs(nb3)/10.0, 10, 'c', 0, 0, 0, screen);
+
+
+  SDL_Rect rect;
+  rect.x = screen->sizeX/10;
+  rect.y = screen->sizeY/8 *5;
+  rect.h = screen->sizeY/10;
+  rect.w = screen->sizeX/10.0*(actu*8.0/max);
+  
+  SDL_SetRenderDrawColor(screen->renderer, 100, 255, 100, 0);
+  SDL_RenderFillRect(screen->renderer, &rect);
+
+
+  rect.w = screen->sizeX/10*8;
+  SDL_SetRenderDrawColor(screen->renderer, 0, 0, 0, 0);
+  SDL_RenderDrawRect(screen->renderer, &rect);
+
+  char tmp[10];
+  sprintf(tmp, "%d%%", (int)((float)(actu)/max*100));
+  DrawString(tmp, 50, 85, 10, 'c', 0, 0, 0, screen);
 
 }

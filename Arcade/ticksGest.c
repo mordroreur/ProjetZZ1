@@ -2,6 +2,7 @@
 #include "renderingUtil.h"
 #include <math.h>
 
+#define SIZE 3
 
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
@@ -12,8 +13,8 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 	screen->pla[i].pos.x = 100*i + 5.0 * (1-(2*i));
 	screen->pla[i].pos.y = 100*i + 5.0 *(1-(2*i));
-	screen->pla[i].pos.w = 6;
-	screen->pla[i].pos.h = 6;
+	screen->pla[i].pos.w = SIZE;
+	screen->pla[i].pos.h = SIZE*0.7;
 	screen->pla[i].vitesse = 0.25;
   
 	screen->pla[i].kill = 0;
@@ -53,8 +54,8 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 	screen->pla[i].pos.x = rand()%100;
 	screen->pla[i].pos.y = rand()%100;
-	screen->pla[i].pos.w = 6;
-	screen->pla[i].pos.h = 6;
+	screen->pla[i].pos.w = SIZE;
+	screen->pla[i].pos.h = SIZE*0.7;
 	screen->pla[i].vitesse = 0.25;
   
 	screen->pla[i].kill = 0;
@@ -139,7 +140,7 @@ void mainTickGest(ecran *screen){
 
 	  for(int k = 0; k < screen->nbPlayer; k++){
 	    if(screen->pla[i].equipe != screen->pla[k].equipe){
-	      if(sqrt(pow(b->pos.x - screen->pla[k].pos.x, 2) + pow(b->pos.y - screen->pla[k].pos.y, 2)) < (b->pos.w+b->pos.h)/10 + (screen->pla[k].pos.w + screen->pla[k].pos.h)/10){
+	      if(sqrt(pow(b->pos.x - screen->pla[k].pos.x, 2) + pow(b->pos.y - screen->pla[k].pos.y, 2)) < (b->pos.w+b->pos.h)/3 + (screen->pla[k].pos.w + screen->pla[k].pos.h)/3){
 	      
 		screen->pla[k].mort++;
 		screen->pla[k].vie--;
@@ -203,7 +204,7 @@ void mainTickGest(ecran *screen){
       
       for(int i = screen->nbPreda; i < screen->nbProie+screen->nbPreda; i++){
 	for(int j = 0; j < screen->nbPreda; j++){
-	  if(sqrt(pow(screen->pla[i].pos.x - screen->pla[j].pos.x, 2) + pow(screen->pla[i].pos.y - screen->pla[j].pos.y, 2)) < (screen->pla[i].pos.w+screen->pla[i].pos.h)/10 + (screen->pla[j].pos.w + screen->pla[j].pos.h)/10){
+	  if(sqrt(pow(screen->pla[i].pos.x - screen->pla[j].pos.x, 2) + pow(screen->pla[i].pos.y - screen->pla[j].pos.y, 2)) < (screen->pla[i].pos.w+screen->pla[i].pos.h)/5 + (screen->pla[j].pos.w + screen->pla[j].pos.h)/5){
 	    screen->pla[i].vie = 0;
 	  }
 	}

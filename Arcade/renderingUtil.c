@@ -54,12 +54,13 @@ void InitImage(){
   //3840/4 = 960 X
   //  10800/20 = 540 Y
     
-  fileImage[0] = IMG_Load("Ressources/Image/planche_sprite.png");
+  fileImage[0] = IMG_Load("Ressources/Image/plancheSprite.png");
 
+  //84 198
 
-  PixelXnb[0] = 240; PixelYnb[0] = 135;XImagenb[0] = 1; YImagenb[0] = 20;
-  TotalImagenb[0] = 20; ImYoffset[0] = 0; ImXoffset[0] = 0;
-  debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
+  PixelXnb[0] = 114; PixelYnb[0] = 72;XImagenb[0] = 1; YImagenb[0] = 20;
+  TotalImagenb[0] = 20; ImYoffset[0] = 63; ImXoffset[0] = 0;
+  debX[0] = 84; debY[0] = 28; wichFile[0] = 0;
 
   fileImage[7] = IMG_Load("Ressources/Image/play.png");
   PixelXnb[10] = 475; PixelYnb[10] = 128; XImagenb[10] = 1; YImagenb[10] = 1;
@@ -83,9 +84,9 @@ void InitImage(){
 
 
 
-  PixelXnb[1] = 240; PixelYnb[1] = 135;XImagenb[1] = 1; YImagenb[1] = 20;
-  TotalImagenb[1] = 20; ImYoffset[1] = 0; ImXoffset[1] = 0;
-  debX[1] = 240; debY[1] = 0; wichFile[1] = 0;
+  PixelXnb[1] = 114; PixelYnb[1] = 72;XImagenb[1] = 1; YImagenb[1] = 20;
+  TotalImagenb[1] = 20; ImYoffset[1] = 63; ImXoffset[1] = 0;
+  debX[1] = 324; debY[1] = 28; wichFile[1] = 0;
 
   PixelXnb[2] = 240; PixelYnb[2] = 135;XImagenb[2] = 1; YImagenb[2] = 5;
   TotalImagenb[2] = 5; ImYoffset[2] = 0; ImXoffset[2] = 0;
@@ -259,7 +260,7 @@ void DrawString(char *s, float x, float y, float size, char center, int R, int G
 
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen){
 
-
+  
   SDL_Rect Image_rect;
   SDL_Rect keepImage;
   int imageVoulu = 0;

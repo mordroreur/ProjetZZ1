@@ -53,8 +53,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
     end_sdl(0, "ERROR WINDOW CREATION", screen);
 
   /* Création du renderer (le truc dans la windows) */
-  screen.renderer = SDL_CreateRenderer(
-      screen.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+  screen.renderer = SDL_CreateRenderer(screen.window, -1, SDL_RENDERER_SOFTWARE);// SDL_RENDERER_ACCELERATED
   
   if (screen.renderer == NULL)
     end_sdl(0, "ERROR RENDERER CREATION", screen);

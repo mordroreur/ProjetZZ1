@@ -4,15 +4,14 @@
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   if(key.keysym.sym == SDLK_ESCAPE){
 
-	if (screen->etapeDuJeu == 5)
+	if (screen->etapeDuJeu == 5 || screen->etapeDuJeu == 4)
 	{
 		Mix_PlayMusic(screen->musique[0], -1);
-		SDL_Delay(50);
 		screen->etapeDuJeu = 12;
+		SDL_Delay(50);
 		screen->decalageB1 = 116;
 		screen->decalageB2 = 130;
-	}
-	else
+	}else
 	    screen->etapeDuJeu = 0;
   }else if(screen->etapeDuJeu == 4){
     switch (key.keysym.sym)

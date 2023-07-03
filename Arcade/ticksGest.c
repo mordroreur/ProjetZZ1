@@ -113,8 +113,8 @@ void mainTickGest(ecran *screen){
 	  if(screen->pla[i].peuTirer == 1){
 	    screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
 	    screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
-	    screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w;
-	    screen->pla[i].boubou[screen->pla[i].index].pos.h = screen->pla[i].pos.h;
+	    screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.6;
+	    screen->pla[i].boubou[screen->pla[i].index].pos.h = screen->pla[i].pos.h*0.8;
 	    screen->pla[i].boubou[screen->pla[i].index].vie = screen->pla[i].maxBouleVie;
 	    screen->pla[i].boubou[screen->pla[i].index].speed = 2*screen->pla[i].vitesse;
 	    screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX;

@@ -53,7 +53,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
     end_sdl(0, "ERROR WINDOW CREATION", screen);
 
   /* Création du renderer (le truc dans la windows) */
-  screen.renderer = SDL_CreateRenderer(screen.window, -1, SDL_RENDERER_SOFTWARE);// SDL_RENDERER_ACCELERATED
+  screen.renderer = SDL_CreateRenderer(screen.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
   
   if (screen.renderer == NULL)
     end_sdl(0, "ERROR RENDERER CREATION", screen);
@@ -232,7 +232,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   
-  InitImage();
+
   loadMusic(screen);
 
   screen->etapeMenu = 0;

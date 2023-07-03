@@ -1,5 +1,6 @@
 #include "render.h"
 #include "renderingUtil.h"
+#include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 #include <bits/pthreadtypes.h>
 #include <pthread.h>
@@ -133,7 +134,17 @@ void DrawGame(ecran *screen){
       //printf("dirX %d\n", angle);
 
       DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
-          
+
+      SDL_Rect rect;
+      rect.x = (screen->pla[i].pos.x * screen->sizeX/100)-10;
+      rect.y = (screen->pla[i].pos.y * screen->sizeY/100)-10;
+      rect.w = 20;
+      rect.h = 20;
+
+      SDL_SetRenderDrawColor(screen->renderer, 255, 255, 255, 0);
+      SDL_RenderFillRect(screen->renderer, &rect);
+      
+      
       if(screen->pla[i].pos.x < 3){
 	DrawImage(screen->pla[i].equipe, screen->pla[i].pos.x+100, screen->pla[i].pos.y, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	if(screen->pla[i].pos.y < 3){

@@ -79,6 +79,9 @@ typedef struct Ecran{
   int whichBack;
   
   player *pla;
+
+  int nbProie;
+  int nbPreda;
   
   int nbObjetsMax;
   objet* tbObjet;

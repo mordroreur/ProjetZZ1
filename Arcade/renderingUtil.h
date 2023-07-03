@@ -82,7 +82,8 @@ typedef struct Ecran{
 
   int nbProie;
   int nbPreda;
-  
+
+  int nbBananes;
   int nbObjetsMax;
   objet* tbObjet;
   

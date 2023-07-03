@@ -377,10 +377,10 @@ void loadingScreen(ecran *screen){
 
   //DrawImage(0, 25, 25, 25, 25, 'n', 0, 0, 0, 0, screen);
   
-  DrawString("Loading", 50, 25, 10, 'c', 0, 0, 0, screen);
-  DrawString("                .", 50, 22.5 + abs(nb)/10.0, 10, 'c', 0, 0, 0, screen);
-  DrawString("                  .", 50, 22.5 + abs(nb2)/10.0, 10, 'c', 0, 0, 0, screen);
-  DrawString("                    .", 50, 22.5 + abs(nb3)/10.0, 10, 'c', 0, 0, 0, screen);
+  DrawString("Loading", 50, 32, 10, 'c', 0, 0, 0, screen);
+  DrawString("                .", 50, 29.5 + abs(nb)/10.0, 10, 'c', 0, 0, 0, screen);
+  DrawString("                  .", 50, 29.5 + abs(nb2)/10.0, 10, 'c', 0, 0, 0, screen);
+  DrawString("                    .", 50, 29.5 + abs(nb3)/10.0, 10, 'c', 0, 0, 0, screen);
 
 
   SDL_Rect rect;

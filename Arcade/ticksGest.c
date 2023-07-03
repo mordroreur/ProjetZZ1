@@ -97,8 +97,8 @@ void mainTickGest(ecran *screen){
 	screen->tbObjet[i].id = 1;
 	screen->tbObjet[i].pos.x = rand()%100;
 	screen->tbObjet[i].pos.y = rand()%100;
-	screen->tbObjet[i].pos.w = rand()%5 + 2;
-	screen->tbObjet[i].pos.h = rand()%5 + 2;
+	screen->tbObjet[i].pos.w = rand()%6 + 3;
+	screen->tbObjet[i].pos.h = rand()%6 + 3;
 	screen->tbObjet[i].vie = 1;
       }
       for(int i = screen->nbObjetsMax-screen->nbBananes; i < screen->nbObjetsMax; i++){
@@ -107,46 +107,50 @@ void mainTickGest(ecran *screen){
 
     }
     screen->etapeDuJeu = 4;
-  }if(screen->etapeDuJeu == 4){
+  }else if(screen->etapeDuJeu == 4){
     if(screen->modePlay == 0){
       for(int i = 0; i < screen->nbPlayer; i++){
-	int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
-	if(nbDep == 1){
-	  if(screen->pla[i].input[0]) {screen->pla[i].pos.x -= screen->pla[i].vitesse; screen->pla[i].dirX = -1; screen->pla[i].dirY = 0; if(screen->pla[i].pos.x < 0){screen->pla[i].pos.x += 100;}}
-	  if(screen->pla[i].input[1]) {screen->pla[i].pos.y -= screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = -1;if(screen->pla[i].pos.y < 0){screen->pla[i].pos.y += 100;}}
-	  if(screen->pla[i].input[2]) {screen->pla[i].pos.x += screen->pla[i].vitesse;screen->pla[i].dirX = 1; screen->pla[i].dirY = 0;if(screen->pla[i].pos.x > 100){screen->pla[i].pos.x -= 100;}}
-	  if(screen->pla[i].input[3]) {screen->pla[i].pos.y += screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = 1;if(screen->pla[i].pos.y > 100){screen->pla[i].pos.y -= 100;}}
-	}else if(nbDep == 2){
-	  if(screen->pla[i].input[0]) {screen->pla[i].pos.x -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = -1;if(screen->pla[i].pos.x < 0){screen->pla[i].pos.x += 100;}}
-	  if(screen->pla[i].input[1]) {screen->pla[i].pos.y -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = -1;if(screen->pla[i].pos.y < 0){screen->pla[i].pos.y += 100;}}
-	  if(screen->pla[i].input[2]) {screen->pla[i].pos.x += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = 1;if(screen->pla[i].pos.x > 100){screen->pla[i].pos.x -= 100;}}
-	  if(screen->pla[i].input[3]) {screen->pla[i].pos.y += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = 1;if(screen->pla[i].pos.y > 100){screen->pla[i].pos.y -= 100;}}
-	}
+		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
+		int depx = 0;
+		int depy = 0;
+		if(nbDep == 1){
+		  if(screen->pla[i].input[0]) {depx = -screen->pla[i].vitesse; screen->pla[i].dirX = -1; screen->pla[i].dirY = 0;}
+		  if(screen->pla[i].input[1]) {depy = -screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = -1;}
+		  if(screen->pla[i].input[2]) {depx = screen->pla[i].vitesse;screen->pla[i].dirX = 1; screen->pla[i].dirY = 0;}
+		  if(screen->pla[i].input[3]) {depy = screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = 1;}
+		}else if(nbDep == 2){
+		  if(screen->pla[i].input[0]) {screen->pla[i].pos.x -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = -1;}
+		  if(screen->pla[i].input[1]) {screen->pla[i].pos.y -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = -1;}
+		  if(screen->pla[i].input[2]) {screen->pla[i].pos.x += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = 1;}
+		  if(screen->pla[i].input[3]) {screen->pla[i].pos.y += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = 1;}
+		}
 
-	if(screen->pla[i].shoot != 0){
-	  screen->pla[i].shoot--;
-	}
+		Deplace(screen, i, depx, depy);
+		
+		if(screen->pla[i].shoot != 0){
+		  screen->pla[i].shoot--;
+		}
 
-	if(screen->pla[i].input[4]){
-	  screen->pla[i].input[4] = 0;
-	  if(screen->pla[i].peuTirer == 1){
-	    screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
-	    screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
-	    screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.6;
-	    screen->pla[i].boubou[screen->pla[i].index].pos.h = screen->pla[i].pos.h*0.8;
-	    screen->pla[i].boubou[screen->pla[i].index].vie = screen->pla[i].maxBouleVie;
-	    screen->pla[i].boubou[screen->pla[i].index].speed = 2*screen->pla[i].vitesse;
-	    screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX;
-	    screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY;
-	    screen->pla[i].index = (screen->pla[i].index+1)%screen->pla[i].nbBoule;
-	    screen->pla[i].nbBouleActive++;
-	    screen->pla[i].shoot = 36;
-	  }
-	}
+		if(screen->pla[i].input[4]){
+		  screen->pla[i].input[4] = 0;
+		  if(screen->pla[i].peuTirer == 1){
+			screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
+			screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
+			screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.6;
+			screen->pla[i].boubou[screen->pla[i].index].pos.h = screen->pla[i].pos.h*0.8;
+			screen->pla[i].boubou[screen->pla[i].index].vie = screen->pla[i].maxBouleVie;
+			screen->pla[i].boubou[screen->pla[i].index].speed = 2*screen->pla[i].vitesse;
+			screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX;
+			screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY;
+			screen->pla[i].index = (screen->pla[i].index+1)%screen->pla[i].nbBoule;
+			screen->pla[i].nbBouleActive++;
+			screen->pla[i].shoot = 36;
+		  }
+		}
 
 
-	for(int j = screen->pla[i].debBoule; j < screen->pla[i].debBoule+screen->pla[i].nbBouleActive; j++){
-	  boule *b = &(screen->pla[i].boubou[j%screen->pla[i].nbBoule]);
+		for(int j = screen->pla[i].debBoule; j < screen->pla[i].debBoule+screen->pla[i].nbBouleActive; j++){
+		  boule *b = &(screen->pla[i].boubou[j%screen->pla[i].nbBoule]);
 
 	  int nbDep = abs(b->vitX) + abs(b->vitY);
 	  if(nbDep == 1){
@@ -207,19 +211,23 @@ void mainTickGest(ecran *screen){
     }else if(screen->modePlay == 1){
 
       for(int i = 0; i < screen->nbPlayer; i++){
-	int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
-	if(nbDep == 1){
-	  if(screen->pla[i].input[0]) {screen->pla[i].pos.x -= screen->pla[i].vitesse; screen->pla[i].dirX = -1; screen->pla[i].dirY = 0; if(screen->pla[i].pos.x < 0){screen->pla[i].pos.x += 100;}}
-	  if(screen->pla[i].input[1]) {screen->pla[i].pos.y -= screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = -1;if(screen->pla[i].pos.y < 0){screen->pla[i].pos.y += 100;}}
-	  if(screen->pla[i].input[2]) {screen->pla[i].pos.x += screen->pla[i].vitesse;screen->pla[i].dirX = 1; screen->pla[i].dirY = 0;if(screen->pla[i].pos.x > 100){screen->pla[i].pos.x -= 100;}}
-	  if(screen->pla[i].input[3]) {screen->pla[i].pos.y += screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = 1;if(screen->pla[i].pos.y > 100){screen->pla[i].pos.y -= 100;}}
-	}else if(nbDep == 2){
-	  if(screen->pla[i].input[0]) {screen->pla[i].pos.x -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = -1;if(screen->pla[i].pos.x < 0){screen->pla[i].pos.x += 100;}}
-	  if(screen->pla[i].input[1]) {screen->pla[i].pos.y -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = -1;if(screen->pla[i].pos.y < 0){screen->pla[i].pos.y += 100;}}
-	  if(screen->pla[i].input[2]) {screen->pla[i].pos.x += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = 1;if(screen->pla[i].pos.x > 100){screen->pla[i].pos.x -= 100;}}
-	  if(screen->pla[i].input[3]) {screen->pla[i].pos.y += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = 1;if(screen->pla[i].pos.y > 100){screen->pla[i].pos.y -= 100;}}
-	}
-      }
+		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
+		float depx = 0;
+		float  depy = 0;
+		if(nbDep == 1){
+		  if(screen->pla[i].input[0]) {depx = -screen->pla[i].vitesse; screen->pla[i].dirX = -1; screen->pla[i].dirY = 0;}
+		  if(screen->pla[i].input[1]) {depy = -screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = -1;}
+		  if(screen->pla[i].input[2]) {depx = screen->pla[i].vitesse;screen->pla[i].dirX = 1; screen->pla[i].dirY = 0;}
+		  if(screen->pla[i].input[3]) {depy = screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = 1;}
+		}else if(nbDep == 2){
+		  if(screen->pla[i].input[0]) {depx -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = -1;}
+		  if(screen->pla[i].input[1]) {depy -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = -1;}
+		  if(screen->pla[i].input[2]) {depx += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = 1;}
+		  if(screen->pla[i].input[3]) {depy += 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = 1;}
+		}
+
+		Deplace(screen, i, depx, depy);
+	  }
       
       for(int i = screen->nbPreda; i < screen->nbProie+screen->nbPreda; i++){
 	for(int j = 0; j < screen->nbPreda; j++){
@@ -277,4 +285,27 @@ void poseBanane(ecran *screen, int index){
   screen->tbObjet[index].pos.h = 4;
   screen->tbObjet[index].vie = 1;
   
+}
+
+
+
+void Deplace(ecran *screen, int index, float depx, float depy){
+  int move = 1;
+  for(int i = 0; i < screen->nbObjetsMax; i++){
+	if((screen->pla[index].pos.x - screen->pla[index].pos.w/2.4+ depx < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[index].pos.x - screen->pla[index].pos.w/2.4 + depx > screen->tbObjet[i].pos.x && screen->pla[index].pos.y - screen->pla[index].pos.h/1.3 + depy < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[index].pos.y - screen->pla[index].pos.h/1.3 + depy > screen->tbObjet[i].pos.y)
+	   || (screen->pla[index].pos.x + screen->pla[index].pos.w/2.5 + depx < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[index].pos.x +screen->pla[index].pos.w/2.5 + depx > screen->tbObjet[i].pos.x && screen->pla[index].pos.y +screen->pla[index].pos.h + depy < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[index].pos.y +screen->pla[index].pos.h + depy > screen->tbObjet[i].pos.y)
+	   || (screen->pla[index].pos.x + screen->pla[index].pos.w/2.4+ depx < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[index].pos.x + screen->pla[index].pos.w/2.4 + depx > screen->tbObjet[i].pos.x && screen->pla[index].pos.y - screen->pla[index].pos.h/1.3 + depy < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[index].pos.y - screen->pla[index].pos.h/1.3 + depy > screen->tbObjet[i].pos.y)
+	   || (screen->pla[index].pos.x - screen->pla[index].pos.w/2.5 + depx < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[index].pos.x -screen->pla[index].pos.w/2.5 + depx > screen->tbObjet[i].pos.x && screen->pla[index].pos.y +screen->pla[index].pos.h + depy < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[index].pos.y +screen->pla[index].pos.h + depy > screen->tbObjet[i].pos.y)){
+	  if(screen->tbObjet[i].id == 1){
+		move = 0;
+	  }else if(screen->pla[index].equipe == 1 && screen->tbObjet[i].id == 1){
+		poseBanane(screen, i);
+		screen->pla[index].kill++;
+	  }
+	}
+  }
+  if(move == 1){
+	screen->pla[index].pos.x += depx;
+	screen->pla[index].pos.y += depy;
+  }
 }

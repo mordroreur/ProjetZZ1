@@ -1,13 +1,15 @@
 #include "renderingUtil.h"
 #include "render.h"
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_surface.h>
 #include <bits/pthreadtypes.h>
 #include <stdio.h>
 #include <pthread.h>
 
 
 static SDL_Surface ** fileImage;
-static SDL_Texture ** textureMenu;
+static SDL_Texture **textureMenu;
+static SDL_Texture **images;
 static int *wichFile;
 static int *PixelXnb;
 static int *PixelYnb;
@@ -33,10 +35,11 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-void InitImage(){
-  
   int nbImage = 14;
-  int nbPlanche = 10;
+  int nbPlanche = 11;
+
+
+void InitImage(ecran *screen){
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -49,32 +52,32 @@ void InitImage(){
   debX = (int *)malloc(sizeof(int) * nbImage);
   debY = (int *)malloc(sizeof(int) * nbImage);
 
-  
-
-  //3840/4 = 960 X
-  //  10800/20 = 540 Y
     
-  fileImage[0] = IMG_Load("Ressources/Image/planche_sprite.png");
+  fileImage[0] = IMG_Load("Ressources/Image/plancheSprite.png");
 
+  PixelXnb[0] = 114; PixelYnb[0] = 72;XImagenb[0] = 1; YImagenb[0] = 20;
+  TotalImagenb[0] = 20; ImYoffset[0] = 63; ImXoffset[0] = 0;
+  debX[0] = 84; debY[0] = 28; wichFile[0] = 0;
 
-  PixelXnb[0] = 240; PixelYnb[0] = 135;XImagenb[0] = 1; YImagenb[0] = 20;
-  TotalImagenb[0] = 20; ImYoffset[0] = 0; ImXoffset[0] = 0;
-  debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
-
-  fileImage[7] = IMG_Load("Ressources/Image/img_menu/0112.png");
-  PixelXnb[10] = 1920; PixelYnb[10] = 1080; XImagenb[10] = 1; YImagenb[10] = 1;
+  fileImage[7] = IMG_Load("Ressources/Image/play.png");
+  PixelXnb[10] = 475; PixelYnb[10] = 128; XImagenb[10] = 1; YImagenb[10] = 1;
   TotalImagenb[10] = 1; ImYoffset[10] = 7; ImXoffset[10] = 0;
   debX[10] = 0; debY[10] = 0; wichFile[10] = 7;
 
-  fileImage[8] = IMG_Load("Ressources/Image/play.png");
+  fileImage[8] = IMG_Load("Ressources/Image/quit.png");
   PixelXnb[11] = 475; PixelYnb[11] = 128; XImagenb[11] = 1; YImagenb[11] = 1;
   TotalImagenb[11] = 1; ImYoffset[11] = 7; ImXoffset[11] = 0;
   debX[11] = 0; debY[11] = 0; wichFile[11] = 8;
 
-  fileImage[9] = IMG_Load("Ressources/Image/quit.png");
-  PixelXnb[12] = 475; PixelYnb[12] = 128; XImagenb[12] = 1; YImagenb[12] = 1;
+  fileImage[9] = IMG_Load("Ressources/Image/parametre.png");
+  PixelXnb[12] = 100; PixelYnb[12] = 50; XImagenb[12] = 1; YImagenb[12] = 1;
   TotalImagenb[12] = 1; ImYoffset[12] = 7; ImXoffset[12] = 0;
   debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
+
+  fileImage[10] = IMG_Load("Ressources/Image/forme.png");
+  PixelXnb[13] = 100; PixelYnb[13] = 100; XImagenb[13] = 1; YImagenb[13] = 1;
+  TotalImagenb[13] = 1; ImYoffset[13] = 7; ImXoffset[13] = 0;
+  debX[13] = 0; debY[13] = 0; wichFile[13] = 10;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
   // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
@@ -88,17 +91,17 @@ void InitImage(){
 
 
 
-  PixelXnb[1] = 240; PixelYnb[1] = 135;XImagenb[1] = 1; YImagenb[1] = 20;
-  TotalImagenb[1] = 20; ImYoffset[1] = 0; ImXoffset[1] = 0;
-  debX[1] = 240; debY[1] = 0; wichFile[1] = 0;
+  PixelXnb[1] = 114; PixelYnb[1] = 72;XImagenb[1] = 1; YImagenb[1] = 20;
+  TotalImagenb[1] = 20; ImYoffset[1] = 63; ImXoffset[1] = 0;
+  debX[1] = 324; debY[1] = 28; wichFile[1] = 0;
 
-  PixelXnb[2] = 240; PixelYnb[2] = 135;XImagenb[2] = 1; YImagenb[2] = 5;
-  TotalImagenb[2] = 5; ImYoffset[2] = 0; ImXoffset[2] = 0;
-  debX[2] = 240*2; debY[2] = 0; wichFile[2] = 0;
+  PixelXnb[2] = 29; PixelYnb[2] = 29;XImagenb[2] = 1; YImagenb[2] = 1;
+  TotalImagenb[2] = 1; ImYoffset[2] = 0; ImXoffset[2] = 0;
+  debX[2] = 584; debY[2] = 55; wichFile[2] = 0;
 
-  PixelXnb[3] = 240; PixelYnb[3] = 135;XImagenb[3] = 1; YImagenb[3] = 5;
-  TotalImagenb[3] = 5; ImYoffset[3] = 0; ImXoffset[3] = 0;
-  debX[3] = 240*3; debY[3] = 0; wichFile[3] = 0;
+  PixelXnb[3] = 29; PixelYnb[3] = 29;XImagenb[3] = 1; YImagenb[3] = 1;
+  TotalImagenb[3] = 1; ImYoffset[3] = 0; ImXoffset[3] = 0;
+  debX[3] = 584; debY[3] = 190; wichFile[3] = 0;
 
 
 
@@ -110,11 +113,20 @@ void InitImage(){
     TotalImagenb[3+i] = 1; ImYoffset[3+i] = 0; ImXoffset[3+i] = 0;
     debX[3+i] = 0; debY[3+i] = 0; wichFile[3+i] = i;
   }
-  
+
+  loadingScreenWithBarre(screen, 100, 100);
+  SDL_RenderPresent(screen->renderer);
+  SDL_RenderClear(screen->renderer);
   
   //PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
   //TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
   //debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
+
+  
+  images = (SDL_Texture **)malloc(sizeof(SDL_Surface *) * nbPlanche);
+  for(int i = 0; i < nbPlanche; i++){
+    images[i] = SDL_CreateTextureFromSurface(screen->renderer, fileImage[i]);
+  }
   
   
   for(int i = 0; i < nbPlanche; i++){
@@ -170,10 +182,9 @@ int loadImageMenu(ecran* screen)
     exit(EXIT_FAILURE);
   }
   
-  mainRendering(screen);
+  loadingScreenWithBarre(screen, 100, 0);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);
-  
     textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*262); // créer tableau de texture
     if (!textureMenu) {
         fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");
@@ -182,13 +193,12 @@ int loadImageMenu(ecran* screen)
     for (int i = 0; i < 262; i++) 
     {
 	  if(i%3 == 0){
-		mainRendering(screen);
-		SDL_RenderPresent(screen->renderer);
-		SDL_RenderClear(screen->renderer);
+	    loadingScreenWithBarre(screen, 262, i);
+	    SDL_RenderPresent(screen->renderer);
+	    SDL_RenderClear(screen->renderer);
 	  }
 	  char nom[60];
 	  sprintf(nom, "Ressources/Image/img_menu/imgComp/%d.png", i);
-        printf("%s\n", nom);
 	  textureMenu[i] = loadImage(nom, screen->renderer);
 	  if(!textureMenu[i]) 
         { 
@@ -196,12 +206,14 @@ int loadImageMenu(ecran* screen)
           return -1;
         }
     }
+    
+    InitImage(screen);
+
     return 0;
 }
 
 void freeImageMalloc(){
   if(fileImage != NULL){
-    free(fileImage);
     free(wichFile);
     free(PixelXnb);
     free(PixelYnb);
@@ -212,6 +224,15 @@ void freeImageMalloc(){
     free(TotalImagenb);
     free(debX);
     free(debY);
+    for(int i = 0; i < nbImage; i++){
+      SDL_FreeSurface(fileImage[i]);
+    }
+    for(int i = 0; i < nbPlanche; i++){
+      SDL_DestroyTexture(images[i]);
+    }
+    free(fileImage);	
+    free(textureMenu);
+    free(images);
   }
   if(RobotoFont != NULL){
     TTF_CloseFont(RobotoFont);
@@ -265,7 +286,7 @@ void DrawString(char *s, float x, float y, float size, char center, int R, int G
 
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen){
 
-
+  
   SDL_Rect Image_rect;
   SDL_Rect keepImage;
   int imageVoulu = 0;
@@ -342,11 +363,11 @@ void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char cen
   }
 
 
-  SDL_Texture *tempo = SDL_CreateTextureFromSurface(screen->renderer, fileImage[wichFile[imagenb]]);
-
-  SDL_RenderCopyEx(screen->renderer, tempo, &keepImage, &Image_rect, angle, NULL, flip);
+  //SDL_Texture *tempo = SDL_CreateTextureFromSurface(screen->renderer, fileImage[wichFile[imagenb]]);
+  
+  SDL_RenderCopyEx(screen->renderer, images[wichFile[imagenb]], &keepImage, &Image_rect, angle, NULL, flip);
   //SDL_RenderCopy(screen->renderer, tempo, &keepImage, &Image_rect);
-  SDL_DestroyTexture(tempo);
+  //SDL_DestroyTexture(tempo);
   
 }
 

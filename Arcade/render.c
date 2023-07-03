@@ -222,6 +222,24 @@ void DrawGame(ecran *screen){
   int *order = orderNormal;
   float decalX = 0;
   float decalY = 0;
+
+  for(int i = 0; i < screen->nbObjetsMax; i++){
+    if(screen->tbObjet[i].vie != 0){
+      if(screen->tbObjet[i].id == 4){
+	SDL_SetRenderDrawColor(screen->renderer, 255, 255, 0, 0);
+      }else if(screen->tbObjet[i].id == 1){
+	SDL_SetRenderDrawColor(screen->renderer, 40, 40, 40, 0);
+      }
+      SDL_Rect rect;
+      rect.x = screen->tbObjet[i].pos.x * (screen->sizeX)/100.0;
+      rect.y = screen->tbObjet[i].pos.y * (screen->sizeY)/100.0;
+      rect.w = screen->tbObjet[i].pos.w * (screen->sizeX)/100.0;
+      rect.h = screen->tbObjet[i].pos.h * (screen->sizeY)/100.0;
+
+      SDL_RenderFillRect(screen->renderer, &rect);
+    }
+  }
+  
   
   for(int i = 0; i < screen->nbPlayer; i++){
     if(screen->pla[i].vie != 0){

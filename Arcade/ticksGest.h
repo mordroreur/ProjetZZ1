@@ -6,5 +6,6 @@
 void mainTickGest(ecran *screen);
 void *ChercheMinGraphe(void *param);
 void generateLaby(ecran *screen);
+void poseBanane(ecran *screen, int index);
 
 #endif /* TICKGEST_HEADER_ */

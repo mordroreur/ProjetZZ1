@@ -79,6 +79,9 @@ typedef struct Ecran{
   int whichBack;
   
   player *pla;
+
+  int nbProie;
+  int nbPreda;
   
   int nbObjetsMax;
   objet* tbObjet;
@@ -116,7 +119,7 @@ typedef struct Ecran{
 
 long int getTime();
 void DrawString(char *s, float x, float y, float size, char center, int R, int G, int B, ecran *screen);
-void InitImage();
+void InitImage(ecran *screen);
 void freeImageMalloc();
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen);
 int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen);

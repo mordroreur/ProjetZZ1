@@ -53,8 +53,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
     end_sdl(0, "ERROR WINDOW CREATION", screen);
 
   /* Création du renderer (le truc dans la windows) */
-  screen.renderer = SDL_CreateRenderer(
-      screen.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+  screen.renderer = SDL_CreateRenderer(screen.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
   
   if (screen.renderer == NULL)
     end_sdl(0, "ERROR RENDERER CREATION", screen);
@@ -233,7 +232,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   
-  InitImage();
+
   loadMusic(screen);
 
   screen->etapeMenu = 0;
@@ -241,7 +240,8 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->maxBoule = 3;
   screen->maxVie = 3;
   screen->nbPlayer = 2;
-  screen->modePlay = 0;
+
+  screen->modePlay = 1;
 
   screen->decalageB1 = 116;
   screen->decalageB2 = 130;

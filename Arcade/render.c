@@ -17,6 +17,7 @@ void mainRendering(ecran *screen){
   case 8: DrawPreface(screen); break;
   case 9: DrawPreface2(screen); break;
   case 10: DrawParametre(screen); break;
+  case 11: BackParametre(screen); break;
   default: loadingScreen(screen);break;
   }
 }
@@ -75,44 +76,95 @@ void DrawMenu(ecran *screen)
 void DrawParametre(ecran *screen)
 {
   int posMX, posMY;
-  static int x1 = 80; static int y3 = 18;
-  static int ypar = 150;
-  char volume[30];
-  char trouNoirAc[30] = "Trous Noirs: ON";
-  char trouNoirDe[30] = "Trous Noirs: OFF";
-  char bonusAc[30] = "Bonus: ON";
-  char bonusDe[30] = "Bonus: OFF";
+  char volume[30]; char bonus[30] = ""; char trouNoir[30] = "";
+  if (screen->bonus == 0) 
+    strcpy(bonus, "Trous Noirs: OFF");
+  else 
+    strcpy(bonus, "Trous Noirs: ON");
+  if (screen->trousNoir == 0)
+    strcpy(trouNoir, "Trous Noirs: OFF");
+  else
+    strcpy(trouNoir, "Trous Noirs: ON");
+  
   sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
   SDL_GetMouseState(&posMX, &posMY);
   imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
-  if (x1 < 116) {x1 += 2;}  
-  if (y3 > -30) {y3 -= 2;}
-  if (ypar > 50) {ypar -= 2;}
-    
-  DrawImage(10, x1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(11, x1, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(12, 18, y3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(13, 50, ypar, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
+  if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
+  if (screen->decalageB2 < 130) {screen->decalageB2 += 2;}
+  if (screen->decalageB3 > -30) {screen->decalageB3 -= 2;}
+  if (screen->decalageB4 > 50) {screen->decalageB4 -= 2;}
+  DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(12, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(13, 50, screen->decalageB4, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->etapeParam == 0)
   {
-    DrawString(volume, 50, ypar-10 , 5, 'c', 253, 212, 4, screen);
-    DrawString(bonusAc, 50, ypar, 5, 'c', 255, 255, 255, screen);
-    DrawString(trouNoirAc, 50, ypar+10, 5, 'c', 255, 255, 255, screen);
+    DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 253, 212, 4, screen);
+    DrawString(bonus, 50, screen->decalageB4, 5, 'c', 255, 255, 255, screen);
+    DrawString(trouNoir, 50, screen->decalageB4+10, 5, 'c', 255, 255, 255, screen);
   }
   else if (screen->etapeParam == 1)
   {
-    DrawString(volume, 50, ypar-10 , 5, 'c', 255, 255, 255, screen);
-    DrawString(bonusAc, 50, ypar, 5, 'c', 253, 212, 4, screen);
-    DrawString(trouNoirAc, 50, ypar+10, 5, 'c', 255, 255, 255, screen);
+    DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 255, 255, 255, screen);
+    DrawString(bonus, 50, screen->decalageB4, 5, 'c', 253, 212, 4, screen);
+    DrawString(trouNoir, 50, screen->decalageB4+10, 5, 'c', 255, 255, 255, screen);
   }
   else if (screen->etapeParam == 2)
   {
-    DrawString(volume, 50, ypar-10 , 5, 'c', 255, 255, 255, screen);
-    DrawString(bonusAc, 50, ypar, 5, 'c', 255, 255, 255, screen);
-    DrawString(trouNoirAc, 50, ypar+10, 5, 'c', 253, 212, 4, screen);
+    DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 255, 255, 255, screen);
+    DrawString(bonus, 50, screen->decalageB4, 5, 'c', 255, 255, 255, screen);
+    DrawString(trouNoir, 50, screen->decalageB4+10, 5, 'c', 253, 212, 4, screen);
   }
+}
+
+void BackParametre(ecran *screen)
+{
+  int posMX, posMY;
+  char volume[30]; char bonus[30] = ""; char trouNoir[30] = "";
+  if (screen->bonus == 0) 
+    strcpy(bonus, "Trous Noirs: OFF");
+  else 
+    strcpy(bonus, "Trous Noirs: ON");
+  if (screen->trousNoir == 0)
+    strcpy(trouNoir, "Trous Noirs: OFF");
+  else
+    strcpy(trouNoir, "Trous Noirs: ON");
+  
+  sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
+  SDL_GetMouseState(&posMX, &posMY);
+  imagePreface(screen, screen->etapeMenu++);
+  SDL_Delay(20);
+  if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
+  if (screen->decalageB1 > 80) {screen->decalageB1 -= 2;}  
+  if (screen->decalageB2 > 80) {screen->decalageB2 -= 2;}
+  if (screen->decalageB3 < 18) {screen->decalageB3 += 2;}
+  if (screen->decalageB4 < 150) {screen->decalageB4 += 2;}
+  DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(12, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(13, 50, screen->decalageB4, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
+  if (screen->etapeParam == 0)
+  {
+    DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 253, 212, 4, screen);
+    DrawString(bonus, 50, screen->decalageB4, 5, 'c', 255, 255, 255, screen);
+    DrawString(trouNoir, 50, screen->decalageB4+10, 5, 'c', 255, 255, 255, screen);
+  }
+  else if (screen->etapeParam == 1)
+  {
+    DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 255, 255, 255, screen);
+    DrawString(bonus, 50, screen->decalageB4, 5, 'c', 253, 212, 4, screen);
+    DrawString(trouNoir, 50, screen->decalageB4+10, 5, 'c', 255, 255, 255, screen);
+  }
+  else if (screen->etapeParam == 2)
+  {
+    DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 255, 255, 255, screen);
+    DrawString(bonus, 50, screen->decalageB4, 5, 'c', 255, 255, 255, screen);
+    DrawString(trouNoir, 50, screen->decalageB4+10, 5, 'c', 253, 212, 4, screen);
+  }
+  if (screen->decalageB1 == 80 && screen->decalageB2 == 80 && screen->decalageB3 == 18 && screen->decalageB4 == 150)
+    screen->etapeDuJeu = 2;
 }
 
 void DrawPreface2(ecran * screen)

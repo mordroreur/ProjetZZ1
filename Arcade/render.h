@@ -11,6 +11,7 @@ void DrawPreface2(ecran * screen);
 void DrawMenu(ecran *screen);
 void DrawGame(ecran *screen);
 void DrawParametre(ecran *screen);
+void BackParametre(ecran *screen);
 void DrawVictoire(ecran *screen);
 void loadingScreenWithBarre(ecran *screen, int max, int actu);
 

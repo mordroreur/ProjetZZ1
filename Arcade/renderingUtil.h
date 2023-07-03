@@ -98,7 +98,10 @@ typedef struct Ecran{
   int decalageB1; // décallage du bouton Play au menu
   int decalageB2; // décallage du bouton quitter au menu
   int decalageB3; // décallage parametre
+  int decalageB4; //decallage parametremenu
   int etapeParam; // dans quelle étape sommes-nous pour les parametres
+  int bonus; // boolean pour savoir si les bonus sont activés
+  int trousNoir; // boolean pour savoir si les bonus sont activés
 }ecran;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)

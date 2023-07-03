@@ -35,8 +35,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 12;
-  int nbPlanche = 9;
+  int nbImage = 14;
+  int nbPlanche = 11;
 
 
 void InitImage(ecran *screen){

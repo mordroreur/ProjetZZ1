@@ -35,8 +35,8 @@ long int getTime(){
 
 void InitImage(){
   
-  int nbImage = 14;
-  int nbPlanche = 10;
+  int nbImage = 12;
+  int nbPlanche = 9;
   fileImage = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * nbImage);
   wichFile = (int *)malloc(sizeof(int) * nbImage);
   PixelXnb = (int *)malloc(sizeof(int) * nbImage);
@@ -61,20 +61,15 @@ void InitImage(){
   TotalImagenb[0] = 20; ImYoffset[0] = 0; ImXoffset[0] = 0;
   debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
 
-  fileImage[7] = IMG_Load("Ressources/Image/img_menu/0112.png");
-  PixelXnb[10] = 1920; PixelYnb[10] = 1080; XImagenb[10] = 1; YImagenb[10] = 1;
+  fileImage[7] = IMG_Load("Ressources/Image/play.png");
+  PixelXnb[10] = 475; PixelYnb[10] = 128; XImagenb[10] = 1; YImagenb[10] = 1;
   TotalImagenb[10] = 1; ImYoffset[10] = 7; ImXoffset[10] = 0;
   debX[10] = 0; debY[10] = 0; wichFile[10] = 7;
 
-  fileImage[8] = IMG_Load("Ressources/Image/play.png");
+  fileImage[8] = IMG_Load("Ressources/Image/quit.png");
   PixelXnb[11] = 475; PixelYnb[11] = 128; XImagenb[11] = 1; YImagenb[11] = 1;
   TotalImagenb[11] = 1; ImYoffset[11] = 7; ImXoffset[11] = 0;
   debX[11] = 0; debY[11] = 0; wichFile[11] = 8;
-
-  fileImage[9] = IMG_Load("Ressources/Image/quit.png");
-  PixelXnb[12] = 475; PixelYnb[12] = 128; XImagenb[12] = 1; YImagenb[12] = 1;
-  TotalImagenb[12] = 1; ImYoffset[12] = 7; ImXoffset[12] = 0;
-  debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
   // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
@@ -170,7 +165,7 @@ int loadImageMenu(ecran* screen)
     exit(EXIT_FAILURE);
   }
   
-  mainRendering(screen);
+  loadingScreenWithBarre(screen, 100, 0);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);
   
@@ -182,13 +177,12 @@ int loadImageMenu(ecran* screen)
     for (int i = 0; i < 262; i++) 
     {
 	  if(i%3 == 0){
-		mainRendering(screen);
+	    loadingScreenWithBarre(screen, 262, i);
 		SDL_RenderPresent(screen->renderer);
 		SDL_RenderClear(screen->renderer);
 	  }
 	  char nom[60];
 	  sprintf(nom, "Ressources/Image/img_menu/imgComp/%d.png", i);
-        printf("%s\n", nom);
 	  textureMenu[i] = loadImage(nom, screen->renderer);
 	  if(!textureMenu[i]) 
         { 

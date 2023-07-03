@@ -1,5 +1,6 @@
 #include "renderingBase.h"
 #include "renderingUtil.h"
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
@@ -10,7 +11,7 @@ extern int debugging;
 
 long int repaint = 0;
 
-ecran createScreen(int sizex, int sizey, int fullscreen){
+ecran createScreen(int sizex, int sizey, int fullscreen, int sound){
 
   ecran screen;
 
@@ -69,7 +70,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
   {
     printf("%s", Mix_GetError());
   }
-  Mix_VolumeMusic(100);
+  Mix_VolumeMusic(sound);
 
   
   /* Taille de écran fournit par SDL */
@@ -312,7 +313,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
 
-				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen);
+				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1));
 	    
 			  }else{
 				SDL_SetWindowFullscreen(screen->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -326,7 +327,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
 
-				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen);
+				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen, Mix_VolumeMusic(-1));
 			  }
 			  if (screen->window == NULL)
 				end_sdl(0, "ERROR WINDOW CREATION", *screen);
@@ -361,7 +362,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 			  if(repaint == 0){
 				screen->sizeX = event.window.data1;
 				screen->sizeY = event.window.data2;
-				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen);
+				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1));
 			  }
 			}
 			break;
@@ -387,10 +388,10 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
 
 
-void writeParamFile(int sizex, int sizey, int isFullscreen){
+void writeParamFile(int sizex, int sizey, int isFullscreen, int musique){
 
   FILE *param = fopen(PARAM_NAME, "w");
-  fprintf(param, "%d\n%d\n%d\n", sizex, sizey, isFullscreen);
+  fprintf(param, "%d\n%d\n%d\n%d\n", sizex, sizey, isFullscreen, musique);
   fflush(param);
   fclose(param);
 

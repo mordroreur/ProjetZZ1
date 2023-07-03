@@ -7,13 +7,13 @@
 #include "eventGest.h"
 #include <pthread.h>
 
-ecran createScreen(int sizex, int sizey, int fullscreen);
+ecran createScreen(int sizex, int sizey, int fullscreen, int sound);
 void end_sdl(int ok, char const *msg, ecran screen);
 
 void startMainBoucle(ecran *screen);
 void *BouclePrincipaleDesTicks(void *unEcran);
 
-void writeParamFile(int sizex, int sizey, int isFullscreen);
+void writeParamFile(int sizex, int sizey, int isFullscreen, int musique);
 
 #define FPS_TO_GET 60
 #define TICK_TO_GET 60

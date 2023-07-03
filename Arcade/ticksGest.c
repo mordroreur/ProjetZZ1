@@ -15,7 +15,7 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].pos.x = 100*i + 5.0 * (1-(2*i));
 	screen->pla[i].pos.y = 100*i + 5.0 *(1-(2*i));
 	screen->pla[i].pos.w = SIZE;
-	screen->pla[i].pos.h = SIZE*0.7;
+	screen->pla[i].pos.h = SIZE*0.5625;
 	screen->pla[i].vitesse = 0.25;
   
 	screen->pla[i].kill = 0;
@@ -58,7 +58,7 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].pos.x = rand()%100;
 	screen->pla[i].pos.y = rand()%100;
 	screen->pla[i].pos.w = SIZE;
-	screen->pla[i].pos.h = SIZE*0.7;
+	screen->pla[i].pos.h = SIZE*0.5625;
 	screen->pla[i].vitesse = 0.25;
   
 	screen->pla[i].kill = 0;

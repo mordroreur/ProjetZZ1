@@ -78,9 +78,9 @@ void DrawParametre(ecran *screen)
   int posMX, posMY;
   char volume[30]; char bonus[30] = ""; char trouNoir[30] = "";
   if (screen->bonus == 0) 
-    strcpy(bonus, "Trous Noirs: OFF");
+    strcpy(bonus, "Bonus: OFF");
   else 
-    strcpy(bonus, "Trous Noirs: ON");
+    strcpy(bonus, "Bonus: ON");
   if (screen->trousNoir == 0)
     strcpy(trouNoir, "Trous Noirs: OFF");
   else
@@ -124,9 +124,9 @@ void BackParametre(ecran *screen)
   int posMX, posMY;
   char volume[30]; char bonus[30] = ""; char trouNoir[30] = "";
   if (screen->bonus == 0) 
-    strcpy(bonus, "Trous Noirs: OFF");
+    strcpy(bonus, "Bonus: OFF");
   else 
-    strcpy(bonus, "Trous Noirs: ON");
+    strcpy(bonus, "Bonus: ON");
   if (screen->trousNoir == 0)
     strcpy(trouNoir, "Trous Noirs: OFF");
   else

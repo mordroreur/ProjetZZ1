@@ -198,6 +198,7 @@ int testfct(ecran * screen){
                 screen->pla[i+Nbpreda].input[j]=(rand()%2);
             }
         }
+        SDL_Delay(1);
         mainTickGest(screen);
     }
     screen->etapeDuJeu = 12;

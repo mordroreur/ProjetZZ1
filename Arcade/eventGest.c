@@ -1,17 +1,25 @@
 #include "eventGest.h"
 #include "IAtrain.h"
+#include "renderingBase.h"
+#include <SDL2/SDL_mixer.h>
 
 
 void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   if(key.keysym.sym == SDLK_ESCAPE){
 
-	if (screen->etapeDuJeu == 5)
+	if (screen->etapeDuJeu == 5 || screen->etapeDuJeu == 4)
 	{
 		Mix_PlayMusic(screen->musique[0], -1);
-		SDL_Delay(50);
 		screen->etapeDuJeu = 12;
+		SDL_Delay(50);
 		screen->decalageB1 = 116;
 		screen->decalageB2 = 130;
+	}
+	else if (screen->etapeDuJeu == 10)
+	{
+		screen->etapeParam = 0;
+		screen->etapeDuJeu = 11;
+		writeParamFile(screen->isFullScreen?screen->otherX:screen->sizeX, screen->isFullScreen?screen->otherY:screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 	}
 	else
 	    screen->etapeDuJeu = 0;
@@ -40,30 +48,61 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   }
 }
 
-void keyDown(SDL_KeyboardEvent key, ecran *screen) {
-  if(screen->etapeDuJeu == 4){
-    switch (key.keysym.sym)
-          {
-            /* Joueur 2*/
-	  case SDLK_UP: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 1; break;
-	  case SDLK_LEFT: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 1; break;
-	  case SDLK_DOWN: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 1; break;
-	  case SDLK_RIGHT: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 1; break;
-	  case SDLK_o: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 1;; break;
-	  case SDLK_k: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 1; break;
-	  case SDLK_l: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 1; break;
-	  case SDLK_m: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 1; break;
-	  case SDLK_RSHIFT: if(screen->nbPlayer > 1) screen->pla[1].input[4] = 1; break;
-            /* Joueur 1 */
-	  case SDLK_q: if(screen->nbPlayer > 0) screen->pla[0].input[0] = 1; break;
-	  case SDLK_z: if(screen->nbPlayer > 0) screen->pla[0].input[1] = 1; break;
-	  case SDLK_s: if(screen->nbPlayer > 0) screen->pla[0].input[3] = 1; break;
-	  case SDLK_d: if(screen->nbPlayer > 0) screen->pla[0].input[2] = 1; break;
-	  case SDLK_SPACE: if(screen->nbPlayer > 0) screen->pla[0].input[4] = 1; break;
-	  default:
-            break;
-          }
-  }
+void keyDown(SDL_KeyboardEvent key, ecran *screen) 
+{
+	if(screen->etapeDuJeu == 4)
+	{
+    	switch (key.keysym.sym)
+        {
+			/* Joueur 2*/
+			case SDLK_UP: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 1; break;
+			case SDLK_LEFT: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 1; break;
+			case SDLK_DOWN: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 1; break;
+			case SDLK_RIGHT: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 1; break;
+			case SDLK_o: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 1;; break;
+			case SDLK_k: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 1; break;
+			case SDLK_l: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 1; break;
+			case SDLK_m: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 1; break;
+			case SDLK_RSHIFT: if(screen->nbPlayer > 1) screen->pla[1].input[4] = 1; break;
+					/* Joueur 1 */
+			case SDLK_q: if(screen->nbPlayer > 0) screen->pla[0].input[0] = 1; break;
+			case SDLK_z: if(screen->nbPlayer > 0) screen->pla[0].input[1] = 1; break;
+			case SDLK_s: if(screen->nbPlayer > 0) screen->pla[0].input[3] = 1; break;
+			case SDLK_d: if(screen->nbPlayer > 0) screen->pla[0].input[2] = 1; break;
+			case SDLK_SPACE: if(screen->nbPlayer > 0) screen->pla[0].input[4] = 1; break;
+			default:
+					break;
+        }
+  	}
+	if (screen->etapeDuJeu == 10)
+	{
+		switch (key.keysym.sym)
+        {
+			case SDLK_DOWN: 
+				screen->etapeParam = (screen->etapeParam + 1)%3;
+			break;
+			case SDLK_UP:
+				if (screen->etapeParam == 0)
+					screen->etapeParam = 2;
+				else
+					screen->etapeParam -= 1;
+			break;
+			case SDLK_RIGHT:
+				if (screen->etapeParam == 0 && Mix_VolumeMusic(-1) < 100) 
+					Mix_VolumeMusic(Mix_VolumeMusic(-1)+1); 
+			break;
+			case SDLK_LEFT:
+				if (screen->etapeParam == 0) {}
+					Mix_VolumeMusic(Mix_VolumeMusic(-1)-1); 
+			break;
+			case SDLK_RETURN:
+				if (screen->etapeParam == 1)
+					screen->bonus = (screen->bonus == 0) ? 1 : 0;
+				if (screen->etapeParam == 2)
+					screen->trousNoir = (screen->trousNoir == 0) ? 1 : 0;
+			break;
+		}
+	}
 }
 
 void LeftClick(ecran *screen) {
@@ -78,8 +117,11 @@ void LeftClick(ecran *screen) {
 		// screen->etapeDuJeu = 0;
 		startIAtraining(screen);
 	 }
+	 else if (isInButton(18, 20, 30, 20, 'c', posMX, posMY, screen))
+	 {
+		screen->etapeDuJeu = 10;
+	 }
   }
- 
 }
 
 

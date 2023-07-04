@@ -1,5 +1,6 @@
 #include "renderingBase.h"
 #include "renderingUtil.h"
+#include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
@@ -10,7 +11,7 @@ extern int debugging;
 
 long int repaint = 0;
 
-ecran createScreen(int sizex, int sizey, int fullscreen){
+ecran createScreen(int sizex, int sizey, int fullscreen, int sound, int bonus, int trou){
 
   ecran screen;
 
@@ -53,8 +54,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
     end_sdl(0, "ERROR WINDOW CREATION", screen);
 
   /* Création du renderer (le truc dans la windows) */
-  screen.renderer = SDL_CreateRenderer(
-      screen.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+  screen.renderer = SDL_CreateRenderer(screen.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
   
   if (screen.renderer == NULL)
     end_sdl(0, "ERROR RENDERER CREATION", screen);
@@ -70,10 +70,14 @@ ecran createScreen(int sizex, int sizey, int fullscreen){
   {
     printf("%s", Mix_GetError());
   }
+  Mix_VolumeMusic(sound);
 
   
   /* Taille de écran fournit par SDL */
   SDL_GetWindowSize(screen.window, &screen.sizeX, &screen.sizeY);
+
+  screen.trousNoir = trou;
+  screen.bonus = bonus;
 
   screen.etapeDuJeu = 0;
 
@@ -233,7 +237,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   LastTick = getTime();
 
   
-  InitImage();
+
   loadMusic(screen);
 
   screen->etapeMenu = 0;
@@ -244,9 +248,11 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
   screen->modePlay = 1;
 
-  
   screen->decalageB1 = 116;
   screen->decalageB2 = 130;
+  screen->decalageB3 = -30;
+  screen->decalageB4 = 150;
+  screen->etapeParam = 0;
   
   screen->etapeDuJeu = 8;
   
@@ -310,7 +316,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
 
-				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen);
+				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 	    
 			  }else{
 				SDL_SetWindowFullscreen(screen->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
@@ -324,7 +330,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 				screen->sizeY = screen->otherY ;
 				screen->otherY = tmp;
 
-				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen);
+				writeParamFile(screen->otherX, screen->otherY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 			  }
 			  if (screen->window == NULL)
 				end_sdl(0, "ERROR WINDOW CREATION", *screen);
@@ -359,7 +365,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 			  if(repaint == 0){
 				screen->sizeX = event.window.data1;
 				screen->sizeY = event.window.data2;
-				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen);
+				writeParamFile(screen->sizeX, screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
 			  }
 			}
 			break;
@@ -385,10 +391,10 @@ void *BouclePrincipaleDesTicks(void *unEcran){
 
 
 
-void writeParamFile(int sizex, int sizey, int isFullscreen){
+void writeParamFile(int sizex, int sizey, int isFullscreen, int musique, int bonus, int trou){
 
   FILE *param = fopen(PARAM_NAME, "w");
-  fprintf(param, "%d\n%d\n%d\n", sizex, sizey, isFullscreen);
+  fprintf(param, "%d\n%d\n%d\n%d\n%d\n%d\n", sizex, sizey, isFullscreen, musique, bonus, trou);
   fflush(param);
   fclose(param);
 

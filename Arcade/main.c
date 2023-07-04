@@ -3,7 +3,7 @@
 int debugging = 0;
 
 
-int main(){
+int main(int argc, char * argv[]){
 
   int sizex;
   int sizey;
@@ -11,6 +11,15 @@ int main(){
   int sound;
   int bonus;
   int trou;
+
+  int test = 1;
+  if (argc > 1)
+    test = atoi(argv[1]);
+  else
+    test = 1;
+  //printf("%d et %d donc %d\n", argc, atoi(argv[1]), test);
+
+  
   
   FILE *param = fopen(PARAM_NAME, "r");
   if(param == NULL){
@@ -29,8 +38,11 @@ int main(){
     fclose(param);
   }
 
-  ecran mainScreen = createScreen(sizex, sizey, isFullscreen, sound, bonus, trou);
 
+  ecran mainScreen = createScreen(sizex, sizey, isFullscreen, sound, bonus, trou);
+  mainScreen.showImage = test;
+  
+  printf("%d\n", mainScreen.showImage);
   mainScreen.etapeDuJeu = 1;
   
   startMainBoucle(&mainScreen);

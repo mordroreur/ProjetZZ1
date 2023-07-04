@@ -18,34 +18,31 @@ void mainRendering(ecran *screen){
   case 9: DrawPreface2(screen); break;
   case 10: DrawParametre(screen); break;
   case 11: BackParametre(screen); break;
+  case 13: DrawSelectGame(screen); break;
+  case 14: backSelectGame(screen); break;
   default: loadingScreen(screen);break;
   }
 }
 
-void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int * xIm, int * yIm, int wIm, int hIm, char c, int * large)
+void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int yIm, int wIm, int hIm, char c, float * large, float size)
 {
-  if (*yIm < 18)
-    (*yIm) += 2;
-
-  if (*xIm > 80)
-    (*xIm) -= 2;
-
-  if (isInButton(*xIm, *yIm, wIm, hIm, c, posMX, posMY, screen))
+  if (isInButton(xIm, yIm, wIm, hIm, c, posMX, posMY, screen))
   {
-    if (*large < 5)
-      (*large)++;
+    if (*large < size)
+      (*large) = (*large) + 1.0;
   }
   else
   {
-    if (*large > 0)
-      (*large)--;
+    if (*large > 0.0)
+      (*large) = (*large) - 1.0;
   }
-  DrawImage(numIm, *xIm, *yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(numIm, xIm, yIm, wIm + *large, hIm + *large, c, 0, 0, 0, 0, 0, 0, screen);
 }
 
 void DrawPreface(ecran * screen)
 {
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   if (screen->etapeMenu >= 112)
   {
     screen->etapeDuJeu = 2;
@@ -56,21 +53,29 @@ void DrawPreface(ecran * screen)
 
 void DrawMenu(ecran *screen)
 {
-  static int large = 0;  int * plarge = &large;
-  static int large2 = 0; int * plarge2 = &large2;
-  static int large3 = 0; int * plarge3 = &large3;
+  static float large = 0;  
+  static float large2 = 0; 
+  static float large3 = 0; 
   int posY1 = 50; int posY2 = 80; int posX3 = 18;
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
  
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193)
     screen->etapeMenu = 113;
   //DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
-  enlargeButton(screen, posMX, posMY, 10,  &(screen->decalageB1), &posY1, 30, 20, 'c', plarge);
-  enlargeButton(screen, posMX, posMY, 11,  &(screen->decalageB2), &posY2, 30, 20, 'c', plarge2);
-  enlargeButton(screen, posMX, posMY, 12, &posX3, &(screen->decalageB3), 30, 20, 'c', plarge3);
+  if (screen->decalageB3 < 18)
+    screen->decalageB3 += 2;
+  if (screen->decalageB1 > 80)
+    screen->decalageB1 -= 2;
+  if (screen->decalageB2 > 80)
+    screen->decalageB2 -= 2;
+
+  enlargeButton(screen, posMX, posMY, 10,  (screen->decalageB1), posY1, 30, 20, 'c', &large, 5);
+  enlargeButton(screen, posMX, posMY, 11,  (screen->decalageB2), posY2, 30, 20, 'c', &large2, 5);
+  enlargeButton(screen, posMX, posMY, 12, posX3, (screen->decalageB3), 30, 20, 'c', &large3, 5);
 }
 
 void DrawParametre(ecran *screen)
@@ -88,7 +93,8 @@ void DrawParametre(ecran *screen)
   
   sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
   SDL_GetMouseState(&posMX, &posMY);
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
   if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
@@ -134,7 +140,8 @@ void BackParametre(ecran *screen)
   
   sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
   SDL_GetMouseState(&posMX, &posMY);
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
   if (screen->decalageB1 > 80) {screen->decalageB1 -= 2;}  
@@ -169,7 +176,8 @@ void BackParametre(ecran *screen)
 
 void DrawPreface2(ecran * screen)
 {
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   if (screen->etapeMenu >= 261)
   {
     screen->etapeDuJeu = 3;
@@ -179,10 +187,116 @@ void DrawPreface2(ecran * screen)
   SDL_Delay(10);
 }
 
-// void DrawParametre(ecran * screen)
-// {
+void DrawSelectGame(ecran * screen)
+{
+  //printf("decal: %d, selectGam: %d, backSelect: %d\n", screen->decalageB4, screen->etapeSelGam, screen->backSelec);
+  int posMX, posMY;
+  static float large = 0;  static float large2 = 0; 
+  static float large3 = 0; static float large4 = 0;
+  static float large5 = 0; static float large6 = 0;
+  char mode1[150] = "Affrontez votre ami, un collegue a vous,";
+  char mode11[150] = "ou votre professeur et";
+  char mode111[150] = "montrez lui qui est le meilleur!";
+  char mode2[150] = "Combattez face a un robot qui vous es ";
+  char mode22[150] = "superieur, que le meilleur gagne";
+  SDL_GetMouseState(&posMX, &posMY);
+  if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
+  if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
+  if (screen->decalageB2 < 130) {screen->decalageB2 += 2;}
+  if (screen->decalageB3 > -30) {screen->decalageB3 -= 2;}
+  if (screen->decalageB5 < 20) {screen->decalageB5 += 2;}
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
+  SDL_Delay(20);
+  DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(12, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  enlargeButton(screen, posMX, posMY, 14, 12.625, (screen->decalageB5), 23, 20, 'c', &large, 2);
+  enlargeButton(screen, posMX, posMY, 15, 37.875, (screen->decalageB5), 23, 20, 'c', &large2, 2);
+  enlargeButton(screen, posMX, posMY, 16, 63.125, (screen->decalageB5), 23, 20, 'c', &large3, 2);
+  enlargeButton(screen, posMX, posMY, 17, 88.375, (screen->decalageB5), 23, 20, 'c', &large4, 2);
+  enlargeButton(screen, posMX, posMY, 18, 12.625, 105-(screen->decalageB5), 23, 20, 'c', &large5, 2);
+  enlargeButton(screen, posMX, posMY, 19, (screen->decalageB6), 85, 23, 20, 'c', &large6, 2);
+  enlargeButton(screen, posMX, posMY, 20, 50, (screen->decalageB4)+33, 30, 15, 'c', &large6, 2);
+  DrawImage(13, 50, (screen->decalageB4), 50, 30, 'c', 0, 0, 0, 0, 0, 0, screen);
+  if (screen->etapeSelGam == 0 && screen->decalageB6 < 150)
+    screen->decalageB6 += 2;
+  else if (screen->etapeSelGam != 0 && screen->decalageB6 > 88.375)
+    screen->decalageB6 -= 2;
 
-// }
+  if (screen->backSelec)
+  {
+    if (screen->previousSelGam == 1)
+    {
+        DrawString(mode1, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode11, 52, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode111, 52, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->previousSelGam == 2)
+    {
+        DrawString(mode2, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode22, 52, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->previousSelGam == 3)
+    {
+        DrawString("Description3", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->previousSelGam == 4)
+    {
+        DrawString("Description4", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+    }
+    if (screen->decalageB4 < 150)
+      screen->decalageB4 += 6;
+    else
+      screen->backSelec = 0;
+  }
+  else
+  {
+    if (screen->etapeSelGam)
+    {
+      if (screen->decalageB4 > 55)
+        (screen->decalageB4) -= 6;
+    }
+    if (screen->etapeSelGam == 1)
+    {
+        DrawString(mode1, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode11, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->etapeSelGam == 2)
+    {
+        DrawString(mode2, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode22, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->etapeSelGam == 3)
+    {
+        DrawString("Description3", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->etapeSelGam == 4)
+    {
+        DrawString("Description4", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+    }
+  }
+}
+
+void backSelectGame(ecran * screen)
+{
+  if (screen->decalageB5 > -30)
+    screen->decalageB5 -= 2;
+  else
+    screen->etapeDuJeu = 2;
+  if(screen->showImage)  
+    imagePreface(screen, screen->etapeMenu++);
+  SDL_Delay(20);
+  if (screen->etapeMenu >= 193)
+    screen->etapeMenu = 113;
+
+  DrawImage(14, 12.625, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(15, 37.875, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(16, 63.125, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(17, 88.375, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(18, 12.625, 105-(screen->decalageB5), 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+}
 
 void DrawVictoire(ecran *screen)
 {

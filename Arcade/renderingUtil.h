@@ -100,9 +100,15 @@ typedef struct Ecran{
   int decalageB2; // décallage du bouton quitter au menu
   int decalageB3; // décallage parametre
   int decalageB4; //decallage parametremenu
+  int decalageB5; // decallage selectMenu
+  int decalageB6; // decallage du bouton "play" dans selectMenu
   int etapeParam; // dans quelle étape sommes-nous pour les parametres
   int bonus; // boolean pour savoir si les bonus sont activés
   int trousNoir; // boolean pour savoir si les bonus sont activés
+  int etapeSelGam; // boolean permettant de savoir dans quel cas nous sommes pour DrawSelectGame
+  int previousSelGam; // indique l'ancien game sélectionné
+  int backSelec; // boolean pour savoir si on "part de la sélection"
+  int showImage; // boolean si on montre les images de début ou pas
 }ecran;
 
 /*player * newPlayer(char * name, int xPos, int yPos, int vitesse)
@@ -127,6 +133,7 @@ void InitImage(ecran *screen);
 void freeImageMalloc();
 void DrawImage(int imagenb, float x, float y, float sizeX, float sizeY, char center, int etatPremier, float TimebeforeNext, int flip, int angle, int nbState, int* spriteOrder, ecran *screen);
 int isInButton(float x, float y, float sizeX, float sizeY, char center, int posMX, int posMY, ecran *screen);
+void loadRobotoFont();
 int loadImageMenu(ecran *screen);
 int imagePreface(ecran* screen, int i);
 SDL_Texture * loadImage(const char * path, SDL_Renderer *renderer);

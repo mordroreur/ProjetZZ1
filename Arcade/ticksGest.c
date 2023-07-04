@@ -215,10 +215,10 @@ void mainTickGest(ecran *screen){
 		float depx = 0;
 		float  depy = 0;
 		if(nbDep == 1){
-		  if(screen->pla[i].input[0]) {depx = -screen->pla[i].vitesse; screen->pla[i].dirX = -1; screen->pla[i].dirY = 0;}
-		  if(screen->pla[i].input[1]) {depy = -screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = -1;}
-		  if(screen->pla[i].input[2]) {depx = screen->pla[i].vitesse;screen->pla[i].dirX = 1; screen->pla[i].dirY = 0;}
-		  if(screen->pla[i].input[3]) {depy = screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = 1;}
+		  if(screen->pla[i].input[0]) {depx -= screen->pla[i].vitesse; screen->pla[i].dirX = -1; screen->pla[i].dirY = 0;}
+		  if(screen->pla[i].input[1]) {depy -= screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = -1;}
+		  if(screen->pla[i].input[2]) {depx += screen->pla[i].vitesse;screen->pla[i].dirX = 1; screen->pla[i].dirY = 0;}
+		  if(screen->pla[i].input[3]) {depy += screen->pla[i].vitesse;screen->pla[i].dirX = 0; screen->pla[i].dirY = 1;}
 		}else if(nbDep == 2){
 		  if(screen->pla[i].input[0]) {depx -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirX = -1;}
 		  if(screen->pla[i].input[1]) {depy -= 1/sqrt(2) * screen->pla[i].vitesse;screen->pla[i].dirY = -1;}

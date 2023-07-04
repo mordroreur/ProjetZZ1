@@ -26,9 +26,9 @@ void startIAtraining(ecran * screen){
 }
 
 int testfct(ecran * screen){
-    int Nbparam = 10;
-    int Nbregle = 100;
-    int Nbloi = 30;
+    int Nbparam = 5;//9
+    int Nbregle = 20;
+    int Nbloi = 1;
     int Nbpreda = 3;
     int Nbproie = 10;
     int Nbmur = screen->nbObjetsMax;
@@ -42,7 +42,23 @@ int testfct(ecran * screen){
         }
         BDDregle[k] = loi;
     }
+
+    
+    for(int i = 0; i < Nbregle; i++){
+        for(int j = 0; j < Nbparam+2; j++){
+            printf("%d ", BDDregle[0][i][j]);
+        }
+        printf("\n");
+    }
+    printf("Fin de la matrice\n");
+    //exit(0);
+    /*for(int i = 0; i < Nbparam; i++){
+        BDDregle[1][3][i] = -1;
+    }
+    BDDregle[1][3][11] = 5;
+    BDDregle[1][3][12] = 2;*/
     //Fin structure de donnée
+
 
     screen->etapeDuJeu = 3;
     screen->modePlay = 1;
@@ -53,13 +69,25 @@ int testfct(ecran * screen){
             int * paramworld = CreateTab1(Nbparam);
             
             int p = 0;
-            for(int i=0; i<Nbpreda; i+=2){
+            int id = 0;
+            int disti = 100000;
+            for(int i = 0; i < Nbpreda; i++){
+                if(i != k){
+                    if(dist(screen,k,i) < disti){
+                        id = i;
+                        disti = dist(screen, k, i);
+                    }
+                }
+            }
+            paramworld[p++]=disti;
+            paramworld[p++] = orient(screen, k, id);
+            /*for(int i=0; i<Nbpreda; i+=2){
                 if(i!=k){
                     paramworld[p]=dist(screen,k,i);
                     paramworld[p+1]=orient(screen,k,i);
                     p +=2;
                 }
-            }
+            }*/
 
             int dis0 = dist(screen,k,Nbpreda);
             int dis1 = dist(screen,k,Nbpreda+1);
@@ -79,10 +107,10 @@ int testfct(ecran * screen){
                 }
             }
 
-            paramworld[p]=dis0;
-            paramworld[p+1]=orient(screen,k,Nbpreda+min);
-            paramworld[p+2]=dis1;
-            paramworld[p+3]=orient(screen,k,Nbpreda+min2);
+            paramworld[p++]=dis0;
+            paramworld[p++]=orient(screen,k,Nbpreda+min);
+            //paramworld[p+2]=dis1;
+            //paramworld[p+3]=orient(screen,k,Nbpreda+min2);
             
             int dism0 = distobj(screen,k,0);
             min = 0;
@@ -95,9 +123,9 @@ int testfct(ecran * screen){
                     min = i;
                 }
             }
-            paramworld[p+4]=-1;
+            paramworld[p]=-1;
             if(dis0==0){
-                paramworld[p+4]=orientobj(screen,k,min);
+                paramworld[p]=orientobj(screen,k,min);
             }
 
             //Fin acquisition de données
@@ -110,10 +138,10 @@ int testfct(ecran * screen){
             float sommproba = 0;
             float s = 1;
             for(int i=0; i<Nbregle; i++){
-                if(compareN(paramworld,BDDregle[1][i],Nbparam)){
-                    regleposs[i*2]=BDDregle[1][i][Nbparam+1];
-                    regleposs[i*2+1]=BDDregle[1][i][Nbparam+2];
-                    sommproba += pow(BDDregle[1][i][Nbparam+2],s);
+                if(compareN(paramworld,BDDregle[0][i],Nbparam)){
+                    regleposs[i*2]=BDDregle[0][i][Nbparam+1];
+                    regleposs[i*2+1]=BDDregle[0][i][Nbparam+2];
+                    sommproba += pow(BDDregle[0][i][Nbparam+2], s);
                 }
                 else{
                     regleposs[i*2]=-1;
@@ -133,7 +161,7 @@ int testfct(ecran * screen){
                 proba -= regleposs[i*2+1]/sommproba;
                 }
             }
-
+            //printf("action : %d\n", action);
             switch(action){
                 case 0:
                     screen->pla[k].input[0]  = 0;
@@ -274,12 +302,24 @@ int *** CreateTab3(int Nbloi, int Nbregle, int Nbparam){
 int * genreglealea(int Nbparam){
     int * listalea = CreateTab1(Nbparam+2);
     for(int i=0; i<Nbparam; i+=2){
-        listalea[i]=rand()%3; //a modifier
+        float proba = (rand()%100)/100.0;
+        if(proba<0.25){
+            listalea[i]=(rand()%3); //a modifier
+        }
+        else{
+            listalea[i]=-1;
+        }
     }
     for(int j=1; j<Nbparam; j+=2){
-        listalea[j]=rand()%9; // 0=rien, 1-9 = Nord + sens horaire
+        float proba = (rand()%100)/100.0;
+        if(proba<0.25){
+            listalea[j]=(rand()%8); //a modifier
+        }
+        else{
+            listalea[j]=-1;
+        }
     }
-    listalea[Nbparam]=rand()%9;
+    listalea[Nbparam]=(rand()%9)-1;
     listalea[Nbparam+1]=rand()%5;
     return(listalea);
 }
@@ -324,37 +364,37 @@ int orient(ecran * screen, int self, int other){
     else if(diffx>0){
         theta = atanf(diffy/diffx);
         if((theta>(2*pi)/6)){
-            orient = 1;
+            orient = 0;
         }
         if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 2;
+            orient = 1;
         }
         if((theta>(-pi)/6) && (theta<=(pi/6))){
-            orient = 3;
+            orient = 2;
         }
         if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 4;
+            orient = 3;
         }
         if(theta<=(-2*pi)/6){
-            orient = 5;
+            orient = 4;
         }
     }
     else{
         theta = atanf(diffy/-diffx);
         if((theta>(2*pi)/6)){
-            orient = 5;
+            orient = 4;
         }
         if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 6;
+            orient = 5;
         }
         if((theta>(-pi)/6) && (theta<=(pi/6))){
-            orient = 7;
+            orient = 6;
         }
         if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 8;
+            orient = 7;
         }
         if(theta<=(-2*pi)/6){
-            orient = 1;
+            orient = 0;
         }
     }
     return orient;
@@ -373,37 +413,37 @@ int orientobj(ecran * screen, int self, int other){
     else if(diffx>0){
         theta = atanf(diffy/diffx);
         if((theta>(2*pi)/6)){
-            orient = 1;
+            orient = 0;
         }
         if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 2;
+            orient = 1;
         }
         if((theta>(-pi)/6) && (theta<=(pi/6))){
-            orient = 3;
+            orient = 2;
         }
         if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 4;
+            orient = 3;
         }
         if(theta<=(-2*pi)/6){
-            orient = 5;
+            orient = 4;
         }
     }
     else{
         theta = atanf(diffy/-diffx);
         if((theta>(2*pi)/6)){
-            orient = 5;
+            orient = 4;
         }
         if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 6;
+            orient = 5;
         }
         if((theta>(-pi)/6) && (theta<=(pi/6))){
-            orient = 7;
+            orient = 6;
         }
         if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 8;
+            orient = 7;
         }
         if(theta<=(-2*pi)/6){
-            orient = 1;
+            orient = 0;
         }
     }
     return orient;
@@ -413,7 +453,7 @@ int orientobj(ecran * screen, int self, int other){
 int compareN(int * tab1, int* tab2, int N){
     int ret=1;
     for(int i=0; i<N; i++){
-        if(tab1[i]!=tab2[i]){
+        if(tab1[i]!=tab2[i] && tab2[i]!=-1){
             ret = 0;
         }
     }

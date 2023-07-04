@@ -95,10 +95,24 @@ void mainTickGest(ecran *screen){
       screen->tbObjet = (objet *)malloc(sizeof(objet) * screen->nbObjetsMax);
       for(int i = 0; i < screen->nbObjetsMax-screen->nbBananes; i++){
 	screen->tbObjet[i].id = 1;
-	screen->tbObjet[i].pos.x = rand()%100;
-	screen->tbObjet[i].pos.y = rand()%100;
-	screen->tbObjet[i].pos.w = rand()%6 + 3;
-	screen->tbObjet[i].pos.h = rand()%6 + 3;
+	int pose = 0;
+	while (pose == 0) {
+	  pose = 1;
+	  screen->tbObjet[i].pos.x = (rand()%80) + 10;
+	  screen->tbObjet[i].pos.y = (rand()%80) + 10;
+	  screen->tbObjet[i].pos.w = rand()%6 + 3;
+	  screen->tbObjet[i].pos.h = rand()%6 + 3;
+	  for(int j = 0; j < screen->nbPlayer; j++){
+	    if((screen->pla[j].pos.x - screen->pla[j].pos.w/2.4 < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[j].pos.x - screen->pla[j].pos.w/2.4 > screen->tbObjet[i].pos.x && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 > screen->tbObjet[i].pos.y)
+	   || (screen->pla[j].pos.x + screen->pla[j].pos.w/2.5 < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[j].pos.x +screen->pla[j].pos.w/2.5  > screen->tbObjet[i].pos.x && screen->pla[j].pos.y +screen->pla[j].pos.h < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[j].pos.y +screen->pla[j].pos.h > screen->tbObjet[i].pos.y)
+	   || (screen->pla[j].pos.x + screen->pla[j].pos.w/2.4 < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[j].pos.x + screen->pla[j].pos.w/2.4 > screen->tbObjet[i].pos.x && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 > screen->tbObjet[i].pos.y)
+	   || (screen->pla[j].pos.x - screen->pla[j].pos.w/2.5 < screen->tbObjet[i].pos.x + screen->tbObjet[i].pos.w && screen->pla[j].pos.x -screen->pla[j].pos.w/2.5 > screen->tbObjet[i].pos.x && screen->pla[j].pos.y +screen->pla[j].pos.h  < screen->tbObjet[i].pos.y + screen->tbObjet[i].pos.h && screen->pla[j].pos.y +screen->pla[j].pos.h > screen->tbObjet[i].pos.y)){
+	      pose = 0;
+	    }
+	  }
+
+
+	}
 	screen->tbObjet[i].vie = 1;
       }
       for(int i = screen->nbObjetsMax-screen->nbBananes; i < screen->nbObjetsMax; i++){

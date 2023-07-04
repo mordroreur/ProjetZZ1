@@ -35,8 +35,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 14;
-  int nbPlanche = 11;
+  int nbImage = 21;
+  int nbPlanche = 18;
 
 
 void InitImage(ecran *screen){
@@ -75,9 +75,44 @@ void InitImage(ecran *screen){
   debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
 
   fileImage[10] = IMG_Load("Ressources/Image/forme.png");
-  PixelXnb[13] = 100; PixelYnb[13] = 100; XImagenb[13] = 1; YImagenb[13] = 1;
+  PixelXnb[13] = 540; PixelYnb[13] = 540; XImagenb[13] = 1; YImagenb[13] = 1;
   TotalImagenb[13] = 1; ImYoffset[13] = 7; ImXoffset[13] = 0;
   debX[13] = 0; debY[13] = 0; wichFile[13] = 10;
+
+  fileImage[11] = IMG_Load("Ressources/Image/select.png");
+  PixelXnb[14] = 100; PixelYnb[14] = 50; XImagenb[14] = 1; YImagenb[14] = 1;
+  TotalImagenb[14] = 1; ImYoffset[14] = 7; ImXoffset[14] = 0;
+  debX[14] = 0; debY[14] = 0; wichFile[14] = 11;
+
+  fileImage[12] = IMG_Load("Ressources/Image/select2.png");
+  PixelXnb[15] = 100; PixelYnb[15] = 50; XImagenb[15] = 1; YImagenb[15] = 1;
+  TotalImagenb[15] = 1; ImYoffset[15] = 7; ImXoffset[15] = 0;
+  debX[15] = 0; debY[15] = 0; wichFile[15] = 12;
+
+  fileImage[13] = IMG_Load("Ressources/Image/select3.png");
+  PixelXnb[16] = 100; PixelYnb[16] = 50; XImagenb[16] = 1; YImagenb[16] = 1;
+  TotalImagenb[16] = 1; ImYoffset[16] = 7; ImXoffset[16] = 0;
+  debX[16] = 0; debY[16] = 0; wichFile[16] = 13;
+
+  fileImage[14] = IMG_Load("Ressources/Image/select4.png");
+  PixelXnb[17] = 100; PixelYnb[17] = 50; XImagenb[17] = 1; YImagenb[17] = 1;
+  TotalImagenb[17] = 1; ImYoffset[17] = 7; ImXoffset[17] = 0;
+  debX[17] = 0; debY[17] = 0; wichFile[17] = 14;
+
+  fileImage[15] = IMG_Load("Ressources/Image/back.png");
+  PixelXnb[18] = 100; PixelYnb[18] = 50; XImagenb[18] = 1; YImagenb[18] = 1;
+  TotalImagenb[18] = 1; ImYoffset[18] = 7; ImXoffset[18] = 0;
+  debX[18] = 0; debY[18] = 0; wichFile[18] = 15;
+
+  fileImage[16] = IMG_Load("Ressources/Image/jouer.png");
+  PixelXnb[19] = 100; PixelYnb[19] = 50; XImagenb[19] = 1; YImagenb[19] = 1;
+  TotalImagenb[19] = 1; ImYoffset[19] = 7; ImXoffset[19] = 0;
+  debX[19] = 0; debY[19] = 0; wichFile[19] = 16;
+
+  fileImage[17] = IMG_Load("Ressources/Image/iaTrain.png");
+  PixelXnb[20] = 100; PixelYnb[20] = 50; XImagenb[20] = 1; YImagenb[20] = 1;
+  TotalImagenb[20] = 1; ImYoffset[20] = 7; ImXoffset[20] = 0;
+  debX[20] = 0; debY[20] = 0; wichFile[20] = 17;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
   // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
@@ -174,14 +209,17 @@ void loadMusic(ecran * screen)
   if (!screen->musique[1]) {printf("Error load musique 1\n!"); exit(EXIT_FAILURE);}
 }
 
-int loadImageMenu(ecran* screen)
+void loadRobotoFont()
 {
   RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
   if (RobotoFont == NULL) {
     fprintf(stderr, "error: font not found\n");
     exit(EXIT_FAILURE);
   }
-  
+}
+
+int loadImageMenu(ecran* screen)
+{
   loadingScreenWithBarre(screen, 100, 0);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);

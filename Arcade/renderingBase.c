@@ -144,14 +144,18 @@ void startMainBoucle(ecran *screen){
   
   //SDL_CloseAudioDevice(deviceId);
   //SDL_FreeWAV(wavBuffer);
-  
-  /************Début de la boucle des ticks***********************/  
-  if (loadImageMenu(screen) == -1)
-	{
-	  printf("Error in loadImageMenu\n");
-	  exit( EXIT_FAILURE );
-	}
 
+  loadRobotoFont();
+  /************Début de la boucle des ticks***********************/
+  if (screen->showImage)
+  {
+    if (loadImageMenu(screen) == -1)
+    {
+      printf("Error in loadImageMenu\n");
+      exit( EXIT_FAILURE );
+    }
+  }
+  InitImage(screen);
   /************Initialisation des variables de temps**************/
   LastFrame = getTime();
   TimeCount = getTime();
@@ -252,7 +256,11 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->decalageB2 = 130;
   screen->decalageB3 = -30;
   screen->decalageB4 = 150;
+  screen->decalageB5 = -30;
+  screen->decalageB6 = 150;
   screen->etapeParam = 0;
+  screen->etapeSelGam = 0;
+  screen->backSelec = 0;
   
   screen->etapeDuJeu = 8;
   

@@ -19,9 +19,9 @@ typedef struct boule
 {
   int vie;
   frect pos;
-  int speed;
-  int vitX;
-  int vitY;
+  //float speed;
+  float vitX;
+  float vitY;
 } boule;
 
 typedef struct player

@@ -458,8 +458,8 @@ int orient(ecran * screen, int self, int other){
         }
     }
 
-    if(diffx > 50){orient += 4;}
-    else if(diffy > 50){orient += 50;}
+    if(diffx > 50){orient = (orient+4)%8;}
+    else if(diffy > 50){orient = (orient+4)%8;}
     
     return orient;
 }
@@ -510,6 +510,10 @@ int orientobj(ecran * screen, int self, int other){
             orient = 0;
         }
     }
+
+    if(diffx > 50){orient = (orient+4)%8;}
+    else if(diffy > 50){orient = (orient+4)%8;}
+    
     return orient;
 }
 

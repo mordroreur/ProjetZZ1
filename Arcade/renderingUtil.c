@@ -244,9 +244,6 @@ int loadImageMenu(ecran* screen)
           return -1;
         }
     }
-    
-    InitImage(screen);
-
     return 0;
 }
 

@@ -6,6 +6,8 @@
 
 #define SIZE 3
 
+int ** mouton;
+
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
     screen->whichBack = rand()%6;
@@ -54,6 +56,34 @@ void mainTickGest(ecran *screen){
     }else if(screen->modePlay == 1){
       screen->nbPreda = 3;
       screen->nbProie = 10;
+
+	  mouton = (int **)malloc(sizeof(int*)*32);
+	  for(int i = 0; i < 32; i++){
+		mouton[i] = (int*)malloc(sizeof(int)*4);
+	  }
+	  for(int i = 0; i < 8; i++){
+		mouton[i*4][0] = 0;
+		mouton[i*4][1] = i;
+		mouton[i*4][2] = (5+i)%8;
+		mouton[i*4][3] = 5;
+
+		mouton[i*4+1][0] = 0;
+		mouton[i*4+1][1] = i;
+		mouton[i*4+1][2] = (6+i)%8;
+		mouton[i*4+1][3] = 3;
+
+		mouton[i*4+2][0] = 0;
+		mouton[i*4+2][1] = i;
+		mouton[i*4+2][2] = (4+i)%8;
+		mouton[i*4+2][3] = 3;
+
+		mouton[i*4 +3][0] = -1;
+		mouton[i*4 +3][1] = -1;
+		mouton[i*4 +3][2] = i;
+		mouton[i*4 +3][3] = 1;
+	  }
+
+	  
       screen->nbPlayer = screen->nbProie + screen->nbPreda;
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
       for(int i = 0; i < screen->nbPlayer; i++){
@@ -77,6 +107,9 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].nbBouleActive = 0;
 	screen->pla[i].shoot = 0;
 
+	
+	screen->pla[i].IAType = (i>2)?1:0;
+	
 	screen->pla[i].equipe = (i < 3)?0:1;
       
 	screen->pla[i].nbBoule = 0;
@@ -225,10 +258,19 @@ void mainTickGest(ecran *screen){
 	}
 
       }
-	      
+
     }else if(screen->modePlay == 1){
 
       for(int i = 0; i < screen->nbPlayer; i++){
+		if(screen->pla[i].IAType == 1){
+		  int * paramworld = getMoutonWorld(screen, i, 2);
+		  setIAInput(screen, i, paramworld, mouton, 32, 2);
+	  
+		  free(paramworld); 
+		}
+
+
+		
 		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
 		float depx = 0;
 		float  depy = 0;
@@ -275,7 +317,12 @@ void mainTickGest(ecran *screen){
 	}
 	free(screen->pla);
 
-
+	if(mouton != NULL){
+	  for(int i = 0; i < 32; i++){
+		free(mouton[i]);
+	  }
+	  free(mouton);
+	}
 	screen->etapeDuJeu = 2;
   }
 }

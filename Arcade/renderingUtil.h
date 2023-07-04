@@ -44,6 +44,7 @@ typedef struct player
   
   int equipe;
 
+  int IAType;
 
   int peuTirer;
   int index;

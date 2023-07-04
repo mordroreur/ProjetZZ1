@@ -2,6 +2,7 @@
 #define TICKGEST_HEADER_
 
 #include "renderingUtil.h"
+#include "IAreflexion.h"
 
 void mainTickGest(ecran *screen);
 void *ChercheMinGraphe(void *param);

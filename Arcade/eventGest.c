@@ -190,7 +190,7 @@ void LeftClick(ecran *screen) {
 	    case 1: break;
 	    case 2: break;
 	    case 3: break;
-	    case 4: startIAtraining(screen);break;
+	    case 4: startIALoupMoutontraining(screen);break;
 	    default: break;
 	    }
 	}  
@@ -201,8 +201,7 @@ void LeftClick(ecran *screen) {
 	    case 1: screen->modePlay = 0;screen->etapeDuJeu = 3;break;
 	    case 2: break;
 	    case 3: break;
-	    case 4: screen->modePlay = 1;screen->etapeDuJeu = 3;
-	      break;
+	    case 4: screen->modePlay = 1;screen->etapeDuJeu = 3; break;
 	    default: break;
 	    }
 	}

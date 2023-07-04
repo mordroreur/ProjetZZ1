@@ -73,7 +73,7 @@ typedef struct Ecran{
   int sizeY;
   int otherX;
   int otherY;
-
+  
   int etapeDuJeu;
 
   int whichBack;

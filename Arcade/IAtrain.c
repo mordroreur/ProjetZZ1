@@ -221,6 +221,7 @@ int trainLoup(ecran * screen){
 	    if(event.key.keysym.sym == SDLK_ESCAPE){
 	      tick = 1000000;
 	      maxIter = nbiter-1;
+	      //	      SDL_FlushEvent(SDL_KEYDOWN);
 	    }else if(event.key.keysym.sym == SDLK_SPACE){
 	      slow = !slow;
 	    }break;

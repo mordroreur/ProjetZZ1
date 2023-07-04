@@ -305,7 +305,9 @@ void Deplace(ecran *screen, int index, float depx, float depy){
 	}
   }
   if(move == 1){
-	screen->pla[index].pos.x += depx;
-	screen->pla[index].pos.y += depy;
+    screen->pla[index].pos.x += depx;
+    if(screen->pla[index].pos.x < 0){screen->pla[index].pos.x +=100;}else if(screen->pla[index].pos.x > 100){screen->pla[index].pos.x -= 100;} 
+    screen->pla[index].pos.y += depy;
+    if(screen->pla[index].pos.y < 0){screen->pla[index].pos.y +=100;}else if(screen->pla[index].pos.y > 100){screen->pla[index].pos.y -= 100;}
   }
 }

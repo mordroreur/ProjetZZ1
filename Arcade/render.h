@@ -12,6 +12,8 @@ void DrawMenu(ecran *screen);
 void DrawGame(ecran *screen);
 void DrawParametre(ecran *screen);
 void BackParametre(ecran *screen);
+void DrawSelectGame(ecran * screen);
+void backSelectGame(ecran * screen);
 void DrawVictoire(ecran *screen);
 void loadingScreenWithBarre(ecran *screen, int max, int actu);
 

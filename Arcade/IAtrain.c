@@ -28,7 +28,7 @@ void startIAtraining(ecran * screen){
 int testfct(ecran * screen){
     int Nbparam = 5;//9
     int Nbregle = 20;
-    int Nbloi = 1;
+    int Nbloi = 2;
     int Nbpreda = 3;
     int Nbproie = 10;
     int Nbmur = screen->nbObjetsMax;
@@ -225,6 +225,16 @@ int testfct(ecran * screen){
             for(int j=0; j<4;j++){
                 screen->pla[i+Nbpreda].input[j]=(rand()%2);
             }
+        }
+        SDL_Event event;
+        while (SDL_PollEvent(&event)){
+            switch (event.type){
+                case SDL_KEYDOWN:
+                if(event.key.keysym.sym == SDLK_ESCAPE){
+                    exit(0);
+                }break;
+                default:break;
+            }     
         }
         SDL_Delay(1);
         mainTickGest(screen);

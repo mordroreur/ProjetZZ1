@@ -40,7 +40,8 @@ typedef struct player
   boule* boubou;
   int dirX;
   int dirY;
-
+  int vitTire;
+  
   int equipe;
 
 

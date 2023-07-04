@@ -1,6 +1,7 @@
 #include "ticksGest.h"
 #include "renderingUtil.h"
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define SIZE 3
@@ -20,6 +21,7 @@ void mainTickGest(ecran *screen){
   
 	screen->pla[i].kill = 0;
 	screen->pla[i].mort = 0;
+	screen->pla[i].vitTire = 2;
 
 	screen->pla[i].vie = screen->maxVie;
 	screen->pla[i].index = 0;
@@ -150,13 +152,12 @@ void mainTickGest(ecran *screen){
 		  if(screen->pla[i].peuTirer == 1){
 			screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
 			screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
-			screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.6;
+			screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.4;
 			screen->pla[i].boubou[screen->pla[i].index].pos.h = screen->pla[i].pos.h*0.8;
 			screen->pla[i].boubou[screen->pla[i].index].vie = screen->pla[i].maxBouleVie;
 			//screen->pla[i].boubou[screen->pla[i].index].speed = 1*;
-			screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX*(float) screen->pla[i].vitesse*3;
-			screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY*(float) screen->pla[i].vitesse*3;
-			printf("%f\n", screen->pla[i].boubou[screen->pla[i].index].vitX);
+			screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX*(float) screen->pla[i].vitesse*screen->pla[i].vitTire;
+			screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY*(float) screen->pla[i].vitesse*screen->pla[i].vitTire;
 			screen->pla[i].index = (screen->pla[i].index+1)%screen->pla[i].nbBoule;
 			screen->pla[i].nbBouleActive++;
 			screen->pla[i].shoot = 36;
@@ -167,16 +168,16 @@ void mainTickGest(ecran *screen){
 		for(int j = screen->pla[i].debBoule; j < screen->pla[i].debBoule+screen->pla[i].nbBouleActive; j++){
 		  boule *b = &(screen->pla[i].boubou[j%screen->pla[i].nbBoule]);
 
-		  /*
-		  int nbDep = fabsf(b->vitX) + fabsf(b->vitY);
-	  
+		  
+		  int nbDep = ((b->vitX!=0)?1:0) + ((b->vitY!=0)?1:0);
+		  //printf("%d\n", nbDep);
 		  if(nbDep == 1){
 		    if(b->vitX != 0) {b->pos.x += b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}
 		    else if(b->vitY != 0) {b->pos.y += b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.y -= 100;}}
 		  }else if(nbDep == 2){
 		    if(b->vitX != 0) {b->pos.x += 1/sqrt(2)*b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}
 		    if(b->vitY != 0) {b->pos.y += 1/sqrt(2)*b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.x -= 100;}}
-		    }*/
+		    }
 
 	  for(int k = 0; k < screen->nbPlayer; k++){
 	    if(screen->pla[i].equipe != screen->pla[k].equipe){

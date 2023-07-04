@@ -41,7 +41,8 @@ void enlargeButton(ecran *screen, int posMX, int posMY, int numIm, int xIm, int 
 
 void DrawPreface(ecran * screen)
 {
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   if (screen->etapeMenu >= 112)
   {
     screen->etapeDuJeu = 2;
@@ -59,7 +60,8 @@ void DrawMenu(ecran *screen)
   int posMX, posMY;
   SDL_GetMouseState(&posMX, &posMY);
  
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193)
     screen->etapeMenu = 113;
@@ -91,7 +93,8 @@ void DrawParametre(ecran *screen)
   
   sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
   SDL_GetMouseState(&posMX, &posMY);
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
   if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
@@ -137,7 +140,8 @@ void BackParametre(ecran *screen)
   
   sprintf(volume, "volume: %d", Mix_VolumeMusic(-1));
   SDL_GetMouseState(&posMX, &posMY);
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
   if (screen->decalageB1 > 80) {screen->decalageB1 -= 2;}  
@@ -172,7 +176,8 @@ void BackParametre(ecran *screen)
 
 void DrawPreface2(ecran * screen)
 {
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   if (screen->etapeMenu >= 261)
   {
     screen->etapeDuJeu = 3;
@@ -184,7 +189,7 @@ void DrawPreface2(ecran * screen)
 
 void DrawSelectGame(ecran * screen)
 {
-  printf("decal: %d, selectGam: %d, backSelect: %d\n", screen->decalageB4, screen->etapeSelGam, screen->backSelec);
+  //printf("decal: %d, selectGam: %d, backSelect: %d\n", screen->decalageB4, screen->etapeSelGam, screen->backSelec);
   int posMX, posMY;
   static float large = 0;  static float large2 = 0; 
   static float large3 = 0; static float large4 = 0;
@@ -200,7 +205,8 @@ void DrawSelectGame(ecran * screen)
   if (screen->decalageB2 < 130) {screen->decalageB2 += 2;}
   if (screen->decalageB3 > -30) {screen->decalageB3 -= 2;}
   if (screen->decalageB5 < 20) {screen->decalageB5 += 2;}
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
   DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
@@ -279,7 +285,8 @@ void backSelectGame(ecran * screen)
     screen->decalageB5 -= 2;
   else
     screen->etapeDuJeu = 2;
-  imagePreface(screen, screen->etapeMenu++);
+  if(screen->showImage)  
+    imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
   if (screen->etapeMenu >= 193)
     screen->etapeMenu = 113;

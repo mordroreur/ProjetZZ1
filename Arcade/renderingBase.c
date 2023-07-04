@@ -141,14 +141,18 @@ void startMainBoucle(ecran *screen){
   
   //SDL_CloseAudioDevice(deviceId);
   //SDL_FreeWAV(wavBuffer);
-  
-  /************Début de la boucle des ticks***********************/  
-  if (loadImageMenu(screen) == -1)
-	{
-	  printf("Error in loadImageMenu\n");
-	  exit( EXIT_FAILURE );
-	}
 
+  loadRobotoFont();
+  /************Début de la boucle des ticks***********************/
+  if (screen->showImage)
+  {
+    if (loadImageMenu(screen) == -1)
+    {
+      printf("Error in loadImageMenu\n");
+      exit( EXIT_FAILURE );
+    }
+  }
+  InitImage(screen);
   /************Initialisation des variables de temps**************/
   LastFrame = getTime();
   TimeCount = getTime();

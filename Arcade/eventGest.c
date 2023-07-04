@@ -112,6 +112,17 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 			break;
 		}
 	}
+	if (screen->etapeDuJeu == 8)
+	{
+		switch (key.keysym.sym)
+        {
+			case SDLK_s:
+				screen->etapeDuJeu = 13;
+				screen->previousSelGam = 0;
+				screen->etapeSelGam = 1;
+			break;
+		}
+	}
 }
 
 void LeftClick(ecran *screen) {

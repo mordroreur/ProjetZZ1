@@ -209,14 +209,17 @@ void loadMusic(ecran * screen)
   if (!screen->musique[1]) {printf("Error load musique 1\n!"); exit(EXIT_FAILURE);}
 }
 
-int loadImageMenu(ecran* screen)
+void loadRobotoFont()
 {
   RobotoFont = TTF_OpenFont("Ressources/Roboto-Black.ttf", 70);
   if (RobotoFont == NULL) {
     fprintf(stderr, "error: font not found\n");
     exit(EXIT_FAILURE);
   }
-  
+}
+
+int loadImageMenu(ecran* screen)
+{
   loadingScreenWithBarre(screen, 100, 0);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);

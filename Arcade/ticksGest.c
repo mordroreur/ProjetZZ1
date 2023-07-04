@@ -156,6 +156,7 @@ void mainTickGest(ecran *screen){
 			//screen->pla[i].boubou[screen->pla[i].index].speed = 1*;
 			screen->pla[i].boubou[screen->pla[i].index].vitX = screen->pla[i].dirX*(float) screen->pla[i].vitesse*3;
 			screen->pla[i].boubou[screen->pla[i].index].vitY = screen->pla[i].dirY*(float) screen->pla[i].vitesse*3;
+			printf("%f\n", screen->pla[i].boubou[screen->pla[i].index].vitX);
 			screen->pla[i].index = (screen->pla[i].index+1)%screen->pla[i].nbBoule;
 			screen->pla[i].nbBouleActive++;
 			screen->pla[i].shoot = 36;
@@ -166,15 +167,16 @@ void mainTickGest(ecran *screen){
 		for(int j = screen->pla[i].debBoule; j < screen->pla[i].debBoule+screen->pla[i].nbBouleActive; j++){
 		  boule *b = &(screen->pla[i].boubou[j%screen->pla[i].nbBoule]);
 
-	  int nbDep = fabsf(b->vitX) + fabsf(b->vitY);
+		  /*
+		  int nbDep = fabsf(b->vitX) + fabsf(b->vitY);
 	  
-	  if(nbDep == 1){
-	    if(b->vitX != 0) {b->pos.x += b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}else if(b->vitY != 0) {b->pos.y += b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.y -= 100;}}
-
-	  }else if(nbDep == 2){
-	    if(b->vitX != 0) {b->pos.x += 1/sqrt(2)*b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}
-	    if(b->vitY != 0) {b->pos.y += 1/sqrt(2)*b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.x -= 100;}}
-	  }
+		  if(nbDep == 1){
+		    if(b->vitX != 0) {b->pos.x += b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}
+		    else if(b->vitY != 0) {b->pos.y += b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.y -= 100;}}
+		  }else if(nbDep == 2){
+		    if(b->vitX != 0) {b->pos.x += 1/sqrt(2)*b->vitX;  if(b->pos.x < 0){b->pos.x += 100;}else if(b->pos.x > 100){b->pos.x -= 100;}}
+		    if(b->vitY != 0) {b->pos.y += 1/sqrt(2)*b->vitY;  if(b->pos.y < 0){b->pos.y += 100;}else if(b->pos.y > 100){b->pos.x -= 100;}}
+		    }*/
 
 	  for(int k = 0; k < screen->nbPlayer; k++){
 	    if(screen->pla[i].equipe != screen->pla[k].equipe){

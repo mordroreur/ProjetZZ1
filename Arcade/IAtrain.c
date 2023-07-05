@@ -254,8 +254,8 @@ int trainLoup(ecran * screen){
 	    //printf("%d   val = %d\n", (possibilites[leParam]+1), allArgs[i].value+1);
 	    resValue[allArgs[i].value+1] = allArgs[i].res;
 	  }
-	  int max = 0;
-	  for(int i = 1; i<possibilites[leParam]+1; i++){
+	  int max = (leParam == PARAMLOUP+1)?2:0;
+	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
 		if(resValue[max] > resValue[i])
 		  max = i;
 	  }

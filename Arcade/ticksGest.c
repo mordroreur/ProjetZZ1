@@ -6,8 +6,7 @@
 
 #define SIZE 3
 
-int ** mouton;
-int Nbreglemouton = 16;
+int ** mouton = NULL;
 
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
@@ -323,12 +322,12 @@ void mainTickGest(ecran *screen){
 	}
 	free(screen->pla);
 
-	if(mouton != NULL){
-	  for(int i = 0; i < Nbreglemouton; i++){
+	/*if(mouton != NULL){
+	  for(int i = 0; i < 32; i++){
 		free(mouton[i]);
 	  }
 	  free(mouton);
-	}
+	  }*/
 	screen->etapeDuJeu = 2;
   }
 }

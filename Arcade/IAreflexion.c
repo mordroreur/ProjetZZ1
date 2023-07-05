@@ -83,8 +83,13 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 
 
 void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, int Nbparam){
-	  
 
+  /*for(int i = 0; i < Nbparam; i++){
+	printf("%d", paramworld[i]);
+  }
+  printf("\n");*/
+
+  
 	  //Fin acquisition de données
 
 	  //Realisation action

@@ -71,7 +71,7 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	    }
 	  }
 
-	  min2 = (min == 0)?1:0;
+	  /* min2 = (min == 0)?1:0;
 	  
 	  for(int i = 1; i < screen->nbObjetsMax-screen->nbBananes; i++){
 		if(i != min){
@@ -81,12 +81,12 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 			min = i;
 		  }
 		}
-	  }
+		}*/
 	  
 	  paramworld[p++] = distobj(screen, k, min);
 	  paramworld[p++] = orientobj(screen,k,min);
-	  paramworld[p++] = distobj(screen, k, min2);
-	  paramworld[p] = orientobj(screen,k,min2);
+	  //paramworld[p++] = distobj(screen, k, min2);
+	  //paramworld[p] = orientobj(screen,k,min2);
 	  
 	  
 
@@ -147,119 +147,119 @@ void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, 
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 1:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 2:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 3:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 1;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 4:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 1;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 5:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 1;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 6:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 7:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  case 8:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 9:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 10:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 11:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 1;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 12:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 1;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 13:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 1;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 14:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  case 15:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 1;
+	    screen->pla[k].input[4]  = 1;
 	    break;
 	  default:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
-		screen->pla[k].input[4]  = 0;
+	    screen->pla[k].input[4]  = 0;
 	    break;
 	  }                
 

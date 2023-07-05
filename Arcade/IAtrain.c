@@ -8,7 +8,7 @@
 
 
 #define COEURNUMBER 8
-#define PARAMLOUP 12
+#define PARAMLOUP 10
 #define PARAMMOUTON 2
 #define NBITERMAX 5
 #define PROBAMUT 0.05
@@ -316,7 +316,7 @@ int trainLoup(ecran * screen){
     
   int ContinueTrain = 1;
   
-  int possibilites[14] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
+  int possibilites[12] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
   
   //setup basic sheep IA
   MoutonLoi = (int **)malloc(sizeof(int*)*32);

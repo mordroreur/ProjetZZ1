@@ -207,14 +207,26 @@ int *getMoutonWorld(ecran *screen, int k, int paramNb){
 
 }
 
+int dist(ecran * screen, int self, int other){
+    int dist = -1;
+    float diffx = (screen->pla[other].pos.x - screen->pla[self].pos.x);
+    if(fabs(diffx) > 50){diffx = 100-fabs(diffx);}
+    float diffy = (screen->pla[other].pos.y - screen->pla[self].pos.y);
+    if(fabs(diffy) > 50){diffy = 100-fabs(diffy);}
+    float valdist = sqrtf(carre(diffx)+carre(diffy));
+    if(valdist<15) {dist = 0;}
+    else if(valdist<40) {dist = 1;}
+    else {dist = 2;}
+    return dist;
+}
 
 
 int distobj(ecran * screen, int self, int other){
     int dist = -1;
-    float diffx = screen->tbObjet[other].pos.x - screen->pla[self].pos.x;
-    if(diffx > 50){diffx -= 50;}
-    float diffy = screen->tbObjet[other].pos.y - screen->pla[self].pos.y;
-    if(diffy > 50){diffy -= 50;}
+    float diffx = (screen->tbObjet[other].pos.x - screen->pla[self].pos.x);
+    if(fabs(diffx) > 50){diffx = 100-fabs(diffx);}
+    float diffy = (screen->tbObjet[other].pos.y - screen->pla[self].pos.y);
+    if(fabs(diffy) > 50){diffy = 100-fabs(diffy);}
     float valdist = sqrtf(carre(diffx)+carre(diffy));
     if(valdist<15) {dist = 0;}
     else if(valdist<40) {dist = 1;}
@@ -227,107 +239,107 @@ float carre(float x){
 }
 
 int orient(ecran * screen, int self, int other){
-    float diffx = screen->pla[other].pos.x - screen->pla[self].pos.x;
-    float diffy = screen->pla[other].pos.y - screen->pla[self].pos.y;
+    float diffx = (screen->pla[other].pos.x - screen->pla[self].pos.x);
+    float diffy = (screen->pla[other].pos.y - screen->pla[self].pos.y);
     int orient = -1;
     float theta = 0.0;
     float pi = 3.14159;
     if(diffx==0){
-        if(diffy>0){orient=5;}
-        else if(diffy<0){orient=-1;}
+        if(diffy>0){orient=4;}
+        else if(diffy<0){orient=0;}
     }
     else if(diffx>0){
         theta = atanf(diffy/diffx);
         if((theta>(2*pi)/6)){
-            orient = 0;
+            orient = 4;
         }
         if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 1;
+            orient = 3;
         }
         if((theta>(-pi)/6) && (theta<=(pi/6))){
             orient = 2;
         }
         if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 3;
-        }
-        if(theta<=(-2*pi)/6){
-            orient = 4;
-        }
-    }
-    else{
-        theta = atanf(diffy/-diffx);
-        if((theta>(2*pi)/6)){
-            orient = 4;
-        }
-        if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 5;
-        }
-        if((theta>(-pi)/6) && (theta<=(pi/6))){
-            orient = 6;
-        }
-        if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 7;
+            orient = 1;
         }
         if(theta<=(-2*pi)/6){
             orient = 0;
         }
     }
+    else if(diffx<0){
+        theta = atanf(diffy/diffx);
+        if((theta>(2*pi)/6)){
+            orient = 0;
+        }
+        if((theta>(pi)/6) && (theta<=(2*pi/6))){
+            orient = 7;
+        }
+        if((theta>(-pi)/6) && (theta<=(pi/6))){
+            orient = 6;
+        }
+        if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
+            orient = 5;
+        }
+        if(theta<=(-2*pi)/6){
+            orient = 4;
+        }
+    }
 
-    if(diffx > 50){orient = (orient+4)%8;}
-    else if(diffy > 50){orient = (orient+4)%8;}
+    if(fabs(diffx) > 50){orient = 8-orient;}
+    else if(fabs(diffy) > 50){orient = (4-orient)%8;}
     
     return orient;
 }
 
 int orientobj(ecran * screen, int self, int other){
-    float diffx = screen->tbObjet[other].pos.x - screen->pla[self].pos.x;
-    float diffy = screen->tbObjet[other].pos.y - screen->pla[self].pos.y;
+    float diffx = (screen->tbObjet[other].pos.x - screen->pla[self].pos.x);
+    float diffy = (screen->tbObjet[other].pos.y - screen->pla[self].pos.y);
     int orient = -1;
     float theta = 0.0;
     float pi = 3.14159;
     if(diffx==0){
-        if(diffy>0){orient=5;}
-        else if(diffy<0){orient=-1;}
+        if(diffy>0){orient=4;}
+        else if(diffy<0){orient=0;}
     }
     else if(diffx>0){
         theta = atanf(diffy/diffx);
         if((theta>(2*pi)/6)){
-            orient = 0;
+            orient = 4;
         }
         if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 1;
+            orient = 3;
         }
         if((theta>(-pi)/6) && (theta<=(pi/6))){
             orient = 2;
         }
         if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 3;
-        }
-        if(theta<=(-2*pi)/6){
-            orient = 4;
-        }
-    }
-    else{
-        theta = atanf(diffy/-diffx);
-        if((theta>(2*pi)/6)){
-            orient = 4;
-        }
-        if((theta>(pi)/6) && (theta<=(2*pi/6))){
-            orient = 5;
-        }
-        if((theta>(-pi)/6) && (theta<=(pi/6))){
-            orient = 6;
-        }
-        if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
-            orient = 7;
+            orient = 1;
         }
         if(theta<=(-2*pi)/6){
             orient = 0;
         }
     }
+    else if(diffx<0){
+        theta = atanf(diffy/diffx);
+        if((theta>(2*pi)/6)){
+            orient = 0;
+        }
+        if((theta>(pi)/6) && (theta<=(2*pi/6))){
+            orient = 7;
+        }
+        if((theta>(-pi)/6) && (theta<=(pi/6))){
+            orient = 6;
+        }
+        if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
+            orient = 5;
+        }
+        if(theta<=(-2*pi)/6){
+            orient = 4;
+        }
+    }
 
-    if(diffx > 50){orient = (orient+4)%8;}
-    else if(diffy > 50){orient = (orient+4)%8;}
+    if(fabs(diffx) > 50){orient = 8-orient;}
+    else if(fabs(diffy) > 50){orient = (4-orient)%8;}
     
     return orient;
 }
@@ -342,3 +354,5 @@ int compareN(int * tab1, int* tab2, int N){
     }
     return ret;
 }
+
+

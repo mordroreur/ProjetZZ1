@@ -9,7 +9,6 @@
 
 int ** mouton = NULL;
 
-
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
     screen->whichBack = rand()%6;

@@ -26,7 +26,7 @@ void startIALoupMoutontraining(ecran * screen){
 void startBubbleTraining(ecran * screen){
   int nbRegle = 20;
   int nbParam = 23;
-  int possibilites[25] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 8 ,8 ,8 ,8 ,8, 8, 8, 8, 8, 8, 8, 5, 5, 5};
+  int possibilites[25] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 8 ,8 ,8 ,8 ,8, 8, 8, 8, 8, 8, 8, 5, 16, 5};
 
   int nbLoi = 40;
   int nbPoule = 10;

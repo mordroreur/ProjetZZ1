@@ -223,6 +223,12 @@ int dist(ecran * screen, int self, int other){
 
 int distobj(ecran * screen, int self, int other){
     int dist = -1;
+
+
+
+
+
+    
     float diffx = (screen->tbObjet[other].pos.x - screen->pla[self].pos.x);
     if(fabs(diffx) > 50){diffx = 100-fabs(diffx);}
     float diffy = (screen->tbObjet[other].pos.y - screen->pla[self].pos.y);

@@ -47,13 +47,14 @@ void mainTickGest(ecran *screen){
 	}
 	screen->pla[i].dirX = 1 - 2*i;
 	screen->pla[i].dirY = 1 -2*i;
-
-	screen->nbObjetsMax = 0;
 	
 	for(int j = 0; j < 5; j++){
 	  screen->pla[i].input[j] = 0;
 	}      
       }
+      screen->nbObjetsMax = 10;
+      screen->tbObjet = (objet *)malloc(sizeof(objet) * screen->nbObjetsMax);
+      
       // JEU MOUTON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }else if(screen->modePlay == 1){
       screen->nbPreda = 3;

@@ -30,7 +30,7 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].vie = screen->maxVie;
 	screen->pla[i].index = 0;
 
-	screen->pla[i].maxBouleVie = 100;
+	screen->pla[i].maxBouleVie = 300;
 
 	screen->pla[i].peuTirer = 1;
 	  

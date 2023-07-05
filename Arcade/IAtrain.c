@@ -26,8 +26,9 @@ void startIALoupMoutontraining(ecran * screen){
 void startBubbleTraining(ecran * screen){
   int nbRegle = 20;
   int nbParam = 23;
-  int possibilites[25] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 8 ,8 ,8 ,8 ,8, 8, 8, 8, 8, 8, 8, 5, 16, 5};
-
+  int possibilites[25] = {3, 8, 3, 8, 3, 3, 8, 3, 3, 3, 3, 3 ,3 ,3 ,3 ,3, 3, 3, 3, 3, 3, 3, 3, 16, 5};
+  //dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+  
   int nbLoi = 40;
   int nbPoule = 10;
 
@@ -54,9 +55,11 @@ void startBubbleTraining(ecran * screen){
   ecran** allScreen = (ecran **)malloc(sizeof(ecran*) * (COEURNUMBER-3));
   for(int i = 1; i < (COEURNUMBER-3); i++){
     allScreen[i] = (ecran *)malloc(sizeof(ecran));
-    allInput[i].sc = allScreen[i];
   }
   allScreen[0] = screen;
+  for(int i = 0 ; i < (COEURNUMBER-3); i++){
+	allInput[i].sc = allScreen[i];
+  }
   
   int nbThread = 0;
   int contiGen = 1;
@@ -68,25 +71,28 @@ void startBubbleTraining(ecran * screen){
       listPrems[i] = i;
     }
 
-    /*for(int trn = 0; trn < nbPoule; trn++){
+    for(int trn = 0; trn < nbPoule; trn++){
       if(nbThread < COEURNUMBER-3){
-	allInput[nbThread].lois = allLoi + (trn*4);
-	allInput[nbThread].nbregle = nbRegle;
-	allInput[nbThread].nbparam = nbParam;
-	allInput[nbThread].trnid = trn;
-	int retour = pthread_create(&allThread[nbThread], NULL, GetTournoisClassement,  &allInput[nbThread]);
-	nbThread++;
+		allInput[nbThread].lois = allLoi + (trn*4);
+		allInput[nbThread].nbregle = nbRegle;
+		allInput[nbThread].nbparam = nbParam;
+		allInput[nbThread].trnid = trn;
+		printf("Creer pthe\n");
+		pthread_create(&allThread[nbThread], NULL, GetTournoisClassement,  &allInput[nbThread]);
+		printf("fin crea\n");
+		nbThread++;
       }else{
-	int boucleVal = nbThread;
-	for(int i = 0; i < boucleVal; i++){
-	  pthread_join(allThread[i], NULL);
-	  nbThread--;
-	  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
-	  free(allInput[i].classement);
-	}
-	trn--;
+		int boucleVal = nbThread;
+		for(int i = 0; i < boucleVal; i++){
+		  printf("Libe\n");
+		  pthread_join(allThread[i], NULL);
+		  nbThread--;
+		  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
+		  free(allInput[i].classement);
+		}
+		trn--;
       }
-      }*/
+	}
 
     int boucleVal = nbThread;
     for(int i = 0; i < boucleVal; i++){
@@ -138,10 +144,11 @@ void startBubbleTraining(ecran * screen){
     
     for(int i = 0; i < nbLoi; i++){
       if(PROBAMUT > (rand()%100)/100.0){
-	int rg = rand()%nbRegle;
-	int rp = rand()%(nbParam+2);
-	float proba = (rand()%100)/100.0;
-	int nwVal = (rp == nbParam+1)?(rand()%5 + 1):rand()%(possibilites[i]+1)-1;
+		int rg = rand()%nbRegle;
+		int rp = rand()%(nbParam+2);
+		//float proba = (rand()%100)/100.0;
+		int nwVal = (rp == nbParam+1)?(rand()%5 + 1):rand()%(possibilites[i]+1)-1;
+		allLoi[i][rg][rp] = nwVal;
       }
     }
     
@@ -157,6 +164,21 @@ void startBubbleTraining(ecran * screen){
       }
       free(pere);
     }
+
+	SDL_Event event;
+    while (SDL_PollEvent(&event)){
+      switch (event.type){
+      case SDL_KEYUP:
+	if(event.key.keysym.sym == SDLK_ESCAPE){
+	  contiGen = 0;
+	}break;
+      default:break;
+      }  
+    }
+
+
+
+	
     break;
   }
 
@@ -669,24 +691,26 @@ void *GetTournoisClassement(void *arg){
 
 
       for(int ite = 0; ite < NBMATCH; ite++){
-	input->sc->maxVie = 1;
-	input->sc->etapeDuJeu = 3;
-	input->sc->modePlay = 0;
-	mainTickGest(input->sc);
+		input->sc->maxVie = 1;
+		input->sc->etapeDuJeu = 3;
+		input->sc->modePlay = 0;
+		mainTickGest(input->sc);
 	for(int i = 0; i < input->sc->nbPlayer; i++){
 	  input->sc->pla[i].IAType = 0;
 	}
-	for(int tick=0; tick<60000; tick++){
+	for(int tick=0; tick<600; tick++){
 	  //Acquisition de données
-	  /*	  
+	  
 	  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
 	  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam);
 	  free(paramworld);
 
+	  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+	  
 	  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
 	  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
 	  free(paramworld);
-	  */
+	  
 	  
 	  mainTickGest(input->sc);
 	  if(input->sc->etapeDuJeu == 5){
@@ -771,7 +795,7 @@ int *** creationFils(int *** peres, int ligne, int colonne, int nbrParametre, in
     //ligne = nbr IA vainqueur
     //colonne = nbr Règle
     int *** fils = createMatrice(nbrFils, colonne, nbrParametre);
-    int ia, ia1, ia2, ia3, max, index;
+    int ia, ia1, ia2, ia3, index;
     for (int i = 0; i < nbrFils; i++)
     {
         /*Selection aléatoire des IA vainqueur*/

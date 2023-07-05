@@ -20,6 +20,12 @@ void startIALoupMoutontraining(ecran * screen){
 
 }
 
+void startBubbleTraining(ecran * screen){
+  
+}
+
+
+
 int ** MoutonLoi;
 
 void playLoup(ecran *screen){
@@ -259,8 +265,8 @@ int trainLoup(ecran * screen){
 		if(resValue[max] > resValue[i])
 		  max = i;
 	  }
-	  int nbMax = 0;
-	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
+          int nbMax = 0;
+	  for(int i = (leParam == PARAMLOUP+1)?2:0; i<possibilites[leParam]+1; i++){
 	    if(resValue[max] == resValue[i])
 	      nbMax++;
 	  }
@@ -279,7 +285,7 @@ int trainLoup(ecran * screen){
 	    it++;
 	  }
 	  
-	  
+
 	  Mainloi[laRegle][leParam] = nvmax-1;
 	  for(int i = 0; i < (COEURNUMBER-3); i++){
 		allArgs[i].loi[laRegle][leParam] = nvmax-1;

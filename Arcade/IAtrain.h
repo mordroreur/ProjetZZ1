@@ -19,6 +19,8 @@ typedef struct simulation_I_O{
 
 
 void startIALoupMoutontraining(ecran * screen);
+void startBubbleTraining(ecran * screen);
+
 
 int trainLoup(ecran *screen);
 void playLoup(ecran * screen);

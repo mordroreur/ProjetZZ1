@@ -35,8 +35,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 21;
-  int nbPlanche = 18;
+  int nbImage = 22;
+  int nbPlanche = 19;
 
 
 void InitImage(ecran *screen){
@@ -113,6 +113,11 @@ void InitImage(ecran *screen){
   PixelXnb[20] = 1261; PixelYnb[20] = 601; XImagenb[20] = 1; YImagenb[20] = 1;
   TotalImagenb[20] = 1; ImYoffset[20] = 7; ImXoffset[20] = 0;
   debX[20] = 0; debY[20] = 0; wichFile[20] = 17;
+
+  fileImage[18] = IMG_Load("Ressources/Image/blackHole.png");
+  PixelXnb[21] = 765; PixelYnb[21] = 762; XImagenb[21] = 1; YImagenb[21] = 1;
+  TotalImagenb[21] = 1; ImYoffset[21] = 7; ImXoffset[21] = 0;
+  debX[21] = 0; debY[21] = 0; wichFile[21] = 18;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
   // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
@@ -223,20 +228,20 @@ int loadImageMenu(ecran* screen)
   loadingScreenWithBarre(screen, 100, 0);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);
-    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*262); // créer tableau de texture
+    textureMenu = (SDL_Texture **) malloc(sizeof(SDL_Texture *)*200); // créer tableau de texture
     if (!textureMenu) {
         fprintf(stderr, "Erreur allocation memory in loadImageMenu\n");
         return -1;
     }
-    for (int i = 0; i < 262; i++) 
+    for (int i = 0; i < 200; i++) 
     {
 	  if(i%3 == 0){
-	    loadingScreenWithBarre(screen, 262, i);
+	    loadingScreenWithBarre(screen, 200, i);
 	    SDL_RenderPresent(screen->renderer);
 	    SDL_RenderClear(screen->renderer);
 	  }
 	  char nom[60];
-	  sprintf(nom, "Ressources/Image/img_menu/imgComp/%d.png", i);
+	  sprintf(nom, "Ressources/Image/render_galaxy/%d.png", i);
 	  textureMenu[i] = loadImage(nom, screen->renderer);
 	  if(!textureMenu[i]) 
         { 

@@ -20,7 +20,8 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	    paramworld[p++]=disti;
 	    paramworld[p++] = orient(screen, k, id);*/
 
-	  for(int i = 0; i < screen->nbPreda; i++){
+	  for(int i = 0; i < screen->nbPreda; i++)
+    {
 	    if(i != k){
 	      paramworld[p++] = dist(screen, k, i);
 	      paramworld[p++] = orient(screen, k, i);

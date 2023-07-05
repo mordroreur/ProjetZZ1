@@ -2,28 +2,31 @@
 #define TRAINIA_HEADER_
 
 #include "renderingBase.h"
+#include "IAreflexion.h"
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
 
-void startIAtraining(ecran * screen);
+
+typedef struct simulation_I_O{
+  ecran * sc;
+  int **loi;
+  int res;
+  int value;
+  int nbAcRegle;
+}simIO;
+
+
+void startIALoupMoutontraining(ecran * screen);
 
 int trainLoup(ecran *screen);
 void playLoup(ecran * screen);
-int * CreateTab1(int taille);
-int ** CreateTab2(int Nbregle, int Nbparam);
-int *** CreateTab3(int Nbindiv, int Nbregle, int Nbparam);
-int * genreglealea(int Nbpram);
-int dist(ecran * screen, int self, int other);
-int distobj(ecran * screen, int self, int other);
-float carre(float x);
-int orient(ecran * screen, int self, int other);
-int orientobj(ecran * screen, int self, int other);
-int compareN(int * tab1, int* tab2, int N);
-void readIAFile(char *name, int **tab);
-int *getLoupWorld(ecran *screen, int k, int paramNb);
-int *getMoutonWorld(ecran *screen, int k, int paramNb);
-void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, int Nbparam);
+int * genreglealea(int Nbpram, int * possible);
+int ** readIAFile(char *name, int *regles);
+
+void *GetLoupScore(void*);
+void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture);
+
 
 #endif /* TRAINIA_HEADER_ */

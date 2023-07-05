@@ -426,8 +426,8 @@ void DrawGame(ecran *screen){
 	else if(b->vitX == -1 && b->vitY == 1){angle = -45;}
 	else if(b->vitX == -1 && b->vitY == -1){angle = 45;}
       
-	if(screen->pla[i].boubou[j].vie >= 0){
-	  DrawImage(2+i, screen->pla[i].boubou[j].pos.x, screen->pla[i].boubou[j].pos.y, screen->pla[i].boubou[j].pos.w, screen->pla[i].boubou[j].pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	if(b->vie >= 0){
+	  DrawImage(2+i, b->pos.x, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  if(b->pos.x < 3){
 	    DrawImage(2+i, b->pos.x+100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    if(b->pos.y < 3){

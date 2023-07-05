@@ -40,9 +40,11 @@ typedef struct player
   boule* boubou;
   int dirX;
   int dirY;
-
+  int vitTire;
+  
   int equipe;
 
+  int IAType;
 
   int peuTirer;
   int index;
@@ -73,7 +75,7 @@ typedef struct Ecran{
   int sizeY;
   int otherX;
   int otherY;
-
+  
   int etapeDuJeu;
 
   int whichBack;

@@ -422,6 +422,8 @@ int trainLoup(ecran * screen){
 	    //printf("%d   val = %d\n", (possibilites[leParam]+1), allArgs[i].value+1);
 	    resValue[allArgs[i].value+1] = allArgs[i].res;
 	  }
+
+	  
 	  int max = (leParam == PARAMLOUP+1)?2:0;
 	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
 		if(resValue[max] > resValue[i])
@@ -437,6 +439,8 @@ int trainLoup(ecran * screen){
 	  if(leParam == PARAMLOUP && quelMax == 1 && nbMax != 1){
 	    quelMax = (rand()%(nbMax-1))+2;
 	  }
+
+	  
 	  int nvmax = 0;
 	  int it = 0;
 	  while (quelMax != 0) {
@@ -446,7 +450,7 @@ int trainLoup(ecran * screen){
 	    }
 	    it++;
 	  }
-	  
+
 
 	  Mainloi[laRegle][leParam] = nvmax-1;
 	  for(int i = 0; i < (COEURNUMBER-3); i++){
@@ -584,7 +588,7 @@ int * genreglealea(int Nbparam, int * possible){
   if(result == NULL){
 	printf("O connais le pb\n");
   }
-  for(int i = 0; i < Nbparam +1; i++){
+  for(int i = 0; i < Nbparam ; i++){
 	float proba = (rand()%100)/100.0;
 	if(proba < 0.25){
 	  result[i] = rand()%possible[i];
@@ -592,8 +596,9 @@ int * genreglealea(int Nbparam, int * possible){
 	  result[i] = -1;
 	}
   }
-  
-  result[Nbparam+1]=rand()%5 + 1;
+
+  result[Nbparam]=rand()%possible[Nbparam];
+  result[Nbparam+1]=rand()%possible[Nbparam+1] + 1;
   return(result);
 }
 

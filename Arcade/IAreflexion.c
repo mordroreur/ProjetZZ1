@@ -362,3 +362,27 @@ int compareN(int * tab1, int* tab2, int N){
 }
 
 
+
+
+/*
+
+float * listdensite(ecran *sc, int self, int Nbdist, int Nborient){
+
+  float * listesurface = (float *) malloc(sizeof(float) * Nbdist);
+  for(int i=0; i<Nbdist; i++){
+    if(i==0){
+      listesurface[i]=3.14159*carre(20.0*(i+1))/8.0;
+      }
+    else{
+      listesurface[i]=(3.14159*carre(20.0*(i+1))/8.0) - listesurface[i-1];
+    }
+  }
+  float * listdensite = (float *) malloc(sizeof(float) * Nbdist*Nborient);
+  for(int i=0; i<Nbdist; i++){
+    for(int j=0; j<Nborient; j++){
+      listdensite[i*Nbdist+j]= Nbboule(self,i,j)/listesurface[i];
+    }
+  }
+  return listdensite;
+}
+*/

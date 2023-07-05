@@ -11,7 +11,8 @@ int distobj(ecran * screen, int self, int other);
 float carre(float x);
 int orient(ecran * screen, int self, int other);
 int orientobj(ecran * screen, int self, int other);
-int compareN(int * tab1, int* tab2, int N);
+int compareN(int *tab1, int *tab2, int N);
+int *getBooble1v1World(ecran *screen, int k, int paramNb);
 
 
 #endif /*__H__GUARDIAN_IAREFLEXTION__*/

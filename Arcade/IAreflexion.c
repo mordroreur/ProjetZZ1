@@ -70,9 +70,23 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	      min = i;
 	    }
 	  }
+
+	  min2 = (min == 0)?1:0;
+	  
+	  for(int i = 1; i < screen->nbObjetsMax-screen->nbBananes; i++){
+		if(i != min){
+		  int disi = distobj(screen,k,i);
+		  if(disi < dism0){
+			dis0 = disi;
+			min = i;
+		  }
+		}
+	  }
 	  
 	  paramworld[p++] = distobj(screen, k, min);
-	  paramworld[p] = orientobj(screen,k,min);
+	  paramworld[p++] = orientobj(screen,k,min);
+	  paramworld[p++] = distobj(screen, k, min2);
+	  paramworld[p] = orientobj(screen,k,min2);
 	  
 	  
 
@@ -126,61 +140,126 @@ void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, 
 	  free(regleposs);
 
 
-	  	  //printf("action : %d\n", action);
+	  //printf("action : %d\n", action);
 	  switch(action){
 	  case 0:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 1:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 2:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 3:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 1;
 	    screen->pla[k].input[3]  = 1;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 4:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 1;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 5:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 1;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 6:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  case 7:
 	    screen->pla[k].input[0]  = 1;
 	    screen->pla[k].input[1]  = 1;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 0;
+	    break;
+	  case 8:
+	    screen->pla[k].input[0]  = 0;
+	    screen->pla[k].input[1]  = 1;
+	    screen->pla[k].input[2]  = 0;
+	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 9:
+	    screen->pla[k].input[0]  = 0;
+	    screen->pla[k].input[1]  = 1;
+	    screen->pla[k].input[2]  = 1;
+	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 10:
+	    screen->pla[k].input[0]  = 0;
+	    screen->pla[k].input[1]  = 0;
+	    screen->pla[k].input[2]  = 1;
+	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 11:
+	    screen->pla[k].input[0]  = 0;
+	    screen->pla[k].input[1]  = 0;
+	    screen->pla[k].input[2]  = 1;
+	    screen->pla[k].input[3]  = 1;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 12:
+	    screen->pla[k].input[0]  = 0;
+	    screen->pla[k].input[1]  = 0;
+	    screen->pla[k].input[2]  = 0;
+	    screen->pla[k].input[3]  = 1;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 13:
+	    screen->pla[k].input[0]  = 1;
+	    screen->pla[k].input[1]  = 0;
+	    screen->pla[k].input[2]  = 0;
+	    screen->pla[k].input[3]  = 1;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 14:
+	    screen->pla[k].input[0]  = 1;
+	    screen->pla[k].input[1]  = 0;
+	    screen->pla[k].input[2]  = 0;
+	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 1;
+	    break;
+	  case 15:
+	    screen->pla[k].input[0]  = 1;
+	    screen->pla[k].input[1]  = 1;
+	    screen->pla[k].input[2]  = 0;
+	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 1;
 	    break;
 	  default:
 	    screen->pla[k].input[0]  = 0;
 	    screen->pla[k].input[1]  = 0;
 	    screen->pla[k].input[2]  = 0;
 	    screen->pla[k].input[3]  = 0;
+		screen->pla[k].input[4]  = 0;
 	    break;
 	  }                
 
@@ -219,6 +298,22 @@ int dist(ecran * screen, int self, int other){
     else {dist = 2;}
     return dist;
 }
+
+
+
+int distBoule(ecran * screen, int self, int other, int boulenb){
+    int dist = -1;
+    float diffx = (screen->pla[other].boubou[boulenb].pos.x - screen->pla[self].pos.x);
+    if(fabs(diffx) > 50){diffx = 100-fabs(diffx);}
+    float diffy = (screen->pla[other].boubou[boulenb].pos.y - screen->pla[self].pos.y);
+    if(fabs(diffy) > 50){diffy = 100-fabs(diffy);}
+    float valdist = sqrtf(carre(diffx)+carre(diffy));
+    if(valdist<15) {dist = 0;}
+    else if(valdist<40) {dist = 1;}
+    else {dist = 2;}
+    return dist;
+}
+
 
 
 int distobj(ecran * screen, int self, int other){
@@ -291,6 +386,65 @@ int orient(ecran * screen, int self, int other){
     return orient;
 }
 
+
+
+int orientBoule(ecran * screen, int self, int other, int nbBoule){
+    float diffx = (screen->pla[other].boubou[nbBoule].pos.x - screen->pla[self].pos.x);
+    float diffy = (screen->pla[other].boubou[nbBoule].pos.y - screen->pla[self].pos.y);
+    int orient = -1;
+    float theta = 0.0;
+    float pi = 3.14159;
+    if(diffx==0){
+        if(diffy>0){orient=4;}
+        else if(diffy<0){orient=0;}
+    }
+    else if(diffx>0){
+        theta = atanf(diffy/diffx);
+        if((theta>(2*pi)/6)){
+            orient = 4;
+        }
+        if((theta>(pi)/6) && (theta<=(2*pi/6))){
+            orient = 3;
+        }
+        if((theta>(-pi)/6) && (theta<=(pi/6))){
+            orient = 2;
+        }
+        if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
+            orient = 1;
+        }
+        if(theta<=(-2*pi)/6){
+            orient = 0;
+        }
+    }
+    else if(diffx<0){
+        theta = atanf(diffy/diffx);
+        if((theta>(2*pi)/6)){
+            orient = 0;
+        }
+        if((theta>(pi)/6) && (theta<=(2*pi/6))){
+            orient = 7;
+        }
+        if((theta>(-pi)/6) && (theta<=(pi/6))){
+            orient = 6;
+        }
+        if((theta>(-2*pi)/6) && (theta<=(-pi/6))){
+            orient = 5;
+        }
+        if(theta<=(-2*pi)/6){
+            orient = 4;
+        }
+    }
+
+    if(fabs(diffx) > 50){orient = 8-orient;}
+    else if(fabs(diffy) > 50){orient = (4-orient)%8;}
+    
+    return orient;
+}
+
+
+
+
+
 int orientobj(ecran * screen, int self, int other){
     float diffx = (screen->tbObjet[other].pos.x - screen->pla[self].pos.x);
     float diffy = (screen->tbObjet[other].pos.y - screen->pla[self].pos.y);
@@ -356,3 +510,89 @@ int compareN(int * tab1, int* tab2, int N){
 }
 
 
+
+int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
+  int * nbBoule = (int *) malloc(sizeof(int) * Nbdist * Nborient);
+  for(int i = 0; i < Nbdist * Nborient; i++){
+	nbBoule[i] = 0;
+  }
+  for(int i = 0; i < sc->nbPlayer; i++){
+	if(sc->pla[i].equipe != sc->pla[self].equipe){
+	  for(int j = sc->pla[i].debBoule; j < sc->pla[i].debBoule+sc->pla[i].nbBouleActive; j++){
+		if(sc->pla[i].boubou[j%100].vie >= 0){
+		  nbBoule[distBoule(sc, self, i, j%100) * Nbdist + orientBoule(sc, self, i, j%100)]++;
+		}
+	  }
+	}
+  }
+  return nbBoule;
+}
+  
+
+
+
+float * listdensite(ecran *sc, int self, int Nbdist, int Nborient){
+
+  float * listesurface = (float *) malloc(sizeof(float) * Nbdist);
+  for(int i=0; i<Nbdist; i++){
+    if(i==0){
+      listesurface[i]=3.14159*carre(20.0*(i+1))/8.0;
+      }
+    else{
+      listesurface[i]=(3.14159*carre(20.0*(i+1))/8.0) - listesurface[i-1];
+    }
+  }
+  int * bobo = getNBBouleBydirOr(sc, self, Nbdist, Nborient);
+  float * listdensite = (float *) malloc(sizeof(float) * Nbdist*Nborient);
+  for(int i=0; i<Nbdist; i++){
+    for(int j=0; j<Nborient; j++){
+      listdensite[i*Nbdist+j]= bobo[i*Nbdist+j]/listesurface[i];
+    }
+  }
+  free(listesurface);
+  free(bobo);
+  return listdensite;
+}
+
+
+// dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+int *getBooble1v1World(ecran *screen, int k, int paramNb){
+  
+  int * paramworld = (int*)malloc(sizeof(int)*(paramNb));
+  
+  int p = 0;
+
+  paramworld[p++] = dist(screen, k, 1-k);
+  paramworld[p++] = orient(screen, k, 1-k);
+  
+  if(screen->tbObjet[1].vie != 0){
+	paramworld[p++] = distobj(screen, k, 1);
+	paramworld[p++] = orientobj(screen, k, 1);
+	paramworld[p++] = distobj(screen, 1-k, 1);
+  }else{
+	paramworld[p++] = -1;
+	paramworld[p++] = -1;
+	paramworld[p++] = -1;
+  }
+
+  if(screen->tbObjet[1].vie >= 0){
+	paramworld[p++] = distobj(screen, k, 0);
+	paramworld[p++] = orientobj(screen, k, 0);
+  }else{
+	paramworld[p++] = -1;
+	paramworld[p++] = -1;
+  }
+  
+  float *densi = listdensite(screen, k, 2,  8);
+
+  for(int i = 0; i < 16; i++){
+	paramworld[p++] = (densi[i]<0.1)?0:(densi[i]<0.6)?1:2;
+  }
+
+  free(densi);
+
+  return paramworld;
+
+
+  
+}

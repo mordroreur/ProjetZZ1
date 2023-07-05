@@ -213,9 +213,9 @@ int dist(ecran * screen, int self, int other){
     if(fabs(diffx) > 50){diffx = 100-fabs(diffx);}
     float diffy = (screen->pla[other].pos.y - screen->pla[self].pos.y);
     if(fabs(diffy) > 50){diffy = 100-fabs(diffy);}
-    float valdist = sqrtf(carre(diffx)+carre(diffy));
-    if(valdist<15) {dist = 0;}
-    else if(valdist<40) {dist = 1;}
+    float valdist2 = (carre(diffx)+carre(diffy));
+    if(valdist<carre(20)) {dist = 0;}
+    else if(valdist<carre(40)) {dist = 1;}
     else {dist = 2;}
     return dist;
 }
@@ -223,19 +223,13 @@ int dist(ecran * screen, int self, int other){
 
 int distobj(ecran * screen, int self, int other){
     int dist = -1;
-
-
-
-
-
-    
     float diffx = (screen->tbObjet[other].pos.x - screen->pla[self].pos.x);
     if(fabs(diffx) > 50){diffx = 100-fabs(diffx);}
     float diffy = (screen->tbObjet[other].pos.y - screen->pla[self].pos.y);
     if(fabs(diffy) > 50){diffy = 100-fabs(diffy);}
-    float valdist = sqrtf(carre(diffx)+carre(diffy));
-    if(valdist<15) {dist = 0;}
-    else if(valdist<40) {dist = 1;}
+    float valdist = (carre(diffx)+carre(diffy));
+    if(valdist<carre(15)) {dist = 0;}
+    else if(valdist<carre(40)) {dist = 1;}
     else {dist = 2;}
     return dist;
 }

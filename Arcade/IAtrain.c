@@ -408,7 +408,6 @@ int * genreglealea(int Nbparam, int * possible){
   return(result);
 }
 
-
 int ** readIAFile(char *name, int *nbR){
   int nbParam;
   FILE* f = fopen(name, "r");

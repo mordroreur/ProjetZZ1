@@ -37,7 +37,7 @@ ecran createScreen(int sizex, int sizey, int fullscreen, int sound, int bonus, i
   }else{
     screen.window = SDL_CreateWindow("This F****** window", SDL_WINDOWPOS_CENTERED,
 				     SDL_WINDOWPOS_CENTERED, screen_dimension.w,
-				     screen_dimension.h, SDL_WINDOW_FULLSCREEN);
+				     screen_dimension.h, SDL_WINDOW_FULLSCREEN|SDL_WINDOW_RESIZABLE);
     screen.otherX = sizex;
     screen.otherY = sizey;
   }

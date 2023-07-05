@@ -8,12 +8,25 @@
 #include <stdlib.h>
 #include <math.h>
 
+
+typedef struct simulation_I_O{
+  ecran * sc;
+  int **loi;
+  int res;
+  int value;
+  int nbAcRegle;
+}simIO;
+
+
 void startIALoupMoutontraining(ecran * screen);
 
 int trainLoup(ecran *screen);
 void playLoup(ecran * screen);
 int * genreglealea(int Nbpram, int * possible);
-void readIAFile(char *name, int **tab);
+int ** readIAFile(char *name, int *regles);
+
+void *GetLoupScore(void*);
+void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture);
 
 
 #endif /* TRAINIA_HEADER_ */

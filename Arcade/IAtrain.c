@@ -8,7 +8,7 @@
 
 
 #define COEURNUMBER 8
-#define PARAMLOUP 10
+#define PARAMLOUP 12
 #define PARAMMOUTON 2
 #define NBITERMAX 5
 #define PROBAMUT 0.05
@@ -19,15 +19,16 @@ void startIALoupMoutontraining(ecran * screen){
   trainLoup(screen);
 
   //playLoup(screen);
-
-
 }
+
+
 
 void startBubbleTraining(ecran * screen){
   int nbRegle = 20;
   int nbParam = 23;
-  int possibilites[25] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 8 ,8 ,8 ,8 ,8, 8, 8, 8, 8, 8, 8, 5, 16, 5};
-
+  int possibilites[25] = {3, 8, 3, 8, 3, 3, 8, 3, 3, 3, 3, 3 ,3 ,3 ,3 ,3, 3, 3, 3, 3, 3, 3, 3, 16, 5};
+  //dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+  
   int nbLoi = 40;
   int nbPoule = 10;
 
@@ -54,9 +55,12 @@ void startBubbleTraining(ecran * screen){
   ecran** allScreen = (ecran **)malloc(sizeof(ecran*) * (COEURNUMBER-3));
   for(int i = 1; i < (COEURNUMBER-3); i++){
     allScreen[i] = (ecran *)malloc(sizeof(ecran));
-    allInput[i].sc = allScreen[i];
   }
   allScreen[0] = screen;
+  
+  for(int i = 0 ; i < (COEURNUMBER-3); i++){
+	allInput[i].sc = allScreen[i];
+  }
   
   int nbThread = 0;
   int contiGen = 1;
@@ -68,25 +72,28 @@ void startBubbleTraining(ecran * screen){
       listPrems[i] = i;
     }
 
-    /*for(int trn = 0; trn < nbPoule; trn++){
+    for(int trn = 0; trn < nbPoule; trn++){
       if(nbThread < COEURNUMBER-3){
-	allInput[nbThread].lois = allLoi + (trn*4);
-	allInput[nbThread].nbregle = nbRegle;
-	allInput[nbThread].nbparam = nbParam;
-	allInput[nbThread].trnid = trn;
-	int retour = pthread_create(&allThread[nbThread], NULL, GetTournoisClassement,  &allInput[nbThread]);
-	nbThread++;
+		allInput[nbThread].lois = allLoi + (trn*4);
+		allInput[nbThread].nbregle = nbRegle;
+		allInput[nbThread].nbparam = nbParam;
+		allInput[nbThread].trnid = trn;
+		//		printf("Creer pthe\n");
+		pthread_create(&allThread[nbThread], NULL, GetTournoisClassement,  &allInput[nbThread]);
+		//		printf("fin crea\n");
+		nbThread++;
       }else{
-	int boucleVal = nbThread;
-	for(int i = 0; i < boucleVal; i++){
-	  pthread_join(allThread[i], NULL);
-	  nbThread--;
-	  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
-	  free(allInput[i].classement);
-	}
-	trn--;
+		int boucleVal = nbThread;
+		for(int i = 0; i < boucleVal; i++){
+		  //		  printf("Libe\n");
+		  pthread_join(allThread[i], NULL);
+		  nbThread--;
+		  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
+		  free(allInput[i].classement);
+		}
+		trn--;
       }
-      }*/
+	}
 
     int boucleVal = nbThread;
     for(int i = 0; i < boucleVal; i++){
@@ -138,10 +145,11 @@ void startBubbleTraining(ecran * screen){
     
     for(int i = 0; i < nbLoi; i++){
       if(PROBAMUT > (rand()%100)/100.0){
-	int rg = rand()%nbRegle;
-	int rp = rand()%(nbParam+2);
-	float proba = (rand()%100)/100.0;
-	int nwVal = (rp == nbParam+1)?(rand()%5 + 1):rand()%(possibilites[i]+1)-1;
+		int rg = rand()%nbRegle;
+		int rp = rand()%(nbParam+2);
+		//float proba = (rand()%100)/100.0;
+		int nwVal = (rp == nbParam+1)?(rand()%5 + 1):rand()%(possibilites[i]+1)-1;
+		allLoi[i][rg][rp] = nwVal;
       }
     }
     
@@ -157,6 +165,18 @@ void startBubbleTraining(ecran * screen){
       }
       free(pere);
     }
+
+	SDL_Event event;
+    while (SDL_PollEvent(&event)){
+      switch (event.type){
+      case SDL_KEYUP:
+	if(event.key.keysym.sym == SDLK_ESCAPE){
+	  contiGen = 0;
+	}break;
+      default:break;
+      }  
+    }
+	
     break;
   }
 
@@ -221,7 +241,7 @@ void playLoup(ecran *screen){
     }
     
 
-  int **loi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
+  int **loi = readIAFile("Ressources/IALoup1.txt", &Nbregle);
 
   for(int i = 0; i < Nbregle; i++){
     for(int j = 0; j < PARAMLOUP+2; j++){
@@ -296,7 +316,7 @@ int trainLoup(ecran * screen){
     
   int ContinueTrain = 1;
   
-  int possibilites[12] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
+  int possibilites[14] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
   
   //setup basic sheep IA
   MoutonLoi = (int **)malloc(sizeof(int*)*32);
@@ -325,10 +345,18 @@ int trainLoup(ecran * screen){
 	MoutonLoi[(i*4) +3][3] = 1;
 	}
 
+
+  //Generation aleatoire de la loi principale
   int ** Mainloi = (int **)malloc(sizeof(int*)*NbActuRegle);
   for(int w=0; w<NbActuRegle; w++){
 	Mainloi[w] = genreglealea(PARAMLOUP, possibilites);
   }
+
+  //generation par fichier de la loi principale
+  //int **Mainloi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
+
+
+
   
   int ***SousLoi = (int ***)malloc(sizeof(int **)*(COEURNUMBER-3));
   for(int k = 0; k < (COEURNUMBER - 3); k++){
@@ -383,7 +411,7 @@ int trainLoup(ecran * screen){
 	  int laRegle = allCase[para]/(PARAMLOUP+2);
 	  int leParam = allCase[para]%(PARAMLOUP+2);
 
-	  int *resValue = (int *)malloc(sizeof(int) * (possibilites[leParam]+1));
+	  float *resValue = (float *)malloc(sizeof(float) * (possibilites[leParam]+1));
 	  for(int i = 0; i < possibilites[leParam]+1; i++){
 		resValue[i] = 0;
 	  }
@@ -422,9 +450,11 @@ int trainLoup(ecran * screen){
 	    //printf("%d   val = %d\n", (possibilites[leParam]+1), allArgs[i].value+1);
 	    resValue[allArgs[i].value+1] = allArgs[i].res;
 	  }
+
+	  
 	  int max = (leParam == PARAMLOUP+1)?2:0;
 	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
-		if(resValue[max] > resValue[i])
+		if(resValue[max] < resValue[i])
 		  max = i;
 	  }
           int nbMax = 0;
@@ -437,22 +467,27 @@ int trainLoup(ecran * screen){
 	  if(leParam == PARAMLOUP && quelMax == 1 && nbMax != 1){
 	    quelMax = (rand()%(nbMax-1))+2;
 	  }
+
+	  
 	  int nvmax = 0;
 	  int it = 0;
 	  while (quelMax != 0) {
 	    if(resValue[it] == resValue[max]){
-	      nvmax=max;
+	      nvmax=it;
 	      quelMax--;
 	    }
 	    it++;
 	  }
-	  
+
 
 	  Mainloi[laRegle][leParam] = nvmax-1;
 	  for(int i = 0; i < (COEURNUMBER-3); i++){
 		allArgs[i].loi[laRegle][leParam] = nvmax-1;
 	  }
 	  //printf("Fin boucle\n");
+
+	  //printf("%f\n", resValue[nvmax]);
+	  
 	  free(resValue);
 	  
 	  SDL_Event event;
@@ -518,7 +553,7 @@ int trainLoup(ecran * screen){
 
 void * GetLoupScore(void *param){
   simIO *input = (simIO*) param;
-  int score = 0;
+  float score = 0;
   for(int ite = 0; ite < NBITERMAX; ite++){
 	int lastTue = -1;
 	int nbMorts = 0;
@@ -544,14 +579,15 @@ void * GetLoupScore(void *param){
 		free(paramworld);
 	  }
 	
-	
+	  mainTickGest(input->sc);
+	  
 	  int nbd = 0;
 	  for(int i = input->sc->nbPreda; i < input->sc->nbProie+input->sc->nbPreda; i++){
 		if(input->sc->pla[i].vie == 0){
 		  nbd++;
 		}
 	  }
-	  mainTickGest(input->sc);
+
 	  if(nbd != nbMorts){
 		nbMorts = nbd;
 		lastTue = tick;
@@ -564,10 +600,10 @@ void * GetLoupScore(void *param){
 	input->sc->etapeDuJeu = 12;
 	mainTickGest(input->sc);
 	
-	if(lastTue == -1){
+	if(lastTue == -1 && lastTue == 0){
 	  score += 0;
 	}else{
-	  score += nbMorts + 1.0/lastTue;
+	  score += nbMorts + 1.0/(lastTue+2);
 	}
   }
   input->res = score;
@@ -584,7 +620,7 @@ int * genreglealea(int Nbparam, int * possible){
   if(result == NULL){
 	printf("O connais le pb\n");
   }
-  for(int i = 0; i < Nbparam +1; i++){
+  for(int i = 0; i < Nbparam ; i++){
 	float proba = (rand()%100)/100.0;
 	if(proba < 0.25){
 	  result[i] = rand()%possible[i];
@@ -592,8 +628,9 @@ int * genreglealea(int Nbparam, int * possible){
 	  result[i] = -1;
 	}
   }
-  
-  result[Nbparam+1]=rand()%5 + 1;
+
+  result[Nbparam]=rand()%possible[Nbparam];
+  result[Nbparam+1]=rand()%possible[Nbparam+1] + 1;
   return(result);
 }
 
@@ -664,42 +701,47 @@ void *GetTournoisClassement(void *arg){
 
 
       for(int ite = 0; ite < NBMATCH; ite++){
-	input->sc->maxVie = 1;
-	input->sc->etapeDuJeu = 3;
-	input->sc->modePlay = 0;
-	mainTickGest(input->sc);
-	for(int i = 0; i < input->sc->nbPlayer; i++){
-	  input->sc->pla[i].IAType = 0;
-	}
-	for(int tick=0; tick<60000; tick++){
-	  //Acquisition de données
-	  /*	  
-	  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
-	  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam);
-	  free(paramworld);
+		input->sc->maxVie = 1;
+		input->sc->etapeDuJeu = 3;
+		input->sc->modePlay = 0;
+		mainTickGest(input->sc);
+		for(int i = 0; i < input->sc->nbPlayer; i++){
+		  input->sc->pla[i].IAType = 0;
+		}
+		
+		for(int tick=0; tick<600; tick++){
+		  //Acquisition de données
+		  //printf("%d debut\n", tick);
+		  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
+		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  free(paramworld);
 
-	  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
-	  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
-	  free(paramworld);
-	  */
+		  //printf("milieu\n");
+		  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
-	  mainTickGest(input->sc);
-	  if(input->sc->etapeDuJeu == 5){
-	    tick = 100000000;
-	  }
-	}
+		  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
+		  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  free(paramworld);
 
-	if(input->sc->pla[0].vie == 0){
-	  score[i] -= 1;
-	  score[j] += 1;
-	}else if(input->sc->pla[1].vie == 0){
-	  score[i] += 1;
-	  score[j] -= 1;
-	}
-	
+		  //printf("fin\n");
+	  
+		  mainTickGest(input->sc);
+		  if(input->sc->etapeDuJeu == 5){
+			tick = 100000000;
+		  }
+		}
 
-	input->sc->etapeDuJeu = 12;
-	mainTickGest(input->sc);
+		
+		if(input->sc->pla[0].vie == 0){
+		  score[i] -= 1;
+		  score[j] += 1;
+		}else if(input->sc->pla[1].vie == 0){
+		  score[i] += 1;
+		  score[j] -= 1;
+		}
+		
+		input->sc->etapeDuJeu = 12;
+		mainTickGest(input->sc);
 	
       }
     }
@@ -766,7 +808,7 @@ int *** creationFils(int *** peres, int ligne, int colonne, int nbrParametre, in
     //ligne = nbr IA vainqueur
     //colonne = nbr Règle
     int *** fils = createMatrice(nbrFils, colonne, nbrParametre);
-    int ia, ia1, ia2, ia3, max, index;
+    int ia, ia1, ia2, ia3, index;
     for (int i = 0; i < nbrFils; i++)
     {
         /*Selection aléatoire des IA vainqueur*/

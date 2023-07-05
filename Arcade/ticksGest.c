@@ -57,8 +57,8 @@ void mainTickGest(ecran *screen){
       screen->nbPreda = 3;
       screen->nbProie = 10;
 	  
-	  mouton = (int **)malloc(sizeof(int*)*Nbreglemouton);
-	  for(int i = 0; i < Nbreglemouton; i++){
+	  mouton = (int **)malloc(sizeof(int*)*32);
+	  for(int i = 0; i < 32; i++){
 		mouton[i] = (int*)malloc(sizeof(int)*4);
 	  }
 	  for(int i = 0; i < 8; i++){
@@ -269,7 +269,7 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 		if(screen->pla[i].IAType == 1){
 		  int * paramworld = getMoutonWorld(screen, i, 2);
-		  setIAInput(screen, i, paramworld, mouton, Nbreglemouton, 2);
+		  setIAInput(screen, i, paramworld, mouton, 32, 2);
 	  
 		  free(paramworld); 
 		}

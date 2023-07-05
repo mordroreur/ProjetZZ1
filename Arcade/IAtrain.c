@@ -172,10 +172,10 @@ int trainLoup(ecran * screen){
 
   
   ecran** allScreen = (ecran **)malloc(sizeof(ecran*) * (COEURNUMBER-3));
-  for(int i = 1; i < (COEURNUMBER-3); i++){
+  for(int i = 0; i < (COEURNUMBER-3); i++){
 	allScreen[i] = (ecran *)malloc(sizeof(ecran));
   }
-  allScreen[0] = screen;
+  //allScreen[0] = screen;
 
 
   pthread_t *allThread = (pthread_t*)malloc(sizeof(pthread_t)*(COEURNUMBER-3));

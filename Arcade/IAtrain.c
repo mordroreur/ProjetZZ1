@@ -138,22 +138,22 @@ int trainLoup(ecran * screen){
   for(int i = 0; i < 8; i++){
 	MoutonLoi[(i*4)][0] = 0;
 	MoutonLoi[(i*4)][1] = i;
-	MoutonLoi[(i*4)][2] = (5+i)%8;
+	MoutonLoi[(i*4)][2] = -1;//(5+i)%8;
 	MoutonLoi[(i*4)][3] = 5;
 
 	MoutonLoi[(i*4)+1][0] = 0;
 	MoutonLoi[(i*4)+1][1] = i;
-	MoutonLoi[(i*4)+1][2] = (6+i)%8;
+	MoutonLoi[(i*4)+1][2] = -1;//(6+i)%8;
 	MoutonLoi[(i*4)+1][3] = 3;
 
 	MoutonLoi[(i*4)+2][0] = 0;
 	MoutonLoi[(i*4)+2][1] = i;
-	MoutonLoi[(i*4)+2][2] = (4+i)%8;
+	MoutonLoi[(i*4)+2][2] = -1;//(4+i)%8;
 	MoutonLoi[(i*4)+2][3] = 3;
 
 	MoutonLoi[(i*4) +3][0] = -1;
 	MoutonLoi[(i*4) +3][1] = -1;
-	MoutonLoi[(i*4) +3][2] = i;
+	MoutonLoi[(i*4) +3][2] = -1;//i;
 	MoutonLoi[(i*4) +3][3] = 1;
 	}
 

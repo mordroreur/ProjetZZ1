@@ -342,3 +342,18 @@ int compareN(int * tab1, int* tab2, int N){
     }
     return ret;
 }
+
+
+
+int dist(ecran * screen, int self, int other){
+    int dist = -1;
+    float diffx = (screen->pla[other].pos.x - screen->pla[self].pos.x);
+    if(diffx > 50){diffx -= 50;}
+    float diffy = screen->pla[other].pos.y - screen->pla[self].pos.y;
+    if(diffy > 50){diffy -= 50;}
+    float valdist = sqrtf(carre(diffx)+carre(diffy));
+    if(valdist<15) {dist = 0;}
+    else if(valdist<40) {dist = 1;}
+    else {dist = 2;}
+    return dist;
+}

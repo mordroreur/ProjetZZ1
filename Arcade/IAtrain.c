@@ -24,8 +24,6 @@ int ** MoutonLoi;
 
 void playLoup(ecran *screen){
   int Nbregle = 0;
-  int Nbpreda = screen->nbPreda;
-  int Nbproie = screen->nbProie;
   int slow = 1;
 
   MoutonLoi = (int **)malloc(sizeof(int*)*32);
@@ -55,38 +53,43 @@ void playLoup(ecran *screen){
     }
     
 
-  int **loi = readIAFile("Ressources/MatIA.txt", &Nbregle);
+  int **loi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
 
   for(int i = 0; i < Nbregle; i++){
-    for(int j = 0; j < PARAMLOUP; j++){
+    for(int j = 0; j < PARAMLOUP+2; j++){
       printf("%d ", loi[i][j]);
     }
     printf("\n");
   }
 
+  
   screen->etapeDuJeu = 3;
   screen->modePlay = 1;
   mainTickGest(screen);
+
+  int Nbpreda = screen->nbPreda;
+  int Nbproie = screen->nbProie;
+
   for(int i = 0; i < screen->nbPlayer; i++){
 	screen->pla[i].IAType = 0;
   }
-  
   for(int tick=0; tick<60000; tick++){
     //Acquisition de données
-    for(int k=0; k<Nbpreda; k++){
-	  
-      int * paramworld = getLoupWorld(screen, k, PARAMLOUP);//CreateTab1(Nbparam);
+
+    for(int k = 0; k < Nbpreda; k++){
+
+      int * paramworld = getLoupWorld(screen, k, PARAMLOUP);//CreateTab1(Nbparam);      
       setIAInput(screen, k, paramworld, loi, Nbregle, PARAMLOUP);
-	  
       free(paramworld);
 	  
     }
+
     for(int i=0; i<Nbproie; i++){
       int * paramworld = getMoutonWorld(screen, screen->nbPreda + i, 2);//CreateTab1(Nbparam);
       setIAInput(screen, screen->nbPreda + i, paramworld, MoutonLoi, 32, 2);
-	  
       free(paramworld);
     }
+
 	
     SDL_Event event;
     while (SDL_PollEvent(&event)){
@@ -172,10 +175,10 @@ int trainLoup(ecran * screen){
 
   
   ecran** allScreen = (ecran **)malloc(sizeof(ecran*) * (COEURNUMBER-3));
-  for(int i = 0; i < (COEURNUMBER-3); i++){
+  for(int i = 1; i < (COEURNUMBER-3); i++){
 	allScreen[i] = (ecran *)malloc(sizeof(ecran));
   }
-  //allScreen[0] = screen;
+  allScreen[0] = screen;
 
 
   pthread_t *allThread = (pthread_t*)malloc(sizeof(pthread_t)*(COEURNUMBER-3));
@@ -187,6 +190,8 @@ int trainLoup(ecran * screen){
   int nbThread = 0;
   int nbEcriture = 0;
 
+  screen->etapeDuJeu = 777;
+  
   //printf("Screen %d %d\n", NbActuRegle, PARAMLOUP);
   printIA(Mainloi,  NbActuRegle, PARAMLOUP, nbEcriture++);
 
@@ -204,6 +209,8 @@ int trainLoup(ecran * screen){
 	}
 
 	for(int para = 0; para < NbActuRegle*(PARAMLOUP+2); para++){
+
+	  //printf("%d\n", allCase[para]);
 	  
 	  int laRegle = allCase[para]/(PARAMLOUP+2);
 	  int leParam = allCase[para]%(PARAMLOUP+2);
@@ -212,31 +219,40 @@ int trainLoup(ecran * screen){
 	  for(int i = 0; i < possibilites[leParam]+1; i++){
 		resValue[i] = 0;
 	  }
-	  for(int value = (leParam == PARAMLOUP+1)?1:-1; value < possibilites[leParam]+1; value++){
+	  for(int value = (leParam == PARAMLOUP+1)?1:-1; value < possibilites[leParam]; value++){
 		if(nbThread < COEURNUMBER-3){
 		  allArgs[nbThread].loi[laRegle][leParam] = value;
 		  allArgs[nbThread].value = value;
 		  allArgs[nbThread].nbAcRegle = NbActuRegle;
+		  //printf("debut Thread\n");
 		  int retour = pthread_create(&allThread[nbThread], NULL, GetLoupScore,  &allArgs[nbThread]);
+		  //printf("Fin debut Thread\n");
 		  if(retour != 0){
-		  }else{
 		  }
 		  nbThread++;
 		}else{
 		  int boucleVal = nbThread;
 		  for(int i = 0; i < boucleVal; i++){
-			pthread_join(allThread[i], NULL);
-			nbThread--;
-			resValue[allArgs[i].value+1] = allArgs[i].res;
+		    //printf("Fin 2\n");
+		    pthread_join(allThread[i], NULL);
+		    //printf("FIn 2 FIn\n");
+		    nbThread--;
+		    resValue[allArgs[i].value+1] = allArgs[i].res;
 		  }
+		  value--;
 		}
 	  }
 
 	  int boucleVal = nbThread;
 	  for(int i = 0; i < boucleVal; i++){
-		pthread_join(allThread[i], NULL);
-		nbThread--;
-		resValue[allArgs[i].value+1] = allArgs[i].res;
+	    //printf("Fin\n");
+	    pthread_join(allThread[i], NULL);
+	    //printf("FIn FIn\n");
+	    nbThread--;
+	    //printf("%d\n", i);
+	    //int tmp = allArgs[i].res;
+	    //printf("%d   val = %d\n", (possibilites[leParam]+1), allArgs[i].value+1);
+	    resValue[allArgs[i].value+1] = allArgs[i].res;
 	  }
 	  int max = 0;
 	  for(int i = 1; i<possibilites[leParam]+1; i++){
@@ -247,7 +263,7 @@ int trainLoup(ecran * screen){
 	  for(int i = 0; i < (COEURNUMBER-3); i++){
 		allArgs[i].loi[laRegle][leParam] = max-1;
 	  }
-
+	  //printf("Fin boucle\n");
 	  free(resValue);
 	  
 	  SDL_Event event;
@@ -261,6 +277,7 @@ int trainLoup(ecran * screen){
 		default:break;
 		}  
 	  }
+	  //printf("Fin autre event\n");
 	}
 	printIA(Mainloi, NbActuRegle, PARAMLOUP, nbEcriture++);
 	free(allCase);
@@ -299,6 +316,8 @@ int trainLoup(ecran * screen){
 	free(allScreen);
   }
 
+  screen->etapeDuJeu = 2;
+  
   free(allThread);
   free(allArgs);
   
@@ -311,8 +330,6 @@ int trainLoup(ecran * screen){
 void * GetLoupScore(void *param){
   simIO *input = (simIO*) param;
   int score = 0;
-
-
   for(int ite = 0; ite < NBITERMAX; ite++){
 	int lastTue = -1;
 	int nbMorts = 0;
@@ -391,29 +408,31 @@ int * genreglealea(int Nbparam, int * possible){
   return(result);
 }
 
-int dist(ecran * screen, int self, int other){
-    int dist = -1;
-    float diffx = (screen->pla[other].pos.x - screen->pla[self].pos.x);
-    if(diffx > 50){diffx -= 50;}
-    float diffy = screen->pla[other].pos.y - screen->pla[self].pos.y;
-    if(diffy > 50){diffy -= 50;}
-    float valdist = sqrtf(carre(diffx)+carre(diffy));
-    if(valdist<15) {dist = 0;}
-    else if(valdist<40) {dist = 1;}
-    else {dist = 2;}
-    return dist;
-}
 
-
-int ** readIAFile(char *name, int *tab){
-  (void) name;
-  (void) tab;
-  /*
+int ** readIAFile(char *name, int *nbR){
+  int nbParam;
   FILE* f = fopen(name, "r");
-  for(int i = 0; i < 20; i++){
-    fscanf(f, "%d %d %d %d %d %d %d %d %d %d %d\n", &(tab[i][0]),  &(tab[i][1]),  &(tab[i][2]),  &(tab[i][3]),  &(tab[i][4]),  &(tab[i][5]), &(tab[i][6]), &(tab[i][7]), &(tab[i][8]), &(tab[i][9]), &(tab[i][10]));
+  if(f){
+  fscanf(f, "%d %d\n",nbR, &nbParam);
+  int ** res = (int **)malloc(sizeof(int *)*(*nbR));
+  for(int i = 0; i < *nbR; i++){
+    res[i] = (int *)malloc(sizeof(int) * (nbParam+2));
+    for(int j = 0; j < nbParam+2; j++){
+      fscanf(f, "%d ", &res[i][j]);
+    }
   }
-  fclose(f);*/
+
+  /*  for(int i = 0; i < *nbR; i++){
+    for(int j = 0; j < nbParam+2; j++){
+      printf("%d ", res[i][j]);
+    }
+    printf("\n");
+    } */ 
+
+  
+  fclose(f);
+  return res; 
+  }
   return NULL;
 }
 
@@ -432,3 +451,79 @@ void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture){
   }
   fclose(f);
 }
+
+
+
+/*
+
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2830)
+  Write of size 4 at 0x7b0400007600 by thread T3:
+    #0 trainLoup /home/mordroreur/projet/Arcade/IAtrain.c:252 (res+0x15126)
+    #1 startIALoupMoutontraining /home/mordroreur/projet/Arcade/IAtrain.c:16
+(res+0x13681) #2 LeftClick /home/mordroreur/projet/Arcade/eventGest.c:193
+(res+0x442c) #3 BouclePrincipaleDesTicks
+/home/mordroreur/projet/Arcade/renderingBase.c:363 (res+0x1758d)
+
+  Previous write of size 8 at 0x7b0400007600 by thread T3:
+    [failed to restore the stack]
+
+  As if synchronized via sleep:
+    #0 nanosleep
+../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:362
+(libtsan.so.0+0x63360) #1 <null> <null> (libSDL2-2.0.so.0+0xf31aa)
+
+  Thread T3 (tid=2838, running) created by main thread at:
+    #0 pthread_create
+../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962
+(libtsan.so.0+0x5ea79) #1 startMainBoucle
+/home/mordroreur/projet/Arcade/renderingBase.c:165 (res+0x167e4) #2 main
+/home/mordroreur/projet/Arcade/main.c:48 (res+0xad27)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free
+/home/mordroreur/projet/Arcade/IAtrain.c:252 in trainLoup
+==================
+==================
+WARNING: ThreadSanitizer: heap-use-after-free (pid=2830)
+  Write of size 4 at 0x7b0800019958 by thread T3:
+    #0 trainLoup /home/mordroreur/projet/Arcade/IAtrain.c:252 (res+0x15126)
+    #1 startIALoupMoutontraining /home/mordroreur/projet/Arcade/IAtrain.c:16
+(res+0x13681) #2 LeftClick /home/mordroreur/projet/Arcade/eventGest.c:193
+(res+0x442c) #3 BouclePrincipaleDesTicks
+/home/mordroreur/projet/Arcade/renderingBase.c:363 (res+0x1758d)
+
+  Previous write of size 8 at 0x7b0800019958 by thread T3 (mutexes: write M62):
+    #0 free ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:707
+(libtsan.so.0+0x35f25) #1 _XReply <null> (libX11.so.6+0x3f1c4) #2
+startIALoupMoutontraining /home/mordroreur/projet/Arcade/IAtrain.c:16
+(res+0x13681) #3 LeftClick /home/mordroreur/projet/Arcade/eventGest.c:193
+(res+0x442c) #4 BouclePrincipaleDesTicks
+/home/mordroreur/projet/Arcade/renderingBase.c:363 (res+0x1758d)
+
+  Location is heap block of size 24 at 0x7b0800019940 allocated by thread T3:
+    #0 malloc ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:651
+(libtsan.so.0+0x30323) #1 trainLoup /home/mordroreur/projet/Arcade/IAtrain.c:218
+(res+0x14d70) #2 startIALoupMoutontraining
+/home/mordroreur/projet/Arcade/IAtrain.c:16 (res+0x13681) #3 LeftClick
+/home/mordroreur/projet/Arcade/eventGest.c:193 (res+0x442c) #4
+BouclePrincipaleDesTicks /home/mordroreur/projet/Arcade/renderingBase.c:363
+(res+0x1758d)
+
+  Mutex M62 (0x7b0c00000780) created at:
+    #0 pthread_mutex_init
+../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:1220
+(libtsan.so.0+0x4a616) #1 <null> <null> (libX11.so.6+0x2bfe4) #2 main
+/home/mordroreur/projet/Arcade/main.c:42 (res+0xacae)
+
+  Thread T3 (tid=2838, running) created by main thread at:
+    #0 pthread_create
+../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962
+(libtsan.so.0+0x5ea79) #1 startMainBoucle
+/home/mordroreur/projet/Arcade/renderingBase.c:165 (res+0x167e4) #2 main
+/home/mordroreur/projet/Arcade/main.c:48 (res+0xad27)
+
+SUMMARY: ThreadSanitizer: heap-use-after-free
+/home/mordroreur/projet/Arcade/IAtrain.c:252 in trainLoup
+==================
+
+*/

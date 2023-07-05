@@ -57,31 +57,7 @@ void mainTickGest(ecran *screen){
       screen->nbPreda = 3;
       screen->nbProie = 10;
 
-	  mouton = (int **)malloc(sizeof(int*)*32);
-	  for(int i = 0; i < 32; i++){
-		mouton[i] = (int*)malloc(sizeof(int)*4);
-	  }
-	  for(int i = 0; i < 8; i++){
-		mouton[i*4][0] = 0;
-		mouton[i*4][1] = i;
-		mouton[i*4][2] = (5+i)%8;
-		mouton[i*4][3] = 5;
-
-		mouton[i*4+1][0] = 0;
-		mouton[i*4+1][1] = i;
-		mouton[i*4+1][2] = (6+i)%8;
-		mouton[i*4+1][3] = 3;
-
-		mouton[i*4+2][0] = 0;
-		mouton[i*4+2][1] = i;
-		mouton[i*4+2][2] = (4+i)%8;
-		mouton[i*4+2][3] = 3;
-
-		mouton[i*4 +3][0] = -1;
-		mouton[i*4 +3][1] = -1;
-		mouton[i*4 +3][2] = i;
-		mouton[i*4 +3][3] = 1;
-	  }
+	  
 
 	  
       screen->nbPlayer = screen->nbProie + screen->nbPreda;
@@ -374,5 +350,34 @@ void Deplace(ecran *screen, int index, float depx, float depy){
     if(screen->pla[index].pos.x < 0){screen->pla[index].pos.x +=100;}else if(screen->pla[index].pos.x > 100){screen->pla[index].pos.x -= 100;} 
     screen->pla[index].pos.y += depy;
     if(screen->pla[index].pos.y < 0){screen->pla[index].pos.y +=100;}else if(screen->pla[index].pos.y > 100){screen->pla[index].pos.y -= 100;}
+  }
+}
+
+
+void initMout(){
+  mouton = (int **)malloc(sizeof(int*)*32);
+  for(int i = 0; i < 32; i++){
+    mouton[i] = (int*)malloc(sizeof(int)*4);
+  }
+  for(int i = 0; i < 8; i++){
+    mouton[i*4][0] = 0;
+    mouton[i*4][1] = i;
+    mouton[i*4][2] = (5+i)%8;
+    mouton[i*4][3] = 5;
+
+    mouton[i*4+1][0] = 0;
+    mouton[i*4+1][1] = i;
+    mouton[i*4+1][2] = (6+i)%8;
+    mouton[i*4+1][3] = 3;
+
+    mouton[i*4+2][0] = 0;
+    mouton[i*4+2][1] = i;
+    mouton[i*4+2][2] = (4+i)%8;
+    mouton[i*4+2][3] = 3;
+
+    mouton[i*4 +3][0] = -1;
+    mouton[i*4 +3][1] = -1;
+    mouton[i*4 +3][2] = i;
+    mouton[i*4 +3][3] = 1;
   }
 }

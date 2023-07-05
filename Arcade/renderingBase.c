@@ -251,7 +251,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->nbPlayer = 2;
 
   screen->modePlay = 1;
-
+  initMout();
   screen->decalageB1 = 116;
   screen->decalageB2 = 130;
   screen->decalageB3 = -30;

@@ -12,7 +12,7 @@
 typedef struct simulation_I_O{
   ecran * sc;
   int **loi;
-  int res;
+  float res;
   int value;
   int nbAcRegle;
 }simIO;

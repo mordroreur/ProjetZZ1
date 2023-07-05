@@ -1,6 +1,6 @@
 #include "main.h"
 
-int debugging = 1;
+int debugging = 0;
 
 
 int main(int argc, char * argv[]){
@@ -42,7 +42,7 @@ int main(int argc, char * argv[]){
   ecran mainScreen = createScreen(sizex, sizey, isFullscreen, sound, bonus, trou);
   mainScreen.showImage = test;
   
-  printf("%d\n", mainScreen.showImage);
+  //printf("%d\n", mainScreen.showImage);
   mainScreen.etapeDuJeu = 1;
   
   startMainBoucle(&mainScreen);

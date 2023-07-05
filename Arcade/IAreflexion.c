@@ -70,9 +70,23 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	      min = i;
 	    }
 	  }
+
+	  min2 = (min == 0)?1:0;
+	  
+	  for(int i = 1; i < screen->nbObjetsMax-screen->nbBananes; i++){
+		if(i != min){
+		  int disi = distobj(screen,k,i);
+		  if(disi < dism0){
+			dis0 = disi;
+			min = i;
+		  }
+		}
+	  }
 	  
 	  paramworld[p++] = distobj(screen, k, min);
-	  paramworld[p] = orientobj(screen,k,min);
+	  paramworld[p++] = orientobj(screen,k,min);
+	  paramworld[p++] = distobj(screen, k, min2);
+	  paramworld[p] = orientobj(screen,k,min2);
 	  
 	  
 
@@ -126,7 +140,7 @@ void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, 
 	  free(regleposs);
 
 
-	  	  //printf("action : %d\n", action);
+	  //printf("action : %d\n", action);
 	  switch(action){
 	  case 0:
 	    screen->pla[k].input[0]  = 0;

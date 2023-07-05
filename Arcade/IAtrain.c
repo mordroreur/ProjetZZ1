@@ -8,7 +8,7 @@
 
 
 #define COEURNUMBER 8
-#define PARAMLOUP 10
+#define PARAMLOUP 12
 #define PARAMMOUTON 2
 #define NBITERMAX 5
 #define PROBAMUT 0.05
@@ -19,9 +19,9 @@ void startIALoupMoutontraining(ecran * screen){
   trainLoup(screen);
 
   //playLoup(screen);
-
-
 }
+
+
 
 void startBubbleTraining(ecran * screen){
   int nbRegle = 20;
@@ -57,6 +57,7 @@ void startBubbleTraining(ecran * screen){
     allScreen[i] = (ecran *)malloc(sizeof(ecran));
   }
   allScreen[0] = screen;
+  
   for(int i = 0 ; i < (COEURNUMBER-3); i++){
 	allInput[i].sc = allScreen[i];
   }
@@ -77,14 +78,14 @@ void startBubbleTraining(ecran * screen){
 		allInput[nbThread].nbregle = nbRegle;
 		allInput[nbThread].nbparam = nbParam;
 		allInput[nbThread].trnid = trn;
-		printf("Creer pthe\n");
+		//		printf("Creer pthe\n");
 		pthread_create(&allThread[nbThread], NULL, GetTournoisClassement,  &allInput[nbThread]);
-		printf("fin crea\n");
+		//		printf("fin crea\n");
 		nbThread++;
       }else{
 		int boucleVal = nbThread;
 		for(int i = 0; i < boucleVal; i++){
-		  printf("Libe\n");
+		  //		  printf("Libe\n");
 		  pthread_join(allThread[i], NULL);
 		  nbThread--;
 		  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
@@ -175,9 +176,6 @@ void startBubbleTraining(ecran * screen){
       default:break;
       }  
     }
-
-
-
 	
     break;
   }
@@ -243,7 +241,7 @@ void playLoup(ecran *screen){
     }
     
 
-  int **loi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
+  int **loi = readIAFile("Ressources/IALoup1.txt", &Nbregle);
 
   for(int i = 0; i < Nbregle; i++){
     for(int j = 0; j < PARAMLOUP+2; j++){
@@ -318,7 +316,7 @@ int trainLoup(ecran * screen){
     
   int ContinueTrain = 1;
   
-  int possibilites[12] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
+  int possibilites[14] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
   
   //setup basic sheep IA
   MoutonLoi = (int **)malloc(sizeof(int*)*32);
@@ -347,10 +345,18 @@ int trainLoup(ecran * screen){
 	MoutonLoi[(i*4) +3][3] = 1;
 	}
 
+
+  //Generation aleatoire de la loi principale
   int ** Mainloi = (int **)malloc(sizeof(int*)*NbActuRegle);
   for(int w=0; w<NbActuRegle; w++){
 	Mainloi[w] = genreglealea(PARAMLOUP, possibilites);
   }
+
+  //generation par fichier de la loi principale
+  //int **Mainloi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
+
+
+
   
   int ***SousLoi = (int ***)malloc(sizeof(int **)*(COEURNUMBER-3));
   for(int k = 0; k < (COEURNUMBER - 3); k++){
@@ -405,7 +411,7 @@ int trainLoup(ecran * screen){
 	  int laRegle = allCase[para]/(PARAMLOUP+2);
 	  int leParam = allCase[para]%(PARAMLOUP+2);
 
-	  int *resValue = (int *)malloc(sizeof(int) * (possibilites[leParam]+1));
+	  float *resValue = (float *)malloc(sizeof(float) * (possibilites[leParam]+1));
 	  for(int i = 0; i < possibilites[leParam]+1; i++){
 		resValue[i] = 0;
 	  }
@@ -448,7 +454,7 @@ int trainLoup(ecran * screen){
 	  
 	  int max = (leParam == PARAMLOUP+1)?2:0;
 	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
-		if(resValue[max] > resValue[i])
+		if(resValue[max] < resValue[i])
 		  max = i;
 	  }
           int nbMax = 0;
@@ -467,7 +473,7 @@ int trainLoup(ecran * screen){
 	  int it = 0;
 	  while (quelMax != 0) {
 	    if(resValue[it] == resValue[max]){
-	      nvmax=max;
+	      nvmax=it;
 	      quelMax--;
 	    }
 	    it++;
@@ -479,6 +485,9 @@ int trainLoup(ecran * screen){
 		allArgs[i].loi[laRegle][leParam] = nvmax-1;
 	  }
 	  //printf("Fin boucle\n");
+
+	  //printf("%f\n", resValue[nvmax]);
+	  
 	  free(resValue);
 	  
 	  SDL_Event event;
@@ -544,7 +553,7 @@ int trainLoup(ecran * screen){
 
 void * GetLoupScore(void *param){
   simIO *input = (simIO*) param;
-  int score = 0;
+  float score = 0;
   for(int ite = 0; ite < NBITERMAX; ite++){
 	int lastTue = -1;
 	int nbMorts = 0;
@@ -570,14 +579,15 @@ void * GetLoupScore(void *param){
 		free(paramworld);
 	  }
 	
-	
+	  mainTickGest(input->sc);
+	  
 	  int nbd = 0;
 	  for(int i = input->sc->nbPreda; i < input->sc->nbProie+input->sc->nbPreda; i++){
 		if(input->sc->pla[i].vie == 0){
 		  nbd++;
 		}
 	  }
-	  mainTickGest(input->sc);
+
 	  if(nbd != nbMorts){
 		nbMorts = nbd;
 		lastTue = tick;
@@ -590,10 +600,10 @@ void * GetLoupScore(void *param){
 	input->sc->etapeDuJeu = 12;
 	mainTickGest(input->sc);
 	
-	if(lastTue == -1){
+	if(lastTue == -1 && lastTue == 0){
 	  score += 0;
 	}else{
-	  score += nbMorts + 1.0/lastTue;
+	  score += nbMorts + 1.0/(lastTue+2);
 	}
   }
   input->res = score;
@@ -695,40 +705,43 @@ void *GetTournoisClassement(void *arg){
 		input->sc->etapeDuJeu = 3;
 		input->sc->modePlay = 0;
 		mainTickGest(input->sc);
-	for(int i = 0; i < input->sc->nbPlayer; i++){
-	  input->sc->pla[i].IAType = 0;
-	}
-	for(int tick=0; tick<600; tick++){
-	  //Acquisition de données
-	  
-	  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
-	  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam);
-	  free(paramworld);
+		for(int i = 0; i < input->sc->nbPlayer; i++){
+		  input->sc->pla[i].IAType = 0;
+		}
+		
+		for(int tick=0; tick<600; tick++){
+		  //Acquisition de données
+		  //printf("%d debut\n", tick);
+		  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
+		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  free(paramworld);
 
-	  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+		  //printf("milieu\n");
+		  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
-	  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
-	  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
-	  free(paramworld);
-	  
-	  
-	  mainTickGest(input->sc);
-	  if(input->sc->etapeDuJeu == 5){
-	    tick = 100000000;
-	  }
-	}
+		  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
+		  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  free(paramworld);
 
-	if(input->sc->pla[0].vie == 0){
-	  score[i] -= 1;
-	  score[j] += 1;
-	}else if(input->sc->pla[1].vie == 0){
-	  score[i] += 1;
-	  score[j] -= 1;
-	}
-	
+		  //printf("fin\n");
+	  
+		  mainTickGest(input->sc);
+		  if(input->sc->etapeDuJeu == 5){
+			tick = 100000000;
+		  }
+		}
 
-	input->sc->etapeDuJeu = 12;
-	mainTickGest(input->sc);
+		
+		if(input->sc->pla[0].vie == 0){
+		  score[i] -= 1;
+		  score[j] += 1;
+		}else if(input->sc->pla[1].vie == 0){
+		  score[i] += 1;
+		  score[j] -= 1;
+		}
+		
+		input->sc->etapeDuJeu = 12;
+		mainTickGest(input->sc);
 	
       }
     }

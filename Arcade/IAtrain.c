@@ -259,9 +259,30 @@ int trainLoup(ecran * screen){
 		if(resValue[max] > resValue[i])
 		  max = i;
 	  }
-	  Mainloi[laRegle][leParam] = max-1;
+	  int nbMax = 0;
+	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
+	    if(resValue[max] == resValue[i])
+	      nbMax++;
+	  }
+	  
+	  int quelMax = (rand()%nbMax)+1;
+	  if(leParam == PARAMLOUP && quelMax == 1 && nbMax != 1){
+	    quelMax = (rand()%(nbMax-1))+2;
+	  }
+	  int nvmax = 0;
+	  int it = 0;
+	  while (quelMax != 0) {
+	    if(resValue[it] == resValue[max]){
+	      nvmax=max;
+	      quelMax--;
+	    }
+	    it++;
+	  }
+	  
+	  
+	  Mainloi[laRegle][leParam] = nvmax-1;
 	  for(int i = 0; i < (COEURNUMBER-3); i++){
-		allArgs[i].loi[laRegle][leParam] = max-1;
+		allArgs[i].loi[laRegle][leParam] = nvmax-1;
 	  }
 	  //printf("Fin boucle\n");
 	  free(resValue);

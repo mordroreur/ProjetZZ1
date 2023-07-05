@@ -54,6 +54,8 @@ void mainTickGest(ecran *screen){
       }
       screen->nbObjetsMax = 10;
       screen->tbObjet = (objet *)malloc(sizeof(objet) * screen->nbObjetsMax);
+      screen->tbObjet[0].vie = -1;
+      screen->TrouNoirTime = -30*60;
       
       // JEU MOUTON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }else if(screen->modePlay == 1){
@@ -233,6 +235,28 @@ void mainTickGest(ecran *screen){
 	  }
 	}
 
+      }
+      if(screen->trousNoir == 0){
+	if(screen->tbObjet[0].vie == -1){
+	  screen->tbObjet[0].vie = 0;
+	  screen->tbObjet[0].pos.x = rand()%100;
+	  screen->tbObjet[0].pos.y = rand()%100;
+	  screen->tbObjet[0].pos.h = rand()%4 + 1;
+	  screen->tbObjet[0].pos.w = rand()%4 + 1;
+	}
+      }else{
+	screen->trousNoir++;
+      }
+
+      if(screen->trousNoir > 30){
+      for(int j = 0; j < screen->nbPlayer; j++){
+	    if((screen->pla[j].pos.x - screen->pla[j].pos.w/2.4 < screen->tbObjet[0].pos.x + screen->tbObjet[0].pos.w && screen->pla[j].pos.x - screen->pla[j].pos.w/2.4 > screen->tbObjet[0].pos.x && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 < screen->tbObjet[0].pos.y + screen->tbObjet[0].pos.h && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 > screen->tbObjet[0].pos.y)
+	   || (screen->pla[j].pos.x + screen->pla[j].pos.w/2.5 < screen->tbObjet[0].pos.x + screen->tbObjet[0].pos.w && screen->pla[j].pos.x +screen->pla[j].pos.w/2.5  > screen->tbObjet[0].pos.x && screen->pla[j].pos.y +screen->pla[j].pos.h < screen->tbObjet[0].pos.y + screen->tbObjet[0].pos.h && screen->pla[j].pos.y +screen->pla[j].pos.h > screen->tbObjet[0].pos.y)
+	   || (screen->pla[j].pos.x + screen->pla[j].pos.w/2.4 < screen->tbObjet[0].pos.x + screen->tbObjet[0].pos.w && screen->pla[j].pos.x + screen->pla[j].pos.w/2.4 > screen->tbObjet[0].pos.x && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 < screen->tbObjet[0].pos.y + screen->tbObjet[0].pos.h && screen->pla[j].pos.y - screen->pla[j].pos.h/1.3 > screen->tbObjet[0].pos.y)
+	   || (screen->pla[j].pos.x - screen->pla[j].pos.w/2.5 < screen->tbObjet[0].pos.x + screen->tbObjet[0].pos.w && screen->pla[j].pos.x -screen->pla[j].pos.w/2.5 > screen->tbObjet[0].pos.x && screen->pla[j].pos.y +screen->pla[j].pos.h  < screen->tbObjet[0].pos.y + screen->tbObjet[0].pos.h && screen->pla[j].pos.y +screen->pla[j].pos.h > screen->tbObjet[0].pos.y)){
+	      screen->pla[j].vie --;
+	    }
+	  }
       }
 
     }else if(screen->modePlay == 1){

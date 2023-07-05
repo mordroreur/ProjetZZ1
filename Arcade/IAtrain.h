@@ -29,4 +29,5 @@ void *GetLoupScore(void*);
 void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture);
 
 
+
 #endif /* TRAINIA_HEADER_ */

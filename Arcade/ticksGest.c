@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #define SIZE 3
+#define NBRMOUT 32
 
 int ** mouton = NULL;
 
@@ -56,38 +57,6 @@ void mainTickGest(ecran *screen){
     }else if(screen->modePlay == 1){
       screen->nbPreda = 3;
       screen->nbProie = 10;
-	  
-	  mouton = (int **)malloc(sizeof(int*)*32);
-	  for(int i = 0; i < 32; i++){
-		mouton[i] = (int*)malloc(sizeof(int)*4);
-	  }
-	  for(int i = 0; i < 8; i++){
-			mouton[i*2][0] = 0;
-			mouton[i*2][1] = i;
-			mouton[i*2][2] = (4+i)%8;
-			mouton[i*2][3] = 5;
-
-			mouton[i*2+1][0] = 1;
-			mouton[i*2+1][1] = i;
-			mouton[i*2+1][2] = (4+i)%8;
-			mouton[i*2+1][3] = 5;
-
-			// mouton[i*4+1][0] = k;
-			// mouton[i*4+1][1] = i;
-			// mouton[i*4+1][2] = (6+i)%8;
-			// mouton[i*4+1][3] = 3;
-
-			// mouton[i*4+2][0] = k;
-			// mouton[i*4+2][1] = i;
-			// mouton[i*4+2][2] = (4+i)%8;
-			// mouton[i*4+2][3] = 3;
-
-		// mouton[i*3 +2][0] = -1;
-		// mouton[i*3 +2][1] = -1;
-		// mouton[i*3 +2][2] = i;
-		// mouton[i*3 +2][3] = 1;
-	  }
-
 	  
       screen->nbPlayer = screen->nbProie + screen->nbPreda;
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
@@ -269,7 +238,7 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 		if(screen->pla[i].IAType == 1){
 		  int * paramworld = getMoutonWorld(screen, i, 2);
-		  setIAInput(screen, i, paramworld, mouton, 32, 2);
+		  setIAInput(screen, i, paramworld, mouton, NBRMOUT, 2);
 	  
 		  free(paramworld); 
 		}
@@ -322,12 +291,14 @@ void mainTickGest(ecran *screen){
 	}
 	free(screen->pla);
 
-	/*if(mouton != NULL){
-	  for(int i = 0; i < 32; i++){
-		free(mouton[i]);
-	  }
-	  free(mouton);
-	  }*/
+
+	/*
+	if(mouton != NULL){
+	for(int i = 0; i < Nbreglemouton; i++){
+	free(mouton[i]);
+	}
+	free(mouton);
+	}*/
 	screen->etapeDuJeu = 2;
   }
 }
@@ -379,5 +350,39 @@ void Deplace(ecran *screen, int index, float depx, float depy){
     if(screen->pla[index].pos.x < 0){screen->pla[index].pos.x +=100;}else if(screen->pla[index].pos.x > 100){screen->pla[index].pos.x -= 100;} 
     screen->pla[index].pos.y += depy;
     if(screen->pla[index].pos.y < 0){screen->pla[index].pos.y +=100;}else if(screen->pla[index].pos.y > 100){screen->pla[index].pos.y -= 100;}
+  }
+}
+
+
+void initMout(){
+  mouton = (int **)malloc(sizeof(int*)*NBRMOUT);
+  for(int i = 0; i < NBRMOUT; i++){
+    mouton[i] = (int*)malloc(sizeof(int)*4);
+  }
+  for(int i = 0; i < 8; i++){
+    mouton[i*2][0] = 0;
+    mouton[i*2][1] = i;
+    mouton[i*2][2] = (4+i)%8;
+    mouton[i*2][3] = 5;
+
+    mouton[i*2+1][0] = 1;
+    mouton[i*2+1][1] = i;
+    mouton[i*2+1][2] = (4+i)%8;
+    mouton[i*2+1][3] = 5;
+
+    // mouton[i*4+1][0] = k;
+    // mouton[i*4+1][1] = i;
+    // mouton[i*4+1][2] = (6+i)%8;
+    // mouton[i*4+1][3] = 3;
+
+    // mouton[i*4+2][0] = k;
+    // mouton[i*4+2][1] = i;
+    // mouton[i*4+2][2] = (4+i)%8;
+    // mouton[i*4+2][3] = 3;
+
+    // mouton[i*3 +2][0] = -1;
+    // mouton[i*3 +2][1] = -1;
+    // mouton[i*3 +2][2] = i;
+    // mouton[i*3 +2][3] = 1;
   }
 }

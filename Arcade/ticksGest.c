@@ -102,8 +102,8 @@ void mainTickGest(ecran *screen){
 	}      
       }
       
-      screen->nbBananes = 4;
-      screen->nbObjetsMax = rand()%15 + screen->nbBananes;
+      screen->nbBananes = 0;
+      screen->nbObjetsMax = 8 + screen->nbBananes;
       screen->tbObjet = (objet *)malloc(sizeof(objet) * screen->nbObjetsMax);
       for(int i = 0; i < screen->nbObjetsMax-screen->nbBananes; i++){
 	screen->tbObjet[i].id = 1;
@@ -263,7 +263,7 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 		if(screen->pla[i].IAType == 1){
 		  int * paramworld = getMoutonWorld(screen, i, 2);
-		  setIAInput(screen, i, paramworld, mouton, NBRMOUT, 2);
+		  setIAInput(screen, i, paramworld, mouton, NBRMOUT, 2,NULL);
 	  
 		  free(paramworld); 
 		}

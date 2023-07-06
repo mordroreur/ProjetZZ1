@@ -5,7 +5,7 @@
 
 int *getLoupWorld(ecran *screen, int k, int paramNb);
 int *getMoutonWorld(ecran *screen, int k, int paramNb);
-void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, int Nbparam);
+void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, int Nbparam, int * uti);
 int dist(ecran * screen, int self, int other);
 int distobj(ecran * screen, int self, int other);
 float carre(float x);

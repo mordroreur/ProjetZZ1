@@ -16,6 +16,7 @@ typedef struct simulation_I_O{
   int value;
   int nbAcRegle;
   int nbParam;
+  int * uti;
 }simIO;
 
 typedef struct simulation_I_OBubble{

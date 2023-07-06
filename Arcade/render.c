@@ -72,9 +72,9 @@ void DrawMenu(ecran *screen)
   if (screen->decalageB2 > 80)
     screen->decalageB2 -= 2;
 
-  enlargeButton(screen, posMX, posMY, 10,  (screen->decalageB1), posY1, 30, 20, 'c', &large, 5);
-  enlargeButton(screen, posMX, posMY, 11,  (screen->decalageB2), posY2, 30, 20, 'c', &large2, 5);
-  enlargeButton(screen, posMX, posMY, 12, posX3, (screen->decalageB3), 30, 20, 'c', &large3, 5);
+  enlargeButton(screen, posMX, posMY, IMBUTTONPLAY,  (screen->decalageB1), posY1, 30, 20, 'c', &large, 5);
+  enlargeButton(screen, posMX, posMY, IMBUTTONQUIT,  (screen->decalageB2), posY2, 30, 20, 'c', &large2, 5);
+  enlargeButton(screen, posMX, posMY, IMBUTTONPARAM, posX3, (screen->decalageB3), 30, 20, 'c', &large3, 5);
 }
 
 void DrawParametre(ecran *screen)
@@ -100,10 +100,10 @@ void DrawParametre(ecran *screen)
   if (screen->decalageB2 < 130) {screen->decalageB2 += 2;}
   if (screen->decalageB3 > -30) {screen->decalageB3 -= 2;}
   if (screen->decalageB4 > 50) {screen->decalageB4 -= 2;}
-  DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(12, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(13, 50, screen->decalageB4, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONPLAY, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONQUIT, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONPARAM, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONFORM, 50, screen->decalageB4, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->etapeParam == 0)
   {
     DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 253, 212, 4, screen);
@@ -146,10 +146,10 @@ void BackParametre(ecran *screen)
   if (screen->decalageB2 > 80) {screen->decalageB2 -= 2;}
   if (screen->decalageB3 < 18) {screen->decalageB3 += 2;}
   if (screen->decalageB4 < 150) {screen->decalageB4 += 2;}
-  DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(12, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(13, 50, screen->decalageB4, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONPLAY, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONQUIT, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONPARAM, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONFORM, 50, screen->decalageB4, 50, 60, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->etapeParam == 0)
   {
     DrawString(volume, 50, screen->decalageB4-10 , 5, 'c', 253, 212, 4, screen);
@@ -214,17 +214,17 @@ void DrawSelectGame(ecran * screen)
   if(screen->showImage)
     imagePreface(screen, (screen->etapeMenu++)/2);
 
-  DrawImage(10, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(11, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(12, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  enlargeButton(screen, posMX, posMY, 14, 12.625, (screen->decalageB5), 23, 20, 'c', &large, 2);
-  enlargeButton(screen, posMX, posMY, 15, 37.875, (screen->decalageB5), 23, 20, 'c', &large2, 2);
-  enlargeButton(screen, posMX, posMY, 16, 63.125, (screen->decalageB5), 23, 20, 'c', &large3, 2);
-  enlargeButton(screen, posMX, posMY, 17, 88.375, (screen->decalageB5), 23, 20, 'c', &large4, 2);
-  enlargeButton(screen, posMX, posMY, 18, 12.625, 105-(screen->decalageB5), 23, 20, 'c', &large5, 2);
-  enlargeButton(screen, posMX, posMY, 19, (screen->decalageB6), 85, 23, 20, 'c', &large6, 2);
-  enlargeButton(screen, posMX, posMY, 20, 50, (screen->decalageB4)+31, 35, 20, 'c', &large6, 2);
-  DrawImage(13, 50, (screen->decalageB4), 50, 30, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONPLAY, screen->decalageB1, 50, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONQUIT, screen->decalageB2, 80, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONPARAM, 18, screen->decalageB3, 30, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  enlargeButton(screen, posMX, posMY, IMBUTTONSELECT, 12.625, (screen->decalageB5), 23, 20, 'c', &large, 2);
+  enlargeButton(screen, posMX, posMY, IMBUTTONSELECT2, 37.875, (screen->decalageB5), 23, 20, 'c', &large2, 2);
+  enlargeButton(screen, posMX, posMY, IMBUTTONSELECT3, 63.125, (screen->decalageB5), 23, 20, 'c', &large3, 2);
+  enlargeButton(screen, posMX, posMY, IMBUTTONSELECT4, 88.375, (screen->decalageB5), 23, 20, 'c', &large4, 2);
+  enlargeButton(screen, posMX, posMY, IMBUTTONBACK, 12.625, 105-(screen->decalageB5), 23, 20, 'c', &large5, 2);
+  enlargeButton(screen, posMX, posMY, IMBUTTONJOUER, (screen->decalageB6), 85, 23, 20, 'c', &large6, 2);
+  enlargeButton(screen, posMX, posMY, IMBUTTONIATRAIN, 50, (screen->decalageB4)+31, 35, 20, 'c', &large6, 2);
+  DrawImage(IMBUTTONFORM, 50, (screen->decalageB4), 50, 30, 'c', 0, 0, 0, 0, 0, 0, screen);
   /* Detection souris, bouton */
   if(isInButton(50, (screen->decalageB4)-8, 18,5, 'c', posMX, posMY, screen) && (screen->etapeSelGam == 1 || screen->etapeSelGam == 2))
     screen->etape2SelGam = 0;
@@ -347,11 +347,11 @@ void backSelectGame(ecran * screen)
   if (screen->etapeMenu >= 399)
     screen->etapeMenu = 0;
 
-  DrawImage(14, 12.625, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(15, 37.875, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(16, 63.125, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(17, 88.375, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
-  DrawImage(18, 12.625, 105-(screen->decalageB5), 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONSELECT, 12.625, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONSELECT2, 37.875, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONSELECT3, 63.125, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONSELECT4, 88.375, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
+  DrawImage(IMBUTTONBACK, 12.625, 105-(screen->decalageB5), 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
 }
 
 void DrawVictoire(ecran *screen)
@@ -366,13 +366,9 @@ void DrawVictoire(ecran *screen)
   char tmp[30];
   sprintf(tmp, "victoire de l'equipe %s!!!", (equipe == 0)?"rouge":"bleu");
 
-  if (equipe == 0) {
     int order[1] = {19};
-    DrawImage(0, 50, 60, 60, 30, 'c', 0, 1, 0, 0, 1, order, screen);
-  }else {
-    int order[1] = {19};
-    DrawImage(1, 50, 60, 60, 30, 'c', 0, 1, 0, 0, 1, order, screen);
-  }
+    DrawImage(IMPLAYER1+equipe, 50, 60, 60, 30, 'c', 0, 1, 0, 0, 1, order, screen);
+
     
 
   DrawString(tmp, 50, 90, 10, 'c', 120, 255, 120, screen); 
@@ -413,15 +409,15 @@ void DrawGame(ecran *screen){
 
 
   if(screen->tbObjet[0].vie == 0 && screen->modePlay == 0){
-	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
-	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(IMBLACKHOLE, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
   }
   
   
@@ -454,29 +450,29 @@ void DrawGame(ecran *screen){
       
       
 
-      DrawImage(screen->pla[i].equipe, drawX, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+      DrawImage(screen->pla[i].equipe + IMPLAYER1, drawX, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
       
       
       if(screen->pla[i].pos.x < 3){
-	DrawImage(screen->pla[i].equipe, drawX+100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX+100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	if(screen->pla[i].pos.y < 3){
-	  DrawImage(screen->pla[i].equipe, drawX+100, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX+100, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	}else if (screen->pla[i].pos.y > 97) {
-	  DrawImage(screen->pla[i].equipe, drawX+100, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle,nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX+100, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle,nbSprite, order, screen);
 	}
       }else if (screen->pla[i].pos.x > 97) {
-	DrawImage(screen->pla[i].equipe, drawX-100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX-100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	if(screen->pla[i].pos.y < 3){
-	  DrawImage(screen->pla[i].equipe, drawX-100, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX-100, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	}else if (screen->pla[i].pos.y > 97) {
-	  DrawImage(screen->pla[i].equipe, drawX-100, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX-100, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
 	}
       }
 
       if(screen->pla[i].pos.y < 3){
-	DrawImage(screen->pla[i].equipe, drawX, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX, drawY+100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
       }else if (screen->pla[i].pos.y > 97) {
-	DrawImage(screen->pla[i].equipe, drawX, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX, drawY-100, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
       }
       
       for(int j = screen->pla[i].debBoule; j < screen->pla[i].debBoule+screen->pla[i].nbBouleActive; j++){
@@ -497,27 +493,27 @@ void DrawGame(ecran *screen){
 	else if(b->vitX == -1 && b->vitY == -1){angle = 45;}
       
 	if(b->vie >= 0){
-	  DrawImage(2+screen->pla[i].equipe, b->pos.x, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	  DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  if(b->pos.x < 3){
-	    DrawImage(2+screen->pla[i].equipe, b->pos.x+100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x+100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    if(b->pos.y < 3){
-	      DrawImage(2+screen->pla[i].equipe, b->pos.x+100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	      DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x+100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    }else if (b->pos.y > 97) {
-	      DrawImage(2+screen->pla[i].equipe, b->pos.x+100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	      DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x+100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    }
 	  }else if (b->pos.x > 97) {
-	    DrawImage(2+screen->pla[i].equipe, b->pos.x-100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x-100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    if(b->pos.y < 3){
-	      DrawImage(2+screen->pla[i].equipe, b->pos.x-100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	      DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x-100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    }else if (b->pos.y > 97) {
-	      DrawImage(2+screen->pla[i].equipe, b->pos.x-100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal,  screen);
+	      DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x-100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal,  screen);
 	    }
 	  }
 
 	  if(b->pos.y < 3){
-	    DrawImage(2+screen->pla[i].equipe, b->pos.x, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  }else if (b->pos.y > 97) {
-	    DrawImage(2+screen->pla[i].equipe, b->pos.x, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(IMBOULEP1+screen->pla[i].equipe, b->pos.x, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  }
 	}
       }

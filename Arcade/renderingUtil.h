@@ -109,15 +109,15 @@ typedef struct Ecran{
   int etapeParam; // dans quelle étape sommes-nous pour les parametres
   int bonus; // boolean pour savoir si les bonus sont activés
   int trousNoir; // boolean pour savoir si les bonus sont activés
-  int etapeSelGam; // boolean permettant de savoir dans quel cas nous sommes pour DrawSelectGame
+     int etapeSelGam; // boolean permettant de savoir dans quel cas nous sommes pour DrawSelectGame
   int etape2SelGam; //  boolean permettant de savoir dans quel cas des cas nous sommes pour DrawSelectGame
   int previousSelGam; // indique l'ancien game sélectionné
   int backSelec; // boolean pour savoir si on "part de la sélection"
   int nbJoueur; // nombre joueur pour le FFA
-  int nbHumainP; // nombre joueur predateur
-  int nbHumainM; // nombre joueur mouton
-  int nbIAP; // nombre IA prédator
-  int nbIAM; //nombre IA mouton
+    int nbHumainP; // nombre joueur predateur
+    int nbHumainM; // nombre joueur mouton
+    int nbIAP; // nombre IA prédator
+    int nbIAM; //nombre IA mouton
   int showImage; // boolean si on montre les images de début ou pas
 }ecran;
 

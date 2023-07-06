@@ -71,10 +71,7 @@ void mainTickGest(ecran *screen){
       screen->TrouNoirTime = -15*60;
       
       // JEU MOUTON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    }else if(screen->modePlay == 1){
-      screen->nbPreda = 3;
-      screen->nbProie = 10;
-	  
+    }else if(screen->modePlay == 1){	  
       screen->nbPlayer = screen->nbProie + screen->nbPreda;
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
       for(int i = 0; i < screen->nbPlayer; i++){
@@ -99,15 +96,11 @@ void mainTickGest(ecran *screen){
 		screen->pla[i].shoot = 0;
 
 	
-		screen->pla[i].IAType = (i>2)?1:0;
-	
-		screen->pla[i].equipe = (i < 3)?0:1;
+		screen->pla[i].IAType = (i <screen->nbPreda)?2:1;
+
+		screen->pla[i].equipe = (i < screen->nbPreda)?0:1;
       
 		screen->pla[i].nbBoule = 0;
-		screen->pla[i].boubou = (boule *)malloc(sizeof(boule) * screen->pla[i].nbBoule);
-		for(int j = 0; j < screen->pla[i].nbBoule; j++){
-		  screen->pla[i].boubou[j].vie = -1;
-		}
 		screen->pla[i].dirX = rand()%3 - 1;
 		screen->pla[i].dirY = rand()%3 - 1;
 	
@@ -117,7 +110,7 @@ void mainTickGest(ecran *screen){
       }
       
       screen->nbBananes = 0;
-      screen->nbObjetsMax = 8 + screen->nbBananes;
+      screen->nbObjetsMax = rand()%8 + 4 + screen->nbBananes;
       screen->tbObjet = (objet *)malloc(sizeof(objet) * screen->nbObjetsMax);
       for(int i = 0; i < screen->nbObjetsMax-screen->nbBananes; i++){
 		screen->tbObjet[i].id = 1;
@@ -363,8 +356,12 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 		
 		if(screen->pla[i].IAType == 1){
-		  int * paramworld = getMoutonWorld(screen, i, 2);
-		  setIAInput(screen, i, paramworld, AI1, NBRMOUT, 2, NULL);	  
+		  int * paramworld = getMoutonWorld(screen, i, nbParam1);
+		  setIAInput(screen, i, paramworld, AI1, nbRegle1, nbParam1, NULL);	  
+		  free(paramworld); 
+		}else if(screen->pla[i].IAType == 2){
+		  int * paramworld = getLoupWorld(screen, i, nbParam2);
+		  setIAInput(screen, i, paramworld, AI2, nbRegle2, nbParam2, NULL);	  
 		  free(paramworld); 
 		}
 		
@@ -409,19 +406,14 @@ void mainTickGest(ecran *screen){
     }       
   }else if(screen->etapeDuJeu == 12){
 
-	for(int i = 0; i < screen->nbPlayer; i++){
-	  free(screen->pla[i].boubou);
+	if(screen->modePlay == 0){
+	  for(int i = 0; i < screen->nbPlayer; i++){
+		free(screen->pla[i].boubou);
+	  }
 	}
 	free(screen->pla);
 
 
-	/*
-	  if(mouton != NULL){
-	  for(int i = 0; i < Nbreglemouton; i++){
-	  free(mouton[i]);
-	  }
-	  free(mouton);
-	  }*/
 	screen->etapeDuJeu = 2;
   }
 }
@@ -478,7 +470,7 @@ void Deplace(ecran *screen, int index, float depx, float depy){
 
 
 void initMout(){
-  nbParam1 = 4;
+  nbParam1 = 2;
   nbRegle1 = 16;
   AI1 = (int **)malloc(sizeof(int*)*NBRMOUT);
   for(int i = 0; i < NBRMOUT; i++){
@@ -511,6 +503,26 @@ void initMout(){
     // mouton[i*3 +2][3] = 1;
   }
 }
+
+void loadIALout(ecran* screen){
+  if(AI2 != NULL){
+    for(int i = 0; i < nbRegle2; i++){
+      free(AI2[i]);
+    }
+    free(AI2);
+  }
+  nbRegle2 = -1;
+  char name[30];
+  sprintf(name, "Ressources/IALoupLast.txt");
+  AI2 = readIAFile(name, &nbRegle2, &nbParam2);
+  if(AI2 == NULL || nbRegle2 == -1){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+}
+
+
+
 
 
 void loadBubbleIA1(ecran* screen){

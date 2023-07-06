@@ -9,57 +9,91 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
   if(key.keysym.sym == SDLK_ESCAPE){
 
 	if (screen->etapeDuJeu == 5 || screen->etapeDuJeu == 4)
-	{
+	  {
 		Mix_PlayMusic(screen->musique[0], -1);
 		screen->etapeDuJeu = 12;
 		SDL_Delay(50);
 		screen->decalageB1 = 116;
 		screen->decalageB2 = 130;
-	}
+	  }
 	else if (screen->etapeDuJeu == 10)
-	{
+	  {
 		screen->etapeParam = 0;
 		screen->etapeDuJeu = 11;
 		writeParamFile(screen->isFullScreen?screen->otherX:screen->sizeX, screen->isFullScreen?screen->otherY:screen->sizeY, screen->isFullScreen, Mix_VolumeMusic(-1), screen->bonus, screen->trousNoir);
-	}
+	  }
 	else if (screen->etapeDuJeu == 13)
-	{
+	  {
 		screen->backSelec = 1;
 		if (screen->etapeSelGam)
-		{
+		  {
 			screen->etape2SelGam = 0;
 			screen->previousSelGam = screen->etapeSelGam;
 			screen->etapeSelGam = 0;
-		}
+		  }
 		else
-		{
+		  {
 			screen->etapeDuJeu = 14;
-		}
-	}
+		  }
+	  }
 	else
-	    screen->etapeDuJeu = 0;
+	  screen->etapeDuJeu = 0;
   }else if(screen->etapeDuJeu == 4){
-    switch (key.keysym.sym)
-          {
-            /* Joueur 2*/
-	  case SDLK_UP: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 0; break;
-	  case SDLK_LEFT: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 0; break;
-	  case SDLK_DOWN: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 0; break;
-	  case SDLK_RIGHT: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 0; break;
-	  case SDLK_o: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 0; break;
-	  case SDLK_k: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 0; break;
-	  case SDLK_l: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 0; break;
-	  case SDLK_m: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 0; break;
-	  case SDLK_RSHIFT: if(screen->nbPlayer > 1) screen->pla[1].input[4] = 0; break;
-            /* Joueur 1 */
-	  case SDLK_q: if(screen->nbPlayer > 0) screen->pla[0].input[0] = 0; break;
-	  case SDLK_z: if(screen->nbPlayer > 0) screen->pla[0].input[1] = 0; break;
-	  case SDLK_s: if(screen->nbPlayer > 0) screen->pla[0].input[3] = 0; break;
-	  case SDLK_d: if(screen->nbPlayer > 0) screen->pla[0].input[2] = 0; break;
-	  case SDLK_SPACE: if(screen->nbPlayer > 0) screen->pla[0].input[4] = 0; break;
+    int index = 0;
+	int input[4];
+	if(screen->etapeSelGam == 4){
+	  for(int i = 0; i < screen->nbHumainP; i++){
+		input[index++] = i;
+	  }
+	  for(int i = screen->nbPreda; i < screen->nbHumainM + screen->nbPreda; i++){
+		input[index++] = i;
+	  }
+	  for(; index < 4;index++){
+		input[index] = -1;
+	  }
+	}else{
+	  for(int i = 0; i < screen->nbPlayer; i++){
+		input[i] = i;
+	  }
+	}
+		
+
+	switch (key.keysym.sym)
+	  {
+		/* Joueur 2*/
+	  case SDLK_UP: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[1] = 0; break;
+	  case SDLK_LEFT: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[0] = 0; break;
+	  case SDLK_DOWN: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[3] = 0; break;
+	  case SDLK_RIGHT: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[2] = 0; break;
+	  case SDLK_t: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[1] = 0; break;
+	  case SDLK_f: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[0] = 0; break;
+	  case SDLK_g: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[3] = 0; break;
+	  case SDLK_h: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[2] = 0; break;
+	  case SDLK_y: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[4] = 0; break;
+	  case SDLK_RSHIFT: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[4] = 0; break;
+		/* Joueur 1 */
+	  case SDLK_q: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[0] = 0; break;
+	  case SDLK_z: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[1] = 0; break;
+	  case SDLK_s: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[3] = 0; break;
+	  case SDLK_d: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[2] = 0; break;
+	  case SDLK_SPACE: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[4] = 0; break;
+	  case SDLK_e: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[4] = 0; break;
+		/*Joueur 3*/
+	  case SDLK_i: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[1] = 0; break;
+	  case SDLK_j: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[0] = 0; break;
+	  case SDLK_k: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[3] = 0; break;
+	  case SDLK_l: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[2] = 0; break;
+	  case SDLK_o: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[4] = 0; break;
+		/*Joueur 4*/
+	  case 1073741824: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[1] = 0; break;
+	  case SDLK_m: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[0] = 0; break;
+	  case 249: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[3] = 0; break;
+	  case SDLK_ASTERISK: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[2] = 0; break;
+	  case SDLK_DOLLAR: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[4] = 0; break;
+			
 	  default:
-            break;
-          }
+		break;
+	  }
   }
 }
 
@@ -67,27 +101,62 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 {
   if(screen->etapeDuJeu == 4)
 	{
+	  int index = 0;
+	  int input[4];
+	  if(screen->etapeSelGam == 4){
+		for(int i = 0; i < screen->nbHumainP; i++){
+		  input[index++] = i;
+		}
+		for(int i = screen->nbPreda; i < screen->nbHumainM + screen->nbPreda; i++){
+		  input[index++] = i;
+		}
+		for(; index < 4;index++){
+		  input[index] = -1;
+		}
+	  }else{
+		for(int i = 0; i < screen->nbPlayer; i++){
+		  input[i] = i;
+		}
+	  }
+		
+
 	  switch (key.keysym.sym)
-        {
+		{
 		  /* Joueur 2*/
-		case SDLK_UP: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 1; break;
-		case SDLK_LEFT: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 1; break;
-		case SDLK_DOWN: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 1; break;
-		case SDLK_RIGHT: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 1; break;
-		case SDLK_o: if(screen->nbPlayer > 1) screen->pla[1].input[1] = 1;; break;
-		case SDLK_k: if(screen->nbPlayer > 1) screen->pla[1].input[0] = 1; break;
-		case SDLK_l: if(screen->nbPlayer > 1) screen->pla[1].input[3] = 1; break;
-		case SDLK_m: if(screen->nbPlayer > 1) screen->pla[1].input[2] = 1; break;
-		case SDLK_RSHIFT: if(screen->nbPlayer > 1) screen->pla[1].input[4] = 1; break;
+		case SDLK_UP: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[1] = 1; break;
+		case SDLK_LEFT: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[0] = 1; break;
+		case SDLK_DOWN: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[3] = 1; break;
+		case SDLK_RIGHT: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[2] = 1; break;
+		case SDLK_t: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[1] = 1; break;
+		case SDLK_f: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[0] = 1; break;
+		case SDLK_g: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[3] = 1; break;
+		case SDLK_h: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[2] = 1; break;
+		case SDLK_y: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[4] = 1; break;
+		case SDLK_RSHIFT: if(screen->nbPlayer > 1 && input[1] != -1) screen->pla[input[1]].input[4] = 1; break;
 		  /* Joueur 1 */
-		case SDLK_q: if(screen->nbPlayer > 0) screen->pla[0].input[0] = 1; break;
-		case SDLK_z: if(screen->nbPlayer > 0) screen->pla[0].input[1] = 1; break;
-		case SDLK_s: if(screen->nbPlayer > 0) screen->pla[0].input[3] = 1; break;
-		case SDLK_d: if(screen->nbPlayer > 0) screen->pla[0].input[2] = 1; break;
-		case SDLK_SPACE: if(screen->nbPlayer > 0) screen->pla[0].input[4] = 1; break;
+		case SDLK_q: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[0] = 1; break;
+		case SDLK_z: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[1] = 1; break;
+		case SDLK_s: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[3] = 1; break;
+		case SDLK_d: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[2] = 1; break;
+		case SDLK_SPACE: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[4] = 1; break;
+		case SDLK_e: if(screen->nbPlayer > 0 && input[0] != -1) screen->pla[input[0]].input[4] = 1; break;
+		  /*Joueur 3*/
+		case SDLK_i: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[1] = 1; break;
+		case SDLK_j: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[0] = 1; break;
+		case SDLK_k: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[3] = 1; break;
+		case SDLK_l: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[2] = 1; break;
+		case SDLK_o: if(screen->nbPlayer > 2 && input[2] != -1) screen->pla[input[2]].input[4] = 1; break;
+		  /*Joueur 4*/
+		case 1073741824: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[1] = 1; break;
+		case SDLK_m: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[0] = 1; break;
+		case 249: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[3] = 1; break;
+		case SDLK_ASTERISK: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[2] = 1; break;
+		case SDLK_DOLLAR: if(screen->nbPlayer > 3 && input[3] != -1) screen->pla[input[3]].input[4] = 1; break;
+			
 		default:
 		  break;
-        }
+		}
+	
   	}
   else if (screen->etapeDuJeu == 10)
 	{
@@ -291,7 +360,14 @@ void LeftClick(ecran *screen) {
 			  default:screen->pla[0].IAType = 1;screen->pla[1].IAType = 1;screen->pla[2].IAType = 2;screen->pla[3].IAType = 2;loadBubble2V2IA2(screen);loadBubble2V2IA1(screen);break;
 			  } break;
 			case 3: break;
-			case 4: screen->modePlay = 1;screen->etapeDuJeu = 3; break;
+			case 4: screen->modePlay = 1;screen->etapeDuJeu = 3; screen->nbPreda = screen->nbIAP + screen->nbHumainP; screen->nbProie = screen->nbIAM + screen->nbHumainM; mainTickGest(screen); initMout();loadIALout(screen);
+			  for(int i = 0; i < screen->nbHumainP; i++){
+				screen->pla[i].IAType = 0;
+			  }
+			  for(int i = screen->nbPreda; i < screen->nbHumainM + screen->nbPreda; i++){
+				screen->pla[i].IAType = 0;
+			  }
+			  break;
 			default: break;
 			}
 		}

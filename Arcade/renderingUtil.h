@@ -96,6 +96,8 @@ typedef struct Ecran{
   int maxVie;
   int nbPlayer;
 
+  int TrouNoirTime;
+  
   /* rajout par Thomas*/
   Mix_Music * musique[2]; //tableau qui contient toutes les musiques
   int decalageB1; // décallage du bouton Play au menu

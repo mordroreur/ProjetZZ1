@@ -35,8 +35,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 21;
-  int nbPlanche = 18;
+  int nbImage = 22;
+  int nbPlanche = 19;
 
 
 void InitImage(ecran *screen){
@@ -116,7 +116,7 @@ void InitImage(ecran *screen){
 
   fileImage[18] = IMG_Load("Ressources/Image/blackHole.png");
   PixelXnb[21] = 1230; PixelYnb[21] = 1264; XImagenb[21] = 1; YImagenb[21] = 1;
-  TotalImagenb[21] = 1; ImYoffset[21] = 7; ImXoffset[21] = 0;
+  TotalImagenb[21] = 1; ImYoffset[21] = 0; ImXoffset[21] = 0;
   debX[21] = 0; debY[21] = 0; wichFile[21] = 18;
   
   // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");

@@ -633,3 +633,70 @@ int ** readIAFile(char *name, int *nbR, int *nbParam){
   }
   return NULL;
 }
+
+
+
+int *getBooble2vWorld(ecran *screen, int k, int paramNb, int mode){
+  
+  int * paramworld = (int*)malloc(sizeof(int)*(paramNb));
+  
+  int p = 0;
+
+  if(mode == 1){
+	for(int i = 0; i < 4; i++){
+	  if(i != k && screen->pla[i].equipe == screen->pla[k].equipe){
+		  paramworld[p++] = dist(screen, k, 1-k);
+		  paramworld[p++] = orient(screen, k, 1-k);
+	  }
+	}
+	for(int i = 0; i < 4; i++){
+	  if(i != k && screen->pla[i].equipe != screen->pla[k].equipe){
+		  paramworld[p++] = dist(screen, k, 1-k);
+		  paramworld[p++] = orient(screen, k, 1-k);
+	  }
+	}
+  }else{
+	for(int i = 0; i < 4; i++){
+	  if(i != k){
+		  paramworld[p++] = dist(screen, k, 1-k);
+		  paramworld[p++] = orient(screen, k, 1-k);
+	  }
+	}
+  }
+  
+  
+  
+
+  
+  if(screen->tbObjet[1].vie != 0){
+	paramworld[p++] = distobj(screen, k, 1);
+	paramworld[p++] = orientobj(screen, k, 1);
+	paramworld[p++] = distobj(screen, 1-k, 1);
+  }else{
+	paramworld[p++] = -1;
+	paramworld[p++] = -1;
+	paramworld[p++] = -1;
+  }
+
+  if(screen->tbObjet[1].vie >= 0){
+	paramworld[p++] = distobj(screen, k, 0);
+	paramworld[p++] = orientobj(screen, k, 0);
+  }else{
+	paramworld[p++] = -1;
+	paramworld[p++] = -1;
+  }
+  
+  float *densi = listdensite(screen, k, 2,  8);
+
+  for(int i = 0; i < 16; i++){
+	paramworld[p++] = (densi[i]<0.1)?0:(densi[i]<0.6)?1:2;
+  }
+
+  free(densi);
+
+  return paramworld;
+
+
+  
+}
+    

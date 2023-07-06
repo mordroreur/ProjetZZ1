@@ -140,9 +140,22 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 			break;
 			case SDLK_DOWN:
 				screen->etape2SelGam = (screen->etape2SelGam + 1)%3;
-				screen->previousSelGam = 0;
-				screen->etapeSelGam = 1;
 			break;
+		}
+		if (screen->etapeSelGam == 3)
+		{
+			switch (key.keysym.sym)
+        	{
+				case SDLK_RIGHT:
+					screen->nbJoueur = (screen->nbJoueur + 1)%5;
+				break;
+				case SDLK_LEFT:
+					if (screen->nbJoueur -1 < 0)
+						screen->nbJoueur = 4;
+					else
+						(screen->nbJoueur)--;
+				break;
+			}
 		}
 	}
 }
@@ -205,7 +218,7 @@ void LeftClick(ecran *screen) {
 	{
 	  switch (screen->etapeSelGam)
 	    {
-	    case 1: startBubbleTraining(screen); break;
+	    case 1: startBubbleTraining(screen, 0); break;
 	    case 2: break;
 	    case 3: break;
 	    case 4: startIALoupMoutontraining(screen);break;

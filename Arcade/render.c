@@ -191,11 +191,15 @@ void DrawSelectGame(ecran * screen)
   static float large = 0;  static float large2 = 0; 
   static float large3 = 0; static float large4 = 0;
   static float large5 = 0; static float large6 = 0;
-  char mode1[150] = "Player vs Player";
-  char mode11[150] = "Player vs IA";
-  char mode111[150] = "IA vs IA";
-  char mode2[150] = "Combattez face a un robot qui vous es ";
-  char mode22[150] = "superieur, que le meilleur gagne";
+  char mode1[60] = "Player vs Player";
+  char mode11[60] = "Player vs IA";
+  char mode111[60] = "IA vs IA";
+  char mode3[60] = "Player";
+  char mode32[60] = "";
+  char mode33[60] = "IA";
+  char mode332[60] = "";
+  sprintf(mode32, "%d", screen->nbJoueur);
+  sprintf(mode332, "%d", 4 - screen->nbJoueur);
   SDL_GetMouseState(&posMX, &posMY);
   if (screen->etapeMenu >= 399) {screen->etapeMenu = 0;}
   if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
@@ -223,20 +227,18 @@ void DrawSelectGame(ecran * screen)
 
   if (screen->backSelec)
   {
-    if (screen->previousSelGam == 1)
+    if (screen->previousSelGam == 1 || screen->previousSelGam == 2)
     {
-        DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
-        DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
-        DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
-    }
-    else if (screen->previousSelGam == 2)
-    {
-        DrawString(mode2, 50, (screen->decalageB4) , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode22, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+      DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
+      DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+      DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
     }
     else if (screen->previousSelGam == 3)
     {
-        DrawString("Description3", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+      DrawString(mode3, 50, (screen->decalageB4)-10 , 5, 'c', 255, 255, 255, screen);
+      DrawString(mode32, 50, (screen->decalageB4)-3.5, 5, 'c', 255, 255, 255, screen);
+      DrawString(mode33, 50, (screen->decalageB4)+3 , 5, 'c', 255, 255, 255, screen);
+      DrawString(mode332, 50, (screen->decalageB4)+10, 5, 'c', 255, 255, 255, screen);
     }
     else if (screen->previousSelGam == 4)
     {
@@ -254,7 +256,7 @@ void DrawSelectGame(ecran * screen)
       if (screen->decalageB4 > 55)
         (screen->decalageB4) -= 6;
     }
-    if (screen->etapeSelGam == 1)
+    if (screen->etapeSelGam == 1 || screen->etapeSelGam == 2)
     {
       switch (screen->etape2SelGam)
       {
@@ -264,27 +266,43 @@ void DrawSelectGame(ecran * screen)
       break;
       case 1: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
               DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 253, 212, 4, screen);
-              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 2255, 2255, 255, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
+      break;
+      case 2: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+      break;default:break;
+      }
+    }
+    else if (screen->etapeSelGam == 3)
+    {
+      DrawString(mode3, 50, (screen->decalageB4)-10 , 5, 'c', 253, 212, 4, screen);
+      DrawString(mode32, 50, (screen->decalageB4)-3.5, 5, 'c', 253, 212, 4, screen);
+      DrawString(mode33, 50, (screen->decalageB4)+3 , 5, 'c', 253, 212, 4, screen);
+      DrawString(mode332, 50, (screen->decalageB4)+10, 5, 'c', 253, 212, 4, screen);
+    }
+    else if (screen->etapeSelGam == 4)
+    {
+      switch (screen->etape2SelGam)
+      {
+      case 0: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 253, 212, 4, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
+      break;
+      case 1: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 253, 212, 4, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
       break;
       case 2: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
               DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
               DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
       break;
+      case 3: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+      break;
       default:break;
       }
-    }
-    else if (screen->etapeSelGam == 2)
-    {
-        DrawString(mode2, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode22, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
-    }
-    else if (screen->etapeSelGam == 3)
-    {
-        DrawString("Description3", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
-    }
-    else if (screen->etapeSelGam == 4)
-    {
-        DrawString("Description4", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
     }
   }
 }
@@ -312,6 +330,7 @@ void DrawVictoire(ecran *screen)
 {
   int equipe = 0;
   for(int i = 0; i < screen->nbPlayer; i++){
+	//	printf("%d vie à %d\n", screen->pla[i].vie, i);
     if(screen->pla[i].vie != 0){
       equipe = screen->pla[i].equipe;
     }
@@ -362,6 +381,19 @@ void DrawGame(ecran *screen){
 
       SDL_RenderFillRect(screen->renderer, &rect);
     }
+  }
+
+
+  if(screen->tbObjet[0].vie == 0 && screen->modePlay == 0){
+	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
   }
   
   
@@ -455,9 +487,9 @@ void DrawGame(ecran *screen){
 	  }
 
 	  if(b->pos.y < 3){
-	    DrawImage(0, b->pos.x, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(2+i, b->pos.x, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  }else if (b->pos.y > 97) {
-	    DrawImage(0, b->pos.x, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(2+i, b->pos.x, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  }
 	}
       }

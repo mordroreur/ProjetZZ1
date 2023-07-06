@@ -1,6 +1,7 @@
 #include "eventGest.h"
 #include "IAtrain.h"
 #include "renderingBase.h"
+#include "ticksGest.h"
 #include <SDL2/SDL_mixer.h>
 
 
@@ -215,7 +216,13 @@ void LeftClick(ecran *screen) {
 	{
 	  switch (screen->etapeSelGam)
 	    {
-	    case 1: screen->modePlay = 0;screen->etapeDuJeu = 3;break;
+	    case 1: screen->modePlay = 0;screen->etapeDuJeu = 3;mainTickGest(screen);
+	      switch(screen->etape2SelGam){
+	      case 0:screen->pla[0].IAType = 0;screen->pla[1].IAType = 0;break;
+	      case 1:screen->pla[0].IAType = 0;loadBubbleIA2(screen);break;
+	      default:loadBubbleIA2(screen);loadBubbleIA1(screen);break;
+	      }
+	      break;
 	    case 2: break;
 	    case 3: break;
 	    case 4: screen->modePlay = 1;screen->etapeDuJeu = 3; break;

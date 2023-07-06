@@ -37,7 +37,6 @@ void startBubbleTraining(ecran * screen);
 int trainLoup(ecran *screen);
 void playLoup(ecran * screen);
 int * genreglealea(int Nbpram, int * possible, float probamu);
-int ** readIAFile(char *name, int *regles, int *param);
 
 void *GetLoupScore(void*);
 void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture, int type);

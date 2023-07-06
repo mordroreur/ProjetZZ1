@@ -709,33 +709,6 @@ int * genreglealea(int Nbparam, int * possible, float probamu){
   return(result);
 }
 
-int ** readIAFile(char *name, int *nbR, int *nbParam){
-
-  FILE* f = fopen(name, "r");
-  if(f){
-  fscanf(f, "%d %d\n",nbR, nbParam);
-  int ** res = (int **)malloc(sizeof(int *)*(*nbR));
-  for(int i = 0; i < *nbR; i++){
-    res[i] = (int *)malloc(sizeof(int) * (*nbParam+2));
-    for(int j = 0; j < *nbParam+2; j++){
-      fscanf(f, "%d ", &res[i][j]);
-    }
-  }
-
-  /*  for(int i = 0; i < *nbR; i++){
-    for(int j = 0; j < nbParam+2; j++){
-      printf("%d ", res[i][j]);
-    }
-    printf("\n");
-    } */ 
-
-  
-  fclose(f);
-  return res; 
-  }
-  return NULL;
-}
-
 
 
 void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture, int type){

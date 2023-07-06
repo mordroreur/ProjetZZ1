@@ -1,4 +1,5 @@
 #include "ticksGest.h"
+#include "IAreflexion.h"
 #include "renderingUtil.h"
 #include <math.h>
 #include <stdio.h>
@@ -26,7 +27,7 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].pos.w = SIZE;
 	screen->pla[i].pos.h = SIZE*0.5625;
 	screen->pla[i].vitesse = 0.25;
-  
+	screen->pla[i].IAType = i+1;
 	screen->pla[i].kill = 0;
 	screen->pla[i].mort = 0;
 	screen->pla[i].vitTire = 2;
@@ -74,7 +75,7 @@ void mainTickGest(ecran *screen){
 	screen->pla[i].pos.w = SIZE;
 	screen->pla[i].pos.h = SIZE*0.5625;
 	screen->pla[i].vitesse = 0.25;
-  
+
 	screen->pla[i].kill = 0;
 	screen->pla[i].mort = 0;
 
@@ -140,20 +141,26 @@ void mainTickGest(ecran *screen){
 
 
     screen->etapeDuJeu = 4;
-
     
   }else if(screen->etapeDuJeu == 4){
 
-    for(int i = 0; i < screen->nbPlayer; i++){
-      if(screen->pla[i].IAType == 1){
-	int * paramworld = getMoutonWorld(screen, i, 2);
-	setIAInput(screen, i, paramworld, AI1, NBRMOUT, 2, NULL);	  
-	free(paramworld); 
-      }
-    }
-    
     if(screen->modePlay == 0){
+      
       for(int i = 0; i < screen->nbPlayer; i++){
+
+	
+	if(screen->pla[i].IAType == 1){
+	  int * paramworld = getBooble1v1World(screen, i, nbParam1);
+	  setIAInput(screen, i, paramworld, AI1, nbRegle1, nbParam1, NULL);	  
+	  free(paramworld); 
+	}else if(screen->pla[i].IAType == 2){
+	  int * paramworld = getBooble1v1World(screen, i, nbParam2);
+	  setIAInput(screen, i, paramworld, AI2, nbRegle2, nbParam2, NULL);	  
+	  free(paramworld); 
+	}
+
+
+	
 		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
 		float depx = 0;
 		float depy = 0;
@@ -177,7 +184,7 @@ void mainTickGest(ecran *screen){
 
 		if(screen->pla[i].input[4]){
 		  screen->pla[i].input[4] = 0;
-		  if(screen->pla[i].peuTirer == 1 && screen->pla[i].nbBouleActive < screen->maxBoule){
+		  if(screen->pla[i].peuTirer == 1 && screen->pla[i].nbBouleActive < screen->pla[i].nbBoule){
 			screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
 			screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
 			screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.4;
@@ -280,7 +287,11 @@ void mainTickGest(ecran *screen){
 
       for(int i = 0; i < screen->nbPlayer; i++){
 		
-
+	if(screen->pla[i].IAType == 1){
+	  int * paramworld = getMoutonWorld(screen, i, 2);
+	  setIAInput(screen, i, paramworld, AI1, NBRMOUT, 2, NULL);	  
+	  free(paramworld); 
+	}
 		
 		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
 		float depx = 0;
@@ -426,4 +437,36 @@ void initMout(){
   }
 }
 
+
+void loadBubbleIA1(ecran* screen){
+  if(AI1 != NULL){
+    for(int i = 0; i < nbRegle1; i++){
+      free(AI1[i]);
+    }
+    free(AI1);
+  }
+  char name[30];
+  sprintf(name, "Ressources/IABobble%d.txt", rand()%10);
+  AI1 = readIAFile(name, &nbRegle1, &nbParam1);
+  if(AI1 == NULL){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+}
+
+void loadBubbleIA2(ecran* screen){
+  if(AI2 != NULL){
+    for(int i = 0; i < nbRegle2; i++){
+      free(AI2[i]);
+    }
+    free(AI2);
+  }
+  char name[30];
+  sprintf(name, "Ressources/IABobble%d.txt", rand()%10);
+  AI2 = readIAFile(name, &nbRegle2, &nbParam2);
+  if(AI2 == NULL){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+}
 

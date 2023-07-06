@@ -11,5 +11,8 @@ void poseBanane(ecran *screen, int index);
 void Deplace(ecran *screen, int index, float depx, float depy);
 
 void initMout();
+void loadBubbleIA2(ecran* screen);
+void loadBubbleIA1(ecran* screen);
+
 
 #endif /* TICKGEST_HEADER_ */

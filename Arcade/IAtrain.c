@@ -11,7 +11,7 @@
 #define COEURNUMBER 8
 #define NBITERMAX 5
 #define PROBAMUT 0.3
-#define NBMATCH 3
+#define NBMATCH 5
 
 
 void startIALoupMoutontraining(ecran * screen){
@@ -50,6 +50,11 @@ void startBubbleTraining(ecran * screen){
   
   pthread_t *allThread = (pthread_t*)malloc(sizeof(pthread_t)*(COEURNUMBER-3));
   simIObb *allInput = (simIObb*)malloc(sizeof(simIObb) * (COEURNUMBER-3));
+
+  int **uti = (int **)malloc(sizeof(int *) * nbPoule);
+  for(int i = 0; i < nbPoule; i++){
+    uti[i] = (int *)malloc(sizeof(int) * nbRegle);
+  }
   
   ecran** allScreen = (ecran **)malloc(sizeof(ecran*) * (COEURNUMBER-3));
   for(int i = 1; i < (COEURNUMBER-3); i++){
@@ -70,6 +75,11 @@ void startBubbleTraining(ecran * screen){
     for(int i = 0; i < nbPoule; i++){
       listPrems[i] = i;
     }
+    for(int i = 0; i < nbPoule; i++){
+      for(int j = 0; j < nbRegle; i++){
+	uti[i][j] = 0;
+      }
+    }
 
     for(int trn = 0; trn < nbPoule; trn++){
       if(nbThread < COEURNUMBER-3){
@@ -88,6 +98,13 @@ void startBubbleTraining(ecran * screen){
 		  pthread_join(allThread[i], NULL);
 		  nbThread--;
 		  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
+		  for(int j = 0; i < nbRegle; j++){
+		    uti[allInput[i].trnid][j] = allInput[i].uti[allInput[i].classement[0]][j];
+		  }
+		  for(int j = 0; j < nbLoi/nbPoule; j++){
+		    free(allInput[i].uti[j]);
+		  }
+		  free(allInput[i].uti);
 		  free(allInput[i].classement);
 		}
 		trn--;
@@ -118,6 +135,16 @@ void startBubbleTraining(ecran * screen){
       printIA(allLoi[listPrems[i]], nbRegle, nbParam, nbEcriture++, 1);
     }
 
+    for(int i = 0; i < nbPoule; i++){
+      for(int j = 0; j < nbRegle; j++){
+	if(uti[i][j] == 0){
+	  free(pere[i][j]);
+	  pere[i][j] = genreglealea(nbParam, possibilites);
+	}
+      }
+    }
+    
+    
     if(allLoi != NULL){
       for(int i = 0; i < nbLoi; i++){
 	if(allLoi[i] != NULL){
@@ -313,7 +340,7 @@ void playLoup(ecran *screen){
 
 int trainLoup(ecran * screen){
   
-  int NbActuRegle = 30;
+  int NbActuRegle = 20;
   //  int NbMaxRegle = 30;
   int nbParam = 12;
   int ContinueTrain = 1;
@@ -738,6 +765,12 @@ void *GetTournoisClassement(void *arg){
   for(int i = 0; i < nbIA; i++){
     input->classement[i] = i;
   }
+  
+  input->uti = (int **)malloc(sizeof(int *) * 4);
+  for(int i = 0; i < 4; i++){
+    input->uti[i] = (int*)malloc(sizeof(int)*input->nbregle);
+  }
+
   float *score =(float *)malloc(sizeof(int) * nbIA);
   for(int i = 0; i < nbIA; i++){
     score[i] = 0;

@@ -26,6 +26,7 @@ typedef struct simulation_I_OBubble{
   int nbregle;
   int nbparam;
   int trnid;
+  int ** uti;
 }simIObb;
 
 

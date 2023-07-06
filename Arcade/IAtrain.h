@@ -36,7 +36,7 @@ void startBubbleTraining(ecran * screen);
 
 int trainLoup(ecran *screen);
 void playLoup(ecran * screen);
-int * genreglealea(int Nbpram, int * possible);
+int * genreglealea(int Nbpram, int * possible, float probamu);
 int ** readIAFile(char *name, int *regles, int *param);
 
 void *GetLoupScore(void*);
@@ -45,7 +45,8 @@ void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture, int type)
 void *GetTournoisClassement(void *arg);
 int ***createMatrice(int ligne, int colonne, int profondeur);
 int alea(int min, int max);
-int *** creationFils(int *** peres, int ligne, int colonne, int nbrParametre, int nbrFils);
+int ***creationFils(int ***peres, int ligne, int colonne, int nbrParametre, int nbrFils);
+int *** creationFils2(int *** peres, int ligne, int colonne, int nbrParametre, int nbrFils);
 
 
 

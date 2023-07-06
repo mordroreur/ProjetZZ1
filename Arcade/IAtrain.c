@@ -10,7 +10,7 @@
 
 #define COEURNUMBER 8
 #define NBITERMAX 5
-#define PROBAMUT 0.3
+#define PROBAMUT 0.6
 #define NBMATCH 5
 
 
@@ -35,7 +35,7 @@ void startBubbleTraining(ecran * screen){
   for(int i = 0; i < nbLoi; i++){
     allLoi[i] = (int **)malloc(sizeof(int *) * nbRegle);
     for(int j = 0; j < nbRegle; j++){
-      allLoi[i][j] = genreglealea(nbParam, possibilites);
+      allLoi[i][j] = genreglealea(nbParam, possibilites, 0.1);
     }
   }
 
@@ -76,7 +76,7 @@ void startBubbleTraining(ecran * screen){
       listPrems[i] = i;
     }
     for(int i = 0; i < nbPoule; i++){
-      for(int j = 0; j < nbRegle; i++){
+      for(int j = 0; j < nbRegle; j++){
 	uti[i][j] = 0;
       }
     }
@@ -98,7 +98,7 @@ void startBubbleTraining(ecran * screen){
 		  pthread_join(allThread[i], NULL);
 		  nbThread--;
 		  listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
-		  for(int j = 0; i < nbRegle; j++){
+		  for(int j = 0; j < nbRegle; j++){
 		    uti[allInput[i].trnid][j] = allInput[i].uti[allInput[i].classement[0]][j];
 		  }
 		  for(int j = 0; j < nbLoi/nbPoule; j++){
@@ -135,14 +135,15 @@ void startBubbleTraining(ecran * screen){
       printIA(allLoi[listPrems[i]], nbRegle, nbParam, nbEcriture++, 1);
     }
 
+    /*
     for(int i = 0; i < nbPoule; i++){
       for(int j = 0; j < nbRegle; j++){
 	if(uti[i][j] == 0){
 	  free(pere[i][j]);
-	  pere[i][j] = genreglealea(nbParam, possibilites);
+	  pere[i][j] = genreglealea(nbParam, possibilites, 0.1);
 	}
       }
-    }
+      }*/
     
     
     if(allLoi != NULL){
@@ -158,25 +159,25 @@ void startBubbleTraining(ecran * screen){
     }
 
     
-    allLoi = creationFils(pere, nbPoule, nbRegle, nbParam+2, 40);
+    allLoi = creationFils2(pere, nbPoule, nbRegle, nbParam+2, 40);
 
-    
+    /*
     printf("Apres  : \n");
     for(int i = 0; i < nbRegle; i++){
       for(int j = 0; j < nbParam+2; j++){
 	printf("%d ", allLoi[4][i][j]);
       }
       printf("\n");
-      }
+      }*/
     
     
     for(int i = 0; i < nbLoi; i++){
       if(PROBAMUT > (rand()%100)/100.0){
-		int rg = rand()%nbRegle;
-		int rp = rand()%(nbParam+2);
-		//float proba = (rand()%100)/100.0;
-		int nwVal = (rp == nbParam+1)?(rand()%5 + 1):rand()%(possibilites[i]+1)-1;
-		allLoi[i][rg][rp] = nwVal;
+	int rg = rand()%nbRegle;
+	int rp = rand()%(nbParam+2);
+	//float proba = (rand()%100)/100.0;
+	int nwVal = (rp == nbParam+1)?(rand()%5 + 1):rand()%(possibilites[i]+1)-1;
+	allLoi[i][rg][rp] = nwVal;
       }
     }
     
@@ -388,7 +389,7 @@ int trainLoup(ecran * screen){
   //Generation aleatoire de la loi principale
   int ** Mainloi = (int **)malloc(sizeof(int*)*NbActuRegle);
   for(int w=0; w<NbActuRegle; w++){
-	Mainloi[w] = genreglealea(nbParam, possibilites);
+    Mainloi[w] = genreglealea(nbParam, possibilites, 0.25);
   }
 
   //generation par fichier de la loi principale
@@ -545,7 +546,7 @@ int trainLoup(ecran * screen){
 	    //printf("%d ", utilisation[i]);
       if(utilisation[i]==0){
         free(Mainloi[i]);
-        Mainloi[i]=genreglealea(nbParam, possibilites);
+        Mainloi[i]=genreglealea(nbParam, possibilites, 0.25);
         for(int j=0; j<COEURNUMBER-3; j++){
           for(int k=0; k<nbParam+2; k++){
             SousLoi[j][i][k] = Mainloi[i][k];
@@ -688,7 +689,7 @@ void * GetLoupScore(void *param){
 
 
 
-int * genreglealea(int Nbparam, int * possible){
+int * genreglealea(int Nbparam, int * possible, float probamu){
   //printf("p : %d\n", (Nbparam + 2));
   int * result = (int *)malloc(sizeof(int) * (Nbparam + 2));
   if(result == NULL){
@@ -696,7 +697,7 @@ int * genreglealea(int Nbparam, int * possible){
   }
   for(int i = 0; i < Nbparam ; i++){
 	float proba = (rand()%100)/100.0;
-	if(proba < 0.25){
+	if(proba < probamu){
 	  result[i] = rand()%possible[i];
 	}else{
 	  result[i] = -1;
@@ -777,30 +778,31 @@ void *GetTournoisClassement(void *arg){
   }
 
   for(int i = 0; i < nbIA-1; i++){
-    for(int j = i; j < nbIA; j++){
+    for(int j = i+1; j < nbIA; j++){
 
 
       for(int ite = 0; ite < NBMATCH; ite++){
+	input->sc->nbPlayer = 2;
 		input->sc->maxVie = 1;
 		input->sc->etapeDuJeu = 3;
 		input->sc->modePlay = 0;
 		mainTickGest(input->sc);
-		for(int i = 0; i < input->sc->nbPlayer; i++){
-		  input->sc->pla[i].IAType = 0;
+		for(int k = 0; k < input->sc->nbPlayer; k++){
+		  input->sc->pla[k].IAType = 0;
 		}
 		
-		for(int tick=0; tick<30000; tick++){
+		for(int tick=0; tick<60000; tick++){
 		  //Acquisition de données
 		  //printf("%d debut\n", tick);
 		  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
-		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam, NULL);
+		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam, input->uti[i]);
 		  free(paramworld);
 
 		  //printf("milieu\n");
 		  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
 		  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
-		  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam, NULL);
+		  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
 		  free(paramworld);
 
 		  //printf("fin\n");
@@ -911,6 +913,37 @@ int *** creationFils(int *** peres, int ligne, int colonne, int nbrParametre, in
 	      oldInd = index;
 	    }
         }
+    }
+    return fils;
+}
+
+
+
+
+int *** creationFils2(int *** peres, int ligne, int colonne, int nbrParametre, int nbrFils)
+{
+    int *** fils = createMatrice(nbrFils, colonne, nbrParametre);
+    int regle1, nbre;
+    int tabPere[3];
+    int nbreRegle;
+
+    for (int i = 0; i < nbrFils; i++)
+    {
+        nbreRegle = 0;
+        nbre = 0;
+        for (int j = 0; j < 3; j++)
+            tabPere[j] = alea(0, ligne-1);
+        
+        while (nbreRegle < colonne)
+        {
+            regle1 = alea(0, colonne-1);
+            for (int k = 0; k < nbrParametre; k++)
+               fils[i][nbreRegle][k] = peres[tabPere[nbreRegle%3]][regle1][k];
+            if (nbreRegle%3 == 0)
+                nbre++;
+            
+	    nbreRegle++;
+        }     
     }
     return fils;
 }

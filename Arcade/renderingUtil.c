@@ -60,17 +60,17 @@ void InitImage(ecran *screen){
   debX[0] = 84; debY[0] = 28; wichFile[0] = 0;
 
   fileImage[7] = IMG_Load("Ressources/Image/play.png");
-  PixelXnb[10] = 1261; PixelYnb[10] = 601; XImagenb[10] = 1; YImagenb[10] = 1;
+  PixelXnb[10] = 1232; PixelYnb[10] = 586; XImagenb[10] = 1; YImagenb[10] = 1;
   TotalImagenb[10] = 1; ImYoffset[10] = 7; ImXoffset[10] = 0;
   debX[10] = 0; debY[10] = 0; wichFile[10] = 7;
 
   fileImage[8] = IMG_Load("Ressources/Image/quit.png");
-  PixelXnb[11] = 1261; PixelYnb[11] = 601; XImagenb[11] = 1; YImagenb[11] = 1;
+  PixelXnb[11] = 1232; PixelYnb[11] = 586; XImagenb[11] = 1; YImagenb[11] = 1;
   TotalImagenb[11] = 1; ImYoffset[11] = 7; ImXoffset[11] = 0;
   debX[11] = 0; debY[11] = 0; wichFile[11] = 8;
 
   fileImage[9] = IMG_Load("Ressources/Image/parametre.png");
-  PixelXnb[12] = 1261; PixelYnb[12] = 601; XImagenb[12] = 1; YImagenb[12] = 1;
+  PixelXnb[12] = 1232; PixelYnb[12] = 586; XImagenb[12] = 1; YImagenb[12] = 1;
   TotalImagenb[12] = 1; ImYoffset[12] = 7; ImXoffset[12] = 0;
   debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
 
@@ -80,17 +80,17 @@ void InitImage(ecran *screen){
   debX[13] = 0; debY[13] = 0; wichFile[13] = 10;
 
   fileImage[11] = IMG_Load("Ressources/Image/select.png");
-  PixelXnb[14] = 1261; PixelYnb[14] = 601; XImagenb[14] = 1; YImagenb[14] = 1;
+  PixelXnb[14] = 1232; PixelYnb[14] = 586; XImagenb[14] = 1; YImagenb[14] = 1;
   TotalImagenb[14] = 1; ImYoffset[14] = 7; ImXoffset[14] = 0;
   debX[14] = 0; debY[14] = 0; wichFile[14] = 11;
 
   fileImage[12] = IMG_Load("Ressources/Image/select2.png");
-  PixelXnb[15] = 1261; PixelYnb[15] = 601; XImagenb[15] = 1; YImagenb[15] = 1;
+  PixelXnb[15] = 1230; PixelYnb[15] = 585; XImagenb[15] = 1; YImagenb[15] = 1;
   TotalImagenb[15] = 1; ImYoffset[15] = 7; ImXoffset[15] = 0;
   debX[15] = 0; debY[15] = 0; wichFile[15] = 12;
 
   fileImage[13] = IMG_Load("Ressources/Image/select3.png");
-  PixelXnb[16] = 1261; PixelYnb[16] = 601; XImagenb[16] = 1; YImagenb[16] = 1;
+  PixelXnb[16] = 1232; PixelYnb[16] = 586; XImagenb[16] = 1; YImagenb[16] = 1;
   TotalImagenb[16] = 1; ImYoffset[16] = 7; ImXoffset[16] = 0;
   debX[16] = 0; debY[16] = 0; wichFile[16] = 13;
 
@@ -100,17 +100,17 @@ void InitImage(ecran *screen){
   debX[17] = 0; debY[17] = 0; wichFile[17] = 14;
 
   fileImage[15] = IMG_Load("Ressources/Image/back.png");
-  PixelXnb[18] = 1261; PixelYnb[18] = 601; XImagenb[18] = 1; YImagenb[18] = 1;
+  PixelXnb[18] = 1232; PixelYnb[18] = 587; XImagenb[18] = 1; YImagenb[18] = 1;
   TotalImagenb[18] = 1; ImYoffset[18] = 7; ImXoffset[18] = 0;
   debX[18] = 0; debY[18] = 0; wichFile[18] = 15;
 
   fileImage[16] = IMG_Load("Ressources/Image/jouer.png");
-  PixelXnb[19] = 1261; PixelYnb[19] = 601; XImagenb[19] = 1; YImagenb[19] = 1;
+  PixelXnb[19] = 1232; PixelYnb[19] = 586; XImagenb[19] = 1; YImagenb[19] = 1;
   TotalImagenb[19] = 1; ImYoffset[19] = 7; ImXoffset[19] = 0;
   debX[19] = 0; debY[19] = 0; wichFile[19] = 16;
 
   fileImage[17] = IMG_Load("Ressources/Image/iaTrain.png");
-  PixelXnb[20] = 1261; PixelYnb[20] = 601; XImagenb[20] = 1; YImagenb[20] = 1;
+  PixelXnb[20] = 1230; PixelYnb[20] = 585; XImagenb[20] = 1; YImagenb[20] = 1;
   TotalImagenb[20] = 1; ImYoffset[20] = 7; ImXoffset[20] = 0;
   debX[20] = 0; debY[20] = 0; wichFile[20] = 17;
 

@@ -40,6 +40,11 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	  int dis0 = dist(screen,k,screen->nbPreda);
 	  int dis1 = dist(screen,k,screen->nbPreda+1);
 	  int min = (dis0 < dis1)?0:1;
+	  if(dis0 < dis1){
+	    int tmp = dis0;
+	    dis0 = dis1;
+	    dis1 = tmp;
+	  }
 	  int min2 = 1-min;
 
 	  for(int i = 2; i < screen->nbProie; i++){
@@ -60,34 +65,33 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	  paramworld[p++]=dis1;
 	  paramworld[p++]=orient(screen,k, screen->nbPreda+min2);
             
-	  int dism0 = distobj(screen,k,0);
-	  min = 0;
+	  dis0 = distobj(screen,k,0);
+	  dis1 = distobj(screen,k,1);
+	  min = (dis0 < dis1)?0:1;
+	  if(dis0 < dis1){
+	    int tmp = dis0;
+	    dis0 = dis1;
+	    dis1 = tmp;
+	  }
+	  min2 = 1-min;
 
-
-	  for(int i = 1; i < screen->nbObjetsMax-screen->nbBananes; i++){
+	  for(int i = 2; i < screen->nbObjetsMax-screen->nbBananes; i++){
 	    int disi = distobj(screen,k,i);
-	    if(disi < dism0){
+	    if(disi < dis0){
+	      min2 = min;
+	      dis1 = dis0;
 	      dis0 = disi;
 	      min = i;
+	    }else if(disi < dis1){
+	      min2 = i;
+	      dis1 = disi;
 	    }
 	  }
-
-	  /* min2 = (min == 0)?1:0;
 	  
-	  for(int i = 1; i < screen->nbObjetsMax-screen->nbBananes; i++){
-		if(i != min){
-		  int disi = distobj(screen,k,i);
-		  if(disi < dism0){
-			dis0 = disi;
-			min = i;
-		  }
-		}
-		}*/
-	  
-	  paramworld[p++] = distobj(screen, k, min);
+	  paramworld[p++] = dis0;
 	  paramworld[p++] = orientobj(screen,k,min);
-	  //paramworld[p++] = distobj(screen, k, min2);
-	  //paramworld[p] = orientobj(screen,k,min2);
+	  paramworld[p++] = dis1;
+	  paramworld[p] = orientobj(screen, k, min2);
 	  
 	  
 

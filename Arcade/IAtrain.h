@@ -15,6 +15,7 @@ typedef struct simulation_I_O{
   float res;
   int value;
   int nbAcRegle;
+  int nbParam;
 }simIO;
 
 typedef struct simulation_I_OBubble{
@@ -34,7 +35,7 @@ void startBubbleTraining(ecran * screen);
 int trainLoup(ecran *screen);
 void playLoup(ecran * screen);
 int * genreglealea(int Nbpram, int * possible);
-int ** readIAFile(char *name, int *regles);
+int ** readIAFile(char *name, int *regles, int *param);
 
 void *GetLoupScore(void*);
 void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture, int type);

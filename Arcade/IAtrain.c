@@ -9,8 +9,6 @@
 
 
 #define COEURNUMBER 8
-#define PARAMLOUP 10
-#define PARAMMOUTON 2
 #define NBITERMAX 5
 #define PROBAMUT 0.05
 #define NBMATCH 3
@@ -213,6 +211,7 @@ int ** MoutonLoi;
 
 void playLoup(ecran *screen){
   int Nbregle = 0;
+  int nbParam = 0;
   int slow = 1;
 
   MoutonLoi = (int **)malloc(sizeof(int*)*32);
@@ -242,10 +241,10 @@ void playLoup(ecran *screen){
     }
     
 
-  int **loi = readIAFile("Ressources/IALoup1.txt", &Nbregle);
+    int **loi = readIAFile("Ressources/IALoup1.txt", &Nbregle, &nbParam);
 
   for(int i = 0; i < Nbregle; i++){
-    for(int j = 0; j < PARAMLOUP+2; j++){
+    for(int j = 0; j < nbParam+2; j++){
       printf("%d ", loi[i][j]);
     }
     printf("\n");
@@ -267,8 +266,8 @@ void playLoup(ecran *screen){
 
     for(int k = 0; k < Nbpreda; k++){
 
-      int * paramworld = getLoupWorld(screen, k, PARAMLOUP);//CreateTab1(Nbparam);      
-      setIAInput(screen, k, paramworld, loi, Nbregle, PARAMLOUP);
+      int * paramworld = getLoupWorld(screen, k, nbParam);//CreateTab1(Nbparam);      
+      setIAInput(screen, k, paramworld, loi, Nbregle, nbParam);
       free(paramworld);
 	  
     }
@@ -312,12 +311,12 @@ void playLoup(ecran *screen){
 
 int trainLoup(ecran * screen){
   
-  int NbActuRegle = 20;
+  int NbActuRegle = 30;
   //  int NbMaxRegle = 30;
-    
+  int nbParam = 12;
   int ContinueTrain = 1;
   
-  int possibilites[12] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
+  int possibilites[14] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 3, 8, 8, 5};
   
   //setup basic sheep IA
   MoutonLoi = (int **)malloc(sizeof(int*)*32);
@@ -350,11 +349,11 @@ int trainLoup(ecran * screen){
   //Generation aleatoire de la loi principale
   int ** Mainloi = (int **)malloc(sizeof(int*)*NbActuRegle);
   for(int w=0; w<NbActuRegle; w++){
-	Mainloi[w] = genreglealea(PARAMLOUP, possibilites);
+	Mainloi[w] = genreglealea(nbParam, possibilites);
   }
 
   //generation par fichier de la loi principale
-  //int **Mainloi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
+  //int **Mainloi = readIAFile("Ressources/IALoup4.txt", &Nbregle, &nbParam);
 
 
 
@@ -363,8 +362,8 @@ int trainLoup(ecran * screen){
   for(int k = 0; k < (COEURNUMBER - 3); k++){
 	SousLoi[k] = (int **)malloc(sizeof(int*)*NbActuRegle);
 	for(int i=0; i<NbActuRegle; i++){
-	  SousLoi[k][i] = (int *)malloc(sizeof(int) * (PARAMLOUP+2));
-	  for(int j = 0; j < (PARAMLOUP+2); j++){
+	  SousLoi[k][i] = (int *)malloc(sizeof(int) * (nbParam+2));
+	  for(int j = 0; j < (nbParam+2); j++){
 		SousLoi[k][i][j] = Mainloi[i][j];
 	  }
 	}
@@ -390,37 +389,38 @@ int trainLoup(ecran * screen){
   screen->etapeDuJeu = 777;
   
   //printf("Screen %d %d\n", NbActuRegle, PARAMLOUP);
-  printIA(Mainloi,  NbActuRegle, PARAMLOUP, nbEcriture++, 0);
+  printIA(Mainloi,  NbActuRegle, nbParam, nbEcriture++, 0);
 
   while(ContinueTrain){
-	int *allCase = (int*)malloc(sizeof(int) * NbActuRegle*(PARAMLOUP+2));
-	for(int i = 0; i < NbActuRegle*(PARAMLOUP+2); i++){
+	int *allCase = (int*)malloc(sizeof(int) * NbActuRegle*(nbParam+2));
+	for(int i = 0; i < NbActuRegle*(nbParam+2); i++){
 	  allCase[i] = i;
 	}
-	for(int i = 0; i < 3*NbActuRegle*(PARAMLOUP+2); i++){
-	  int c1 = rand()%(NbActuRegle*(PARAMLOUP+2));
-	  int c2 = rand()%(NbActuRegle*(PARAMLOUP+2));
+	for(int i = 0; i < 3*NbActuRegle*(nbParam+2); i++){
+	  int c1 = rand()%(NbActuRegle*(nbParam+2));
+	  int c2 = rand()%(NbActuRegle*(nbParam+2));
 	  int tmp = allCase[c1];
 	  allCase[c1] = allCase[c2];
 	  allCase[c2] = tmp;
 	}
 
-	for(int para = 0; para < NbActuRegle*(PARAMLOUP+2); para++){
+	for(int para = 0; para < NbActuRegle*(nbParam+2); para++){
 
 	  //printf("%d\n", allCase[para]);
 	  
-	  int laRegle = allCase[para]/(PARAMLOUP+2);
-	  int leParam = allCase[para]%(PARAMLOUP+2);
+	  int laRegle = allCase[para]/(nbParam+2);
+	  int leParam = allCase[para]%(nbParam+2);
 
 	  float *resValue = (float *)malloc(sizeof(float) * (possibilites[leParam]+1));
 	  for(int i = 0; i < possibilites[leParam]+1; i++){
 		resValue[i] = 0;
 	  }
-	  for(int value = (leParam == PARAMLOUP+1)?1:-1; value < possibilites[leParam]; value++){
+	  for(int value = (leParam == nbParam+1)?1:-1; value < possibilites[leParam]; value++){
 		if(nbThread < COEURNUMBER-3){
 		  allArgs[nbThread].loi[laRegle][leParam] = value;
 		  allArgs[nbThread].value = value;
 		  allArgs[nbThread].nbAcRegle = NbActuRegle;
+		  allArgs[nbThread].nbParam = nbParam;
 		  //printf("debut Thread\n");
 		  int retour = pthread_create(&allThread[nbThread], NULL, GetLoupScore,  &allArgs[nbThread]);
 		  //printf("Fin debut Thread\n");
@@ -453,19 +453,19 @@ int trainLoup(ecran * screen){
 	  }
 
 	  
-	  int max = (leParam == PARAMLOUP+1)?2:0;
-	  for(int i = (leParam == PARAMLOUP+1)?3:1; i<possibilites[leParam]+1; i++){
+	  int max = (leParam == nbParam+1)?2:0;
+	  for(int i = (leParam == nbParam+1)?3:1; i<possibilites[leParam]+1; i++){
 		if(resValue[max] < resValue[i])
 		  max = i;
 	  }
           int nbMax = 0;
-	  for(int i = (leParam == PARAMLOUP+1)?2:0; i<possibilites[leParam]+1; i++){
+	  for(int i = (leParam == nbParam+1)?2:0; i<possibilites[leParam]+1; i++){
 	    if(resValue[max] == resValue[i])
 	      nbMax++;
 	  }
 	  
 	  int quelMax = (rand()%nbMax)+1;
-	  if(leParam == PARAMLOUP && quelMax == 1 && nbMax != 1){
+	  if(leParam == nbParam && quelMax == 1 && nbMax != 1){
 	    quelMax = (rand()%(nbMax-1))+2;
 	  }
 
@@ -487,7 +487,7 @@ int trainLoup(ecran * screen){
 	  }
 	  //printf("Fin boucle\n");
 
-	  //printf("%f\n", resValue[nvmax]);
+	  printf("%f\n", resValue[nvmax]);
 	  
 	  free(resValue);
 	  
@@ -504,7 +504,7 @@ int trainLoup(ecran * screen){
 	  }
 	  //printf("Fin autre event\n");
 	}
-	printIA(Mainloi, NbActuRegle, PARAMLOUP, nbEcriture++, 0);
+	printIA(Mainloi, NbActuRegle, nbParam, nbEcriture++, 0);
 	free(allCase);
   }
 
@@ -568,8 +568,8 @@ void * GetLoupScore(void *param){
 	  //Acquisition de données
 	  for(int k=0; k<input->sc->nbPreda; k++){
 	  
-		int * paramworld = getLoupWorld(input->sc, k, PARAMLOUP);
-		setIAInput(input->sc, k, paramworld, input->loi, input->nbAcRegle, PARAMLOUP);
+		int * paramworld = getLoupWorld(input->sc, k, input->nbParam);
+		setIAInput(input->sc, k, paramworld, input->loi, input->nbAcRegle, input->nbParam);
 		free(paramworld);
 	  
 	  }
@@ -635,15 +635,15 @@ int * genreglealea(int Nbparam, int * possible){
   return(result);
 }
 
-int ** readIAFile(char *name, int *nbR){
-  int nbParam;
+int ** readIAFile(char *name, int *nbR, int *nbParam){
+
   FILE* f = fopen(name, "r");
   if(f){
-  fscanf(f, "%d %d\n",nbR, &nbParam);
+  fscanf(f, "%d %d\n",nbR, nbParam);
   int ** res = (int **)malloc(sizeof(int *)*(*nbR));
   for(int i = 0; i < *nbR; i++){
-    res[i] = (int *)malloc(sizeof(int) * (nbParam+2));
-    for(int j = 0; j < nbParam+2; j++){
+    res[i] = (int *)malloc(sizeof(int) * (*nbParam+2));
+    for(int j = 0; j < *nbParam+2; j++){
       fscanf(f, "%d ", &res[i][j]);
     }
   }

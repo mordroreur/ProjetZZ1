@@ -191,9 +191,9 @@ void DrawSelectGame(ecran * screen)
   static float large = 0;  static float large2 = 0; 
   static float large3 = 0; static float large4 = 0;
   static float large5 = 0; static float large6 = 0;
-  char mode1[150] = "Affrontez votre ami, un collegue a vous,";
-  char mode11[150] = "ou votre professeur et";
-  char mode111[150] = "montrez lui qui est le meilleur!";
+  char mode1[150] = "Player vs Player";
+  char mode11[150] = "Player vs IA";
+  char mode111[150] = "IA vs IA";
   char mode2[150] = "Combattez face a un robot qui vous es ";
   char mode22[150] = "superieur, que le meilleur gagne";
   SDL_GetMouseState(&posMX, &posMY);
@@ -225,14 +225,14 @@ void DrawSelectGame(ecran * screen)
   {
     if (screen->previousSelGam == 1)
     {
-        DrawString(mode1, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode11, 52, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode111, 52, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode1, 50, (screen->decalageB4)-4 , 5, 'c', 255, 255, 255, screen);
+        DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+        DrawString(mode111, 50, (screen->decalageB4)+4 , 5, 'c', 255, 255, 255, screen);
     }
     else if (screen->previousSelGam == 2)
     {
-        DrawString(mode2, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode22, 52, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode2, 50, (screen->decalageB4) , 5, 'c', 253, 212, 4, screen);
+        DrawString(mode22, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
     }
     else if (screen->previousSelGam == 3)
     {
@@ -256,9 +256,22 @@ void DrawSelectGame(ecran * screen)
     }
     if (screen->etapeSelGam == 1)
     {
-        DrawString(mode1, 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode11, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
-        DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+      switch (screen->etape2SelGam)
+      {
+      case 0: DrawString(mode1, 50, (screen->decalageB4)-4 , 5, 'c', 253, 212, 4, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+4 , 5, 'c', 255, 255, 255, screen);
+      break;
+      case 1: DrawString(mode1, 50, (screen->decalageB4)-4 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 253, 212, 4, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+4 , 5, 'c', 2255, 2255, 255, screen);
+      break;
+      case 2: DrawString(mode1, 50, (screen->decalageB4)-4 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode111, 50, (screen->decalageB4)+4 , 5, 'c', 253, 212, 4, screen);
+      break;
+      default:break;
+      }
     }
     else if (screen->etapeSelGam == 2)
     {

@@ -87,7 +87,7 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 					break;
         }
   	}
-	if (screen->etapeDuJeu == 10)
+	else if (screen->etapeDuJeu == 10)
 	{
 		switch (key.keysym.sym)
         {
@@ -116,7 +116,7 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 			break;
 		}
 	}
-	if (screen->etapeDuJeu == 8)
+	else if (screen->etapeDuJeu == 8)
 	{
 		switch (key.keysym.sym)
         {
@@ -124,6 +124,23 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 				screen->etapeDuJeu = 13;
 				screen->previousSelGam = 0;
 				screen->etapeSelGam = 1;
+			break;
+		}
+	}
+	else if (screen->etapeDuJeu == 13 && screen->etapeSelGam)
+	{
+		switch (key.keysym.sym)
+        {
+			case SDLK_UP:
+				screen->etape2SelGam = (screen->etape2SelGam + 1)%3;
+				screen->previousSelGam = 0;
+				screen->etapeSelGam = 1;
+			break;
+			case SDLK_DOWN:
+				if (screen->etape2SelGam -1 < 0)
+					screen->etape2SelGam = 2;
+				else
+					(screen->etape2SelGam)--;
 			break;
 		}
 	}

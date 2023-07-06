@@ -7,7 +7,12 @@
 #define SIZE 3
 #define NBRMOUT 32
 
-int ** mouton = NULL;
+int **AI1 = NULL;
+int nbParam1;
+int nbRegle1;
+int **AI2 = NULL;
+int nbParam2;
+int nbRegle2;
 
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
@@ -16,8 +21,8 @@ void mainTickGest(ecran *screen){
     if(screen->modePlay == 0){
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
       for(int i = 0; i < screen->nbPlayer; i++){
-	screen->pla[i].pos.x = 100*i + 5.0 * (1-(2*i));
-	screen->pla[i].pos.y = 100*i + 5.0 *(1-(2*i));
+	screen->pla[i].pos.x = rand()%100;
+	screen->pla[i].pos.y = rand()%100;
 	screen->pla[i].pos.w = SIZE;
 	screen->pla[i].pos.h = SIZE*0.5625;
 	screen->pla[i].vitesse = 0.25;
@@ -132,8 +137,21 @@ void mainTickGest(ecran *screen){
       }
 
     }
+
+
     screen->etapeDuJeu = 4;
+
+    
   }else if(screen->etapeDuJeu == 4){
+
+    for(int i = 0; i < screen->nbPlayer; i++){
+      if(screen->pla[i].IAType == 1){ // TODODODODODODODODODODOD
+	int * paramworld = getMoutonWorld(screen, i, 2);
+	setIAInput(screen, i, paramworld, AI1, NBRMOUT, 2, NULL);	  
+	free(paramworld); 
+      }
+    }
+    
     if(screen->modePlay == 0){
       for(int i = 0; i < screen->nbPlayer; i++){
 		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
@@ -261,13 +279,7 @@ void mainTickGest(ecran *screen){
     }else if(screen->modePlay == 1){
 
       for(int i = 0; i < screen->nbPlayer; i++){
-		if(screen->pla[i].IAType == 1){
-		  int * paramworld = getMoutonWorld(screen, i, 2);
-		  setIAInput(screen, i, paramworld, mouton, NBRMOUT, 2,NULL);
-	  
-		  free(paramworld); 
-		}
-
+		
 
 		
 		int nbDep = abs(screen->pla[i].input[0]-screen->pla[i].input[2]) + abs(screen->pla[i].input[1]-screen->pla[i].input[3]);
@@ -380,20 +392,22 @@ void Deplace(ecran *screen, int index, float depx, float depy){
 
 
 void initMout(){
-  mouton = (int **)malloc(sizeof(int*)*NBRMOUT);
+  nbParam1 = 4;
+  nbRegle1 = 16;
+  AI1 = (int **)malloc(sizeof(int*)*NBRMOUT);
   for(int i = 0; i < NBRMOUT; i++){
-    mouton[i] = (int*)malloc(sizeof(int)*4);
+    AI1[i] = (int*)malloc(sizeof(int)*4);
   }
   for(int i = 0; i < 8; i++){
-    mouton[i*2][0] = 0;
-    mouton[i*2][1] = i;
-    mouton[i*2][2] = (4+i)%8;
-    mouton[i*2][3] = 5;
+    AI1[i*2][0] = 0;
+    AI1[i*2][1] = i;
+    AI1[i*2][2] = (4+i)%8;
+    AI1[i*2][3] = 5;
 
-    mouton[i*2+1][0] = 1;
-    mouton[i*2+1][1] = i;
-    mouton[i*2+1][2] = (4+i)%8;
-    mouton[i*2+1][3] = 5;
+    AI1[i*2+1][0] = 1;
+    AI1[i*2+1][1] = i;
+    AI1[i*2+1][2] = (4+i)%8;
+    AI1[i*2+1][3] = 5;
 
     // mouton[i*4+1][0] = k;
     // mouton[i*4+1][1] = i;
@@ -411,3 +425,5 @@ void initMout(){
     // mouton[i*3 +2][3] = 1;
   }
 }
+
+

@@ -224,6 +224,8 @@ void DrawSelectGame(ecran * screen)
   enlargeButton(screen, posMX, posMY, 18, 12.625, 105-(screen->decalageB5), 23, 20, 'c', &large5, 2);
   enlargeButton(screen, posMX, posMY, 19, (screen->decalageB6), 85, 23, 20, 'c', &large6, 2);
   enlargeButton(screen, posMX, posMY, 20, 50, (screen->decalageB4)+31, 35, 20, 'c', &large6, 2);
+  DrawImage(13, 50, (screen->decalageB4), 50, 30, 'c', 0, 0, 0, 0, 0, 0, screen);
+  /* Detection souris, bouton */
   if(isInButton(50, (screen->decalageB4)-8, 18,5, 'c', posMX, posMY, screen) && (screen->etapeSelGam == 1 || screen->etapeSelGam == 2))
     screen->etape2SelGam = 0;
   else if(isInButton(50, (screen->decalageB4), 15, 5, 'c', posMX, posMY, screen) && (screen->etapeSelGam == 1 || screen->etapeSelGam == 2))
@@ -238,7 +240,8 @@ void DrawSelectGame(ecran * screen)
     screen->etape2SelGam = 2;
   else if(isInButton(50, (screen->decalageB4)+10, 18, 5, 'c', posMX, posMY, screen) && screen->etapeSelGam == 4 )
     screen->etape2SelGam = 3;
-  DrawImage(13, 50, (screen->decalageB4), 50, 30, 'c', 0, 0, 0, 0, 0, 0, screen);
+  /*--------------------------------------------------------*/
+
   if (screen->etapeSelGam == 0 && screen->decalageB6 < 150)
     screen->decalageB6 += 2;
   else if (screen->etapeSelGam != 0 && screen->decalageB6 > 88.375)

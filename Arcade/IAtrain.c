@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 
-#define COEURNUMBER 8
+#define COEURNUMBER 15
 #define PARAMLOUP 12
 #define PARAMMOUTON 2
 #define NBITERMAX 5

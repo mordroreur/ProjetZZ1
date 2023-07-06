@@ -43,12 +43,12 @@ void DrawPreface(ecran * screen)
 {
   if(screen->showImage)
     imagePreface(screen, screen->etapeMenu++);
-  if (screen->etapeMenu >= 112)
+  if (screen->etapeMenu >= 199)
   {
     screen->etapeDuJeu = 2;
     Mix_PlayMusic(screen->musique[0], -1);
   }
-  SDL_Delay(20);
+  SDL_Delay(40);
 }
 
 void DrawMenu(ecran *screen)
@@ -63,8 +63,8 @@ void DrawMenu(ecran *screen)
   if(screen->showImage)
     imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
-  if (screen->etapeMenu >= 193)
-    screen->etapeMenu = 113;
+  if (screen->etapeMenu >= 199)
+    screen->etapeMenu = 0;
   //DrawImage(10, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->decalageB3 < 18)
     screen->decalageB3 += 2;
@@ -96,7 +96,7 @@ void DrawParametre(ecran *screen)
   if(screen->showImage)
     imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
-  if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
+  if (screen->etapeMenu >= 199) {screen->etapeMenu = 0;}
   if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
   if (screen->decalageB2 < 130) {screen->decalageB2 += 2;}
   if (screen->decalageB3 > -30) {screen->decalageB3 -= 2;}
@@ -143,7 +143,7 @@ void BackParametre(ecran *screen)
   if(screen->showImage)
     imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
-  if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
+  if (screen->etapeMenu >= 199) {screen->etapeMenu = 0;}
   if (screen->decalageB1 > 80) {screen->decalageB1 -= 2;}  
   if (screen->decalageB2 > 80) {screen->decalageB2 -= 2;}
   if (screen->decalageB3 < 18) {screen->decalageB3 += 2;}
@@ -178,7 +178,7 @@ void DrawPreface2(ecran * screen)
 {
   if(screen->showImage)
     imagePreface(screen, screen->etapeMenu++);
-  if (screen->etapeMenu >= 261)
+  if (screen->etapeMenu >= 199)
   {
     screen->etapeDuJeu = 3;
     Mix_PlayMusic(screen->musique[1], -1);
@@ -200,7 +200,7 @@ void DrawSelectGame(ecran * screen)
   char mode2[150] = "Combattez face a un robot qui vous es ";
   char mode22[150] = "superieur, que le meilleur gagne";
   SDL_GetMouseState(&posMX, &posMY);
-  if (screen->etapeMenu >= 193) {screen->etapeMenu = 113;}
+  if (screen->etapeMenu >= 199) {screen->etapeMenu = 0;}
   if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
   if (screen->decalageB2 < 130) {screen->decalageB2 += 2;}
   if (screen->decalageB3 > -30) {screen->decalageB3 -= 2;}
@@ -288,8 +288,8 @@ void backSelectGame(ecran * screen)
   if(screen->showImage)  
     imagePreface(screen, screen->etapeMenu++);
   SDL_Delay(20);
-  if (screen->etapeMenu >= 193)
-    screen->etapeMenu = 113;
+  if (screen->etapeMenu >= 199)
+    screen->etapeMenu = 0;
 
   DrawImage(14, 12.625, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);
   DrawImage(15, 37.875, screen->decalageB5, 23, 20, 'c', 0, 0, 0, 0, 0, 0, screen);

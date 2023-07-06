@@ -260,6 +260,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->decalageB6 = 150;
   screen->etapeParam = 0;
   screen->etapeSelGam = 0;
+  screen->etape2SelGam = 0;
   screen->backSelec = 0;
   
   screen->etapeDuJeu = 8;

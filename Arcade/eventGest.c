@@ -26,6 +26,7 @@ void keyUp(SDL_KeyboardEvent key, ecran *screen) {
 		screen->backSelec = 1;
 		if (screen->etapeSelGam)
 		{
+			screen->etape2SelGam = 0;
 			screen->previousSelGam = screen->etapeSelGam;
 			screen->etapeSelGam = 0;
 		}
@@ -133,12 +134,12 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
         {
 			case SDLK_UP:
 				if (screen->etape2SelGam -1 < 0)
-					screen->etape2SelGam = 2;
+					screen->etape2SelGam = (screen->etapeSelGam == 4) ? 3 : 2;
 				else
 					(screen->etape2SelGam)--;
 			break;
 			case SDLK_DOWN:
-				screen->etape2SelGam = (screen->etape2SelGam + 1)%3;
+				screen->etape2SelGam = (screen->etape2SelGam + 1)%((screen->etapeSelGam == 4) ? 4 : 3);
 			break;
 		}
 		if (screen->etapeSelGam == 3)
@@ -153,6 +154,48 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 						screen->nbJoueur = 4;
 					else
 						(screen->nbJoueur)--;
+				break;
+			}
+		}
+		if (screen->etapeSelGam == 4)
+		{
+			switch (key.keysym.sym)
+        	{
+				case SDLK_RIGHT:
+					switch (screen->etape2SelGam)
+					{
+						case 0:
+							if(screen->nbHumainM + screen->nbHumainP + 1 > 4 && screen->nbHumainP > 0)
+							{
+								(screen->nbHumainM)++;
+								(screen->nbHumainP)--;
+							}
+							else if (screen->nbHumainM + screen->nbHumainP + 1 <= 4)
+								(screen->nbHumainM)++;
+						break;
+						case 1:
+							if(screen->nbHumainP + screen->nbHumainM + 1 > 4 && screen->nbHumainM > 0)
+							{
+								(screen->nbHumainP)++;
+								(screen->nbHumainM)--;
+							}
+							else if (screen->nbHumainP + screen->nbHumainM + 1 <= 4)
+								(screen->nbHumainP)++;	
+						break;
+						case 2: (screen->nbIAM)++; break;
+						case 3: (screen->nbIAP)++; break;
+						default:break;
+					}
+				break;
+				case SDLK_LEFT:
+					switch (screen->etape2SelGam)
+					{
+						case 0: screen->nbHumainM = (screen->nbHumainM - 1 < 0) ? 0 : (screen->nbHumainM)-1; break;
+						case 1: screen->nbHumainP = (screen->nbHumainP - 1 < 0) ? 0 : (screen->nbHumainP)-1; break;
+						case 2: screen->nbIAM = (screen->nbIAM - 1 < 0) ? 0 : (screen->nbIAM)-1; break;
+						case 3: screen->nbIAP = (screen->nbIAP - 1 < 0) ? 0 : (screen->nbIAP)-1; break;
+					default:break;
+					}
 				break;
 			}
 		}
@@ -178,30 +221,35 @@ void LeftClick(ecran *screen) {
   if (screen->etapeDuJeu == 13)
     {
       if(isInButton(12.625, screen->decalageB5, 23, 20, 'c', posMX, posMY, screen) && screen->etapeSelGam != 1){
-       	screen->backSelec = 1;
-	screen->previousSelGam = screen->etapeSelGam;
-	screen->etapeSelGam = 1;
+       	screen->etape2SelGam = 0;
+		screen->backSelec = 1;
+		screen->previousSelGam = screen->etapeSelGam;
+		screen->etapeSelGam = 1;
       }
       else if (isInButton(37.875, screen->decalageB5, 23, 20, 'c', posMX, posMY, screen) && screen->etapeSelGam != 2)
 	{
+	  screen->etape2SelGam = 0;
 	  screen->backSelec = 1;
 	  screen->previousSelGam = screen->etapeSelGam;
 	  screen->etapeSelGam = 2;
 	}
       else if (isInButton(63.125, screen->decalageB5, 23, 20, 'c', posMX, posMY, screen) && screen->etapeSelGam != 3)
 	{
+	  screen->etape2SelGam = 0;
 	  screen->backSelec = 1;
 	  screen->previousSelGam = screen->etapeSelGam;
 	  screen->etapeSelGam = 3;
 	}
       else if (isInButton(88.375, screen->decalageB5, 23, 20, 'c', posMX, posMY, screen) && screen->etapeSelGam != 4)
 	{
+	  screen->etape2SelGam = 0;
 	  screen->backSelec = 1;
 	  screen->previousSelGam = screen->etapeSelGam;
 	  screen->etapeSelGam = 4;
 	}
       else if (isInButton(12.625, 105-(screen->decalageB5), 23, 20, 'c', posMX, posMY, screen))
 	{
+	  screen->etape2SelGam = 0;
 	  screen->backSelec = 1;
 	  if (screen->etapeSelGam)
 	    {

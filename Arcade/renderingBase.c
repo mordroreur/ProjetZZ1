@@ -262,6 +262,10 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->etapeSelGam = 0;
   screen->etape2SelGam = 0;
   screen->nbJoueur = 2;
+  screen->nbHumainP = 0;
+  screen->nbHumainM = 0;
+  screen->nbIAP = 3;
+  screen->nbIAM = 10;
   screen->backSelec = 0;
   
   screen->etapeDuJeu = 8;

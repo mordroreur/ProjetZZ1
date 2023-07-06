@@ -97,7 +97,7 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 
 
 
-void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, int Nbparam){
+void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, int Nbparam, int * uti){
 
   /*for(int i = 0; i < Nbparam; i++){
 	printf("%d", paramworld[i]);
@@ -116,6 +116,9 @@ void setIAInput(ecran *screen, int k, int * paramworld, int **loi, int Nbregle, 
 	  float s = 1;
 	  for(int i=0; i<Nbregle; i++){
 	    if(compareN(paramworld,loi[i],Nbparam)){
+		  if(uti!=NULL){
+			uti[i]++;
+		  }
 	      regleposs[i*2]=loi[i][Nbparam];
 	      regleposs[i*2+1]=loi[i][Nbparam+1];
 	      sommproba += pow(loi[i][Nbparam+1], s);

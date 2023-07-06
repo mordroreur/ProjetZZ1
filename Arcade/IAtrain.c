@@ -268,14 +268,14 @@ void playLoup(ecran *screen){
     for(int k = 0; k < Nbpreda; k++){
 
       int * paramworld = getLoupWorld(screen, k, PARAMLOUP);//CreateTab1(Nbparam);      
-      setIAInput(screen, k, paramworld, loi, Nbregle, PARAMLOUP);
+      setIAInput(screen, k, paramworld, loi, Nbregle, PARAMLOUP, NULL);
       free(paramworld);
 	  
     }
 
     for(int i=0; i<Nbproie; i++){
       int * paramworld = getMoutonWorld(screen, screen->nbPreda + i, 2);//CreateTab1(Nbparam);
-      setIAInput(screen, screen->nbPreda + i, paramworld, MoutonLoi, 32, 2);
+      setIAInput(screen, screen->nbPreda + i, paramworld, MoutonLoi, 32, 2, NULL);
       free(paramworld);
     }
 
@@ -327,23 +327,33 @@ int trainLoup(ecran * screen){
   for(int i = 0; i < 8; i++){
 	MoutonLoi[(i*4)][0] = 0;
 	MoutonLoi[(i*4)][1] = i;
-	MoutonLoi[(i*4)][2] = -1;//(5+i)%8;
+	MoutonLoi[(i*4)][2] = (5+i)%8;//
 	MoutonLoi[(i*4)][3] = 5;
 
 	MoutonLoi[(i*4)+1][0] = 0;
 	MoutonLoi[(i*4)+1][1] = i;
-	MoutonLoi[(i*4)+1][2] = -1;//(6+i)%8;
+	MoutonLoi[(i*4)+1][2] = (6+i)%8;//
 	MoutonLoi[(i*4)+1][3] = 3;
 
 	MoutonLoi[(i*4)+2][0] = 0;
 	MoutonLoi[(i*4)+2][1] = i;
-	MoutonLoi[(i*4)+2][2] = -1;//(4+i)%8;
+	MoutonLoi[(i*4)+2][2] = (4+i)%8;//;
 	MoutonLoi[(i*4)+2][3] = 3;
 
 	MoutonLoi[(i*4) +3][0] = -1;
 	MoutonLoi[(i*4) +3][1] = -1;
-	MoutonLoi[(i*4) +3][2] = -1;//i;
+	MoutonLoi[(i*4) +3][2] = i;//
 	MoutonLoi[(i*4) +3][3] = 1;
+
+    // MoutonLoi[i*2][0] = 0;
+    // MoutonLoi[i*2][1] = i;
+    // MoutonLoi[i*2][2] = (4+i)%8;
+    // MoutonLoi[i*2][3] = 5;
+
+    // MoutonLoi[i*2+1][0] = 1;
+    // MoutonLoi[i*2+1][1] = i;
+    // MoutonLoi[i*2+1][2] = (4+i)%8;
+    // MoutonLoi[i*2+1][3] = 5;
 	}
 
 
@@ -354,7 +364,7 @@ int trainLoup(ecran * screen){
   }
 
   //generation par fichier de la loi principale
-  //int **Mainloi = readIAFile("Ressources/IALoup4.txt", &Nbregle);
+  //int **Mainloi = readIAFile("Ressources/IALoup1.txt", &NbActuRegle);
 
 
 
@@ -370,7 +380,9 @@ int trainLoup(ecran * screen){
 	}
   }
 
-  
+  int * utilisation = (int*) malloc(sizeof(int)*NbActuRegle);
+
+
   ecran** allScreen = (ecran **)malloc(sizeof(ecran*) * (COEURNUMBER-3));
   for(int i = 1; i < (COEURNUMBER-3); i++){
 	allScreen[i] = (ecran *)malloc(sizeof(ecran));
@@ -406,7 +418,10 @@ int trainLoup(ecran * screen){
 	}
 
 	for(int para = 0; para < NbActuRegle*(PARAMLOUP+2); para++){
+    for(int i = 0; i < NbActuRegle; i++){
+      utilisation[i]= 0;
 
+    }
 	  //printf("%d\n", allCase[para]);
 	  
 	  int laRegle = allCase[para]/(PARAMLOUP+2);
@@ -435,6 +450,10 @@ int trainLoup(ecran * screen){
 		    //printf("FIn 2 FIn\n");
 		    nbThread--;
 		    resValue[allArgs[i].value+1] = allArgs[i].res;
+        for(int j = 0; j < NbActuRegle; j++){
+          utilisation[j] += allArgs[i].uti[j];
+        }
+        free(allArgs[i].uti);
 		  }
 		  value--;
 		}
@@ -450,6 +469,10 @@ int trainLoup(ecran * screen){
 	    //int tmp = allArgs[i].res;
 	    //printf("%d   val = %d\n", (possibilites[leParam]+1), allArgs[i].value+1);
 	    resValue[allArgs[i].value+1] = allArgs[i].res;
+      for(int j = 0; j < NbActuRegle; j++){
+          utilisation[j] += allArgs[i].uti[j];
+        }
+        free(allArgs[i].uti);
 	  }
 
 	  
@@ -487,8 +510,21 @@ int trainLoup(ecran * screen){
 	  }
 	  //printf("Fin boucle\n");
 
-	  //printf("%f\n", resValue[nvmax]);
-	  
+	  printf("%f\n", resValue[nvmax]);
+	  for(int i=0; i<NbActuRegle; i++){
+      printf("%d ", utilisation[i]);
+      if(utilisation[i]==0){
+        free(Mainloi[i]);
+        Mainloi[i]=genreglealea(PARAMLOUP, possibilites);
+        for(int j=0; j<COEURNUMBER-3; j++){
+          for(int k=0; k<PARAMLOUP+2; k++){
+            SousLoi[j][i][k] = Mainloi[i][k];
+          }
+        }
+      }
+    }
+    
+    printf("\n");
 	  free(resValue);
 	  
 	  SDL_Event event;
@@ -507,7 +543,7 @@ int trainLoup(ecran * screen){
 	printIA(Mainloi, NbActuRegle, PARAMLOUP, nbEcriture++, 0);
 	free(allCase);
   }
-
+  free(utilisation);
   if(MoutonLoi != NULL){
 	for(int i = 0; i < 32; i++){
 	  free(MoutonLoi[i]);
@@ -558,6 +594,10 @@ void * GetLoupScore(void *param){
   for(int ite = 0; ite < NBITERMAX; ite++){
 	int lastTue = -1;
 	int nbMorts = 0;
+  input->uti = (int*) malloc(sizeof(int)* input->nbAcRegle);
+  for(int i=0; i<input->nbAcRegle; i++){
+    input->uti[i]=0;
+  }
 	input->sc->etapeDuJeu = 3;
 	input->sc->modePlay = 1;
 	mainTickGest(input->sc);
@@ -569,13 +609,13 @@ void * GetLoupScore(void *param){
 	  for(int k=0; k<input->sc->nbPreda; k++){
 	  
 		int * paramworld = getLoupWorld(input->sc, k, PARAMLOUP);
-		setIAInput(input->sc, k, paramworld, input->loi, input->nbAcRegle, PARAMLOUP);
+		setIAInput(input->sc, k, paramworld, input->loi, input->nbAcRegle, PARAMLOUP,input->uti);
 		free(paramworld);
 	  
 	  }
 	  for(int i=0; i<input->sc->nbProie; i++){
 		int * paramworld = getMoutonWorld(input->sc, input->sc->nbPreda + i, 2);//CreateTab1(Nbparam);
-		setIAInput(input->sc, input->sc->nbPreda + i, paramworld, MoutonLoi, 32, 2);
+		setIAInput(input->sc, input->sc->nbPreda + i, paramworld, MoutonLoi, 32, 2, NULL);
 	  
 		free(paramworld);
 	  }
@@ -714,14 +754,14 @@ void *GetTournoisClassement(void *arg){
 		  //Acquisition de données
 		  //printf("%d debut\n", tick);
 		  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
-		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam, NULL);
 		  free(paramworld);
 
 		  //printf("milieu\n");
 		  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
 		  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
-		  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam, NULL);
 		  free(paramworld);
 
 		  //printf("fin\n");

@@ -263,7 +263,7 @@ void mainTickGest(ecran *screen){
       for(int i = 0; i < screen->nbPlayer; i++){
 		if(screen->pla[i].IAType == 1){
 		  int * paramworld = getMoutonWorld(screen, i, 2);
-		  setIAInput(screen, i, paramworld, mouton, NBRMOUT, 2);
+		  setIAInput(screen, i, paramworld, mouton, NBRMOUT, 2,NULL);
 	  
 		  free(paramworld); 
 		}

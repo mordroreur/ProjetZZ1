@@ -13,6 +13,8 @@ void Deplace(ecran *screen, int index, float depx, float depy);
 void initMout();
 void loadBubbleIA2(ecran* screen);
 void loadBubbleIA1(ecran* screen);
+void loadBubble2V2IA1(ecran* screen);
+void loadBubble2V2IA2(ecran* screen);
 
 
 #endif /* TICKGEST_HEADER_ */

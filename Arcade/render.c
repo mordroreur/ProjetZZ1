@@ -198,8 +198,13 @@ void DrawSelectGame(ecran * screen)
   char mode32[60] = "";
   char mode33[60] = "IA";
   char mode332[60] = "";
+  char mode4[60],mode44[60],mode444[60],mode4444[60];
   sprintf(mode32, "%d", screen->nbJoueur);
   sprintf(mode332, "%d", 4 - screen->nbJoueur);
+  sprintf(mode4, "Player Mouton:%d", screen->nbHumainM);
+  sprintf(mode44, "Player Predator:%d", screen->nbHumainP);
+  sprintf(mode444, "IA Mouton:%d", screen->nbIAM);
+  sprintf(mode4444, "IA Predator:%d", screen->nbIAP);
   SDL_GetMouseState(&posMX, &posMY);
   if (screen->etapeMenu >= 399) {screen->etapeMenu = 0;}
   if (screen->decalageB1 < 116) {screen->decalageB1 += 2;}
@@ -218,7 +223,21 @@ void DrawSelectGame(ecran * screen)
   enlargeButton(screen, posMX, posMY, 17, 88.375, (screen->decalageB5), 23, 20, 'c', &large4, 2);
   enlargeButton(screen, posMX, posMY, 18, 12.625, 105-(screen->decalageB5), 23, 20, 'c', &large5, 2);
   enlargeButton(screen, posMX, posMY, 19, (screen->decalageB6), 85, 23, 20, 'c', &large6, 2);
-  enlargeButton(screen, posMX, posMY, 20, 50, (screen->decalageB4)+33, 30, 15, 'c', &large6, 2);
+  enlargeButton(screen, posMX, posMY, 20, 50, (screen->decalageB4)+31, 35, 20, 'c', &large6, 2);
+  if(isInButton(50, (screen->decalageB4)-8, 18,5, 'c', posMX, posMY, screen) && (screen->etapeSelGam == 1 || screen->etapeSelGam == 2))
+    screen->etape2SelGam = 0;
+  else if(isInButton(50, (screen->decalageB4), 15, 5, 'c', posMX, posMY, screen) && (screen->etapeSelGam == 1 || screen->etapeSelGam == 2))
+    screen->etape2SelGam = 1;
+  else if(isInButton(50, (screen->decalageB4)+8, 13, 5, 'c', posMX, posMY, screen) && (screen->etapeSelGam == 1 || screen->etapeSelGam == 2))
+    screen->etape2SelGam = 2;
+  else if(isInButton(50, (screen->decalageB4)-10, 18, 5, 'c', posMX, posMY, screen) && screen->etapeSelGam == 4 )
+    screen->etape2SelGam = 0;
+  else if(isInButton(50, (screen->decalageB4)-3.5, 18, 5, 'c', posMX, posMY, screen) && screen->etapeSelGam == 4 )
+    screen->etape2SelGam = 1;
+  else if(isInButton(50, (screen->decalageB4)+3, 18, 5, 'c', posMX, posMY, screen) && screen->etapeSelGam == 4 )
+    screen->etape2SelGam = 2;
+  else if(isInButton(50, (screen->decalageB4)+10, 18, 5, 'c', posMX, posMY, screen) && screen->etapeSelGam == 4 )
+    screen->etape2SelGam = 3;
   DrawImage(13, 50, (screen->decalageB4), 50, 30, 'c', 0, 0, 0, 0, 0, 0, screen);
   if (screen->etapeSelGam == 0 && screen->decalageB6 < 150)
     screen->decalageB6 += 2;
@@ -242,7 +261,10 @@ void DrawSelectGame(ecran * screen)
     }
     else if (screen->previousSelGam == 4)
     {
-        DrawString("Description4", 50, screen->decalageB4 , 5, 'c', 253, 212, 4, screen);
+      DrawString(mode4, 50, (screen->decalageB4)-10 , 5, 'c', 255, 255, 255, screen);
+      DrawString(mode44, 50, (screen->decalageB4)-3.5, 5, 'c', 255, 255, 255, screen);
+      DrawString(mode444, 50, (screen->decalageB4)+3 , 5, 'c', 255, 255, 255, screen);
+      DrawString(mode4444, 50, (screen->decalageB4)+10, 5, 'c', 255, 255, 255, screen);
     }
     if (screen->decalageB4 < 150)
       screen->decalageB4 += 6;
@@ -285,23 +307,26 @@ void DrawSelectGame(ecran * screen)
     {
       switch (screen->etape2SelGam)
       {
-      case 0: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 253, 212, 4, screen);
-              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
-              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
+      case 0: DrawString(mode4, 50, (screen->decalageB4)-10 , 5, 'c', 253, 212, 4, screen);
+              DrawString(mode44, 50, (screen->decalageB4)-3.5, 5, 'c', 255, 255, 255, screen);
+              DrawString(mode444, 50, (screen->decalageB4)+3 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode4444, 50, (screen->decalageB4)+10, 5, 'c', 255, 255, 255, screen);
       break;
-      case 1: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
-              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 253, 212, 4, screen);
-              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 255, 255, 255, screen);
+      case 1: DrawString(mode4, 50, (screen->decalageB4)-10 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode44, 50, (screen->decalageB4)-3.5, 5, 'c', 253, 212, 4, screen);
+              DrawString(mode444, 50, (screen->decalageB4)+3 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode4444, 50, (screen->decalageB4)+10, 5, 'c', 255, 255, 255, screen);
       break;
-      case 2: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
-              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
-              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
+      case 2: DrawString(mode4, 50, (screen->decalageB4)-10 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode44, 50, (screen->decalageB4)-3.5, 5, 'c', 255, 255, 255, screen);
+              DrawString(mode444, 50, (screen->decalageB4)+3 , 5, 'c', 253, 212, 4, screen);
+              DrawString(mode4444, 50, (screen->decalageB4)+10, 5, 'c', 255, 255, 255, screen);
       break;
-      case 3: DrawString(mode1, 50, (screen->decalageB4)-8 , 5, 'c', 255, 255, 255, screen);
-              DrawString(mode11, 50, (screen->decalageB4) , 5, 'c', 255, 255, 255, screen);
-              DrawString(mode111, 50, (screen->decalageB4)+8 , 5, 'c', 253, 212, 4, screen);
-      break;
-      default:break;
+      case 3: DrawString(mode4, 50, (screen->decalageB4)-10 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode44, 50, (screen->decalageB4)-3.5, 5, 'c', 255, 255, 255, screen);
+              DrawString(mode444, 50, (screen->decalageB4)+3 , 5, 'c', 255, 255, 255, screen);
+              DrawString(mode4444, 50, (screen->decalageB4)+10, 5, 'c', 253, 212, 4, screen);
+      break; default:break;
       }
     }
   }

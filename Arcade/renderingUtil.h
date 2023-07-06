@@ -114,6 +114,10 @@ typedef struct Ecran{
   int previousSelGam; // indique l'ancien game sélectionné
   int backSelec; // boolean pour savoir si on "part de la sélection"
   int nbJoueur; // nombre joueur pour le FFA
+  int nbHumainP; // nombre joueur predateur
+  int nbHumainM; // nombre joueur mouton
+  int nbIAP; // nombre IA prédator
+  int nbIAM; //nombre IA mouton
   int showImage; // boolean si on montre les images de début ou pas
 }ecran;
 

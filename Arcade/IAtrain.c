@@ -57,7 +57,7 @@ void startBubbleTraining(ecran * screen, int mode){
   }
   //dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
   
-  int nbLoi = 20;
+  int nbLoi = 40;
   int nbPoule = 10;
 
   int *** allLoi = (int ***)malloc(sizeof(int**) * nbLoi);
@@ -162,7 +162,7 @@ void startBubbleTraining(ecran * screen, int mode){
     }
 
     for(int i = 0; i < nbPoule; i++){
-      printIA(allLoi[listPrems[i]], nbRegle, nbParam, nbEcriture++, 1);
+      printIA(allLoi[listPrems[i]], nbRegle, nbParam, nbEcriture++, mode+1);
     }
 
     
@@ -742,11 +742,15 @@ int * genreglealea(int Nbparam, int * possible, float probamu){
 
 
 void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture, int type){
-  char name[25];
+  char name[28];
   if(type == 0){
     sprintf(name, "Ressources/IALoup%d.txt", nbEcriture);
   }else if(type == 1){
     sprintf(name, "Ressources/IABobble%d.txt", nbEcriture);
+  }else if(type == 2){
+    sprintf(name, "Ressources/IA2V2Bobble%d.txt", nbEcriture);
+  }else if(type == 3){
+    sprintf(name, "Ressources/IA4VBobble%d.txt", nbEcriture);
   }
 
   FILE * f = fopen(name, "w");

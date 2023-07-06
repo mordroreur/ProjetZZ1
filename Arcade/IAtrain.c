@@ -10,7 +10,7 @@
 
 #define COEURNUMBER 8
 #define NBITERMAX 5
-#define PROBAMUT 0.05
+#define PROBAMUT 0.3
 #define NBMATCH 3
 
 
@@ -39,13 +39,13 @@ void startBubbleTraining(ecran * screen){
     }
   }
 
-  
+  /*  
   for(int i = 0; i < nbRegle; i++){
     for(int j = 0; j < nbParam+2; j++){
       printf("%d ", allLoi[4][i][j]);
     }
     printf("\n");
-  }
+    }*/
   //simIObb sc, lois, classement, nbregle, nbparam, trnid
   
   pthread_t *allThread = (pthread_t*)malloc(sizeof(pthread_t)*(COEURNUMBER-3));
@@ -133,13 +133,14 @@ void startBubbleTraining(ecran * screen){
     
     allLoi = creationFils(pere, nbPoule, nbRegle, nbParam+2, 40);
 
+    
     printf("Apres  : \n");
     for(int i = 0; i < nbRegle; i++){
       for(int j = 0; j < nbParam+2; j++){
 	printf("%d ", allLoi[4][i][j]);
       }
       printf("\n");
-    }
+      }
     
     
     for(int i = 0; i < nbLoi; i++){
@@ -175,8 +176,8 @@ void startBubbleTraining(ecran * screen){
       default:break;
       }  
     }
-	
-    break;
+    nbEcriture = 0;
+    //break;
   }
 
 
@@ -710,7 +711,7 @@ void *GetTournoisClassement(void *arg){
 		  input->sc->pla[i].IAType = 0;
 		}
 		
-		for(int tick=0; tick<600; tick++){
+		for(int tick=0; tick<30000; tick++){
 		  //Acquisition de données
 		  //printf("%d debut\n", tick);
 		  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
@@ -721,7 +722,7 @@ void *GetTournoisClassement(void *arg){
 		  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
 		  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
-		  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam);
+		  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam);
 		  free(paramworld);
 
 		  //printf("fin\n");
@@ -735,9 +736,9 @@ void *GetTournoisClassement(void *arg){
 		
 		if(input->sc->pla[0].vie == 0){
 		  score[i] -= 1;
-		  score[j] += 1;
+		  score[j] += 3;
 		}else if(input->sc->pla[1].vie == 0){
-		  score[i] += 1;
+		  score[i] += 3;
 		  score[j] -= 1;
 		}
 		

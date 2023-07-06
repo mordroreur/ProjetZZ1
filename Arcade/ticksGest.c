@@ -159,7 +159,7 @@ void mainTickGest(ecran *screen){
 
 		if(screen->pla[i].input[4]){
 		  screen->pla[i].input[4] = 0;
-		  if(screen->pla[i].peuTirer == 1){
+		  if(screen->pla[i].peuTirer == 1 && screen->pla[i].nbBouleActive < screen->maxBoule){
 			screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
 			screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
 			screen->pla[i].boubou[screen->pla[i].index].pos.w = screen->pla[i].pos.w*0.4;

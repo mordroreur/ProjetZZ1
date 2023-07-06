@@ -145,7 +145,7 @@ void mainTickGest(ecran *screen){
   }else if(screen->etapeDuJeu == 4){
 
     for(int i = 0; i < screen->nbPlayer; i++){
-      if(screen->pla[i].IAType == 1){ // TODODODODODODODODODODOD
+      if(screen->pla[i].IAType == 1){
 	int * paramworld = getMoutonWorld(screen, i, 2);
 	setIAInput(screen, i, paramworld, AI1, NBRMOUT, 2, NULL);	  
 	free(paramworld); 

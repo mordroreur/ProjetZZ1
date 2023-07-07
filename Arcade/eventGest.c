@@ -360,7 +360,7 @@ void LeftClick(ecran *screen) {
 			  default:screen->pla[0].IAType = 1;screen->pla[1].IAType = 1;screen->pla[2].IAType = 2;screen->pla[3].IAType = 2;loadBubble2V2IA2(screen);loadBubble2V2IA1(screen);break;
 			  } break;
 			case 3:
-			  screen->maxVie = 3; screen->nbPlayer = 4;screen->modePlay = 0;screen->etapeDuJeu = 3;mainTickGest(screen);
+			  screen->maxVie = 3; screen->nbPlayer = 4;screen->modePlay = 0;screen->etapeDuJeu = 3;mainTickGest(screen); loadBubble4VIA1(screen);loadBubble4VIA2(screen);loadBubble4VIA3(screen);loadBubble4VIA4(screen);
 			  for(int i = 0; i < screen->nbJoueur; i++){
 				screen->pla[i].IAType = 0;
 			  }break;

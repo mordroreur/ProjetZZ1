@@ -71,7 +71,7 @@ void mainTickGest(ecran *screen){
       
       // JEU MOUTON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }else if(screen->modePlay == 1){
-	  screen->maxVie = 1;
+      screen->maxVie = 1;
       screen->nbPlayer = screen->nbProie + screen->nbPreda;
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
       for(int i = 0; i < screen->nbPlayer; i++){

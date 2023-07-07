@@ -17,5 +17,10 @@ void loadBubble2V2IA1(ecran* screen);
 void loadBubble2V2IA2(ecran* screen);
 void loadIALout(ecran* screen);
 
+void loadBubble4VIA1(ecran *screen);
+void loadBubble4VIA2(ecran* screen);
+void loadBubble4VIA3(ecran* screen);
+void loadBubble4VIA4(ecran* screen);
+
 
 #endif /* TICKGEST_HEADER_ */

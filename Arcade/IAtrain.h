@@ -26,12 +26,13 @@ typedef struct simulation_I_OBubble{
   int nbregle;
   int nbparam;
   int trnid;
+  int mode;
   int ** uti;
 }simIObb;
 
 
 void startIALoupMoutontraining(ecran * screen);
-void startBubbleTraining(ecran * screen);
+void startBubbleTraining(ecran * screen, int mode);
 
 
 int trainLoup(ecran *screen);

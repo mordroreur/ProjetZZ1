@@ -14,6 +14,8 @@ int orientobj(ecran * screen, int self, int other);
 int compareN(int *tab1, int *tab2, int N);
 int *getBooble1v1World(ecran *screen, int k, int paramNb);
 int ** readIAFile(char *name, int *regles, int *param);
+int *getBooble2vWorld(ecran *screen, int k, int paramNb, int mode);
+
 
 
 #endif /*__H__GUARDIAN_IAREFLEXTION__*/

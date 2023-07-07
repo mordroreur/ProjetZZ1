@@ -358,6 +358,7 @@ void DrawVictoire(ecran *screen)
 {
   int equipe = 0;
   for(int i = 0; i < screen->nbPlayer; i++){
+	//	printf("%d vie à %d\n", screen->pla[i].vie, i);
     if(screen->pla[i].vie != 0){
       equipe = screen->pla[i].equipe;
     }
@@ -408,6 +409,19 @@ void DrawGame(ecran *screen){
 
       SDL_RenderFillRect(screen->renderer, &rect);
     }
+  }
+
+
+  if(screen->tbObjet[0].vie == 0 && screen->modePlay == 0){
+	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x+100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y+100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x-100, screen->tbObjet[0].pos.y-100, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
+	DrawImage(21, screen->tbObjet[0].pos.x, screen->tbObjet[0].pos.y, screen->tbObjet[0].pos.w, screen->tbObjet[0].pos.h, 'c', 0, 0, 0, SDL_GetTicks()/3, 0, NULL, screen);
   }
   
   
@@ -483,27 +497,27 @@ void DrawGame(ecran *screen){
 	else if(b->vitX == -1 && b->vitY == -1){angle = 45;}
       
 	if(b->vie >= 0){
-	  DrawImage(2+i, b->pos.x, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	  DrawImage(2+screen->pla[i].equipe, b->pos.x, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  if(b->pos.x < 3){
-	    DrawImage(2+i, b->pos.x+100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(2+screen->pla[i].equipe, b->pos.x+100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    if(b->pos.y < 3){
-	      DrawImage(2+i, b->pos.x+100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	      DrawImage(2+screen->pla[i].equipe, b->pos.x+100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    }else if (b->pos.y > 97) {
-	      DrawImage(2+i, b->pos.x+100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	      DrawImage(2+screen->pla[i].equipe, b->pos.x+100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    }
 	  }else if (b->pos.x > 97) {
-	    DrawImage(2+i, b->pos.x-100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(2+screen->pla[i].equipe, b->pos.x-100, b->pos.y, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    if(b->pos.y < 3){
-	      DrawImage(2+i, b->pos.x-100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	      DrawImage(2+screen->pla[i].equipe, b->pos.x-100, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	    }else if (b->pos.y > 97) {
-	      DrawImage(2+i, b->pos.x-100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal,  screen);
+	      DrawImage(2+screen->pla[i].equipe, b->pos.x-100, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal,  screen);
 	    }
 	  }
 
 	  if(b->pos.y < 3){
-	    DrawImage(0, b->pos.x, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(2+screen->pla[i].equipe, b->pos.x, b->pos.y+100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  }else if (b->pos.y > 97) {
-	    DrawImage(0, b->pos.x, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
+	    DrawImage(2+screen->pla[i].equipe, b->pos.x, b->pos.y-100, b->pos.w, b->pos.h, 'c', 0, 0.1 ,flip, angle, nbImBoule, orderBal, screen);
 	  }
 	}
       }

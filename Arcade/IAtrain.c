@@ -1,4 +1,5 @@
 #include "IAtrain.h"
+#include "renderingUtil.h"
 #include "ticksGest.h"
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_timer.h>
@@ -22,10 +23,38 @@ void startIALoupMoutontraining(ecran * screen){
 
 
 
-void startBubbleTraining(ecran * screen){
+void startBubbleTraining(ecran * screen, int mode){
   int nbRegle = 20;
-  int nbParam = 23;
-  int possibilites[25] = {3, 8, 3, 8, 3, 3, 8, 3, 3, 3, 3, 3 ,3 ,3 ,3 ,3, 3, 3, 3, 3, 3, 3, 3, 16, 5};
+  int nbParam = 27;
+  int possibilites[29] = {3, 8, 3, 8, 3, 8, 3, 8, 3, 3, 8, 3, 3, 3, 3, 3 ,3 ,3 ,3 ,3, 3, 3, 3, 3, 3, 3, 3, 16, 5};
+  if(mode == 0){
+	nbParam = 23;
+	possibilites[0] = 3;
+	possibilites[1] = 8;
+	possibilites[2] = 3;
+	possibilites[3] = 8;
+	possibilites[4] = 3;
+	possibilites[5] = 3;
+	possibilites[6] = 8;
+	possibilites[7] = 3;
+	possibilites[8] = 3;
+	possibilites[9] = 3;
+	possibilites[10] = 3;
+	possibilites[11] = 3;
+	possibilites[12] = 3;
+	possibilites[13] = 3;
+	possibilites[14] = 3;
+	possibilites[15] = 3;
+	possibilites[16] = 3;
+	possibilites[17] = 3;
+	possibilites[18] = 3;
+	possibilites[19] = 3;
+	possibilites[20] = 3;
+	possibilites[21] = 3;
+	possibilites[22] = 3;
+	possibilites[23] = 16;
+	possibilites[24] = 5;
+  }
   //dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
   
   int nbLoi = 40;
@@ -87,6 +116,7 @@ void startBubbleTraining(ecran * screen){
 		allInput[nbThread].nbregle = nbRegle;
 		allInput[nbThread].nbparam = nbParam;
 		allInput[nbThread].trnid = trn;
+		allInput[nbThread].mode = mode;
 		//		printf("Creer pthe\n");
 		pthread_create(&allThread[nbThread], NULL, GetTournoisClassement,  &allInput[nbThread]);
 		//		printf("fin crea\n");
@@ -132,18 +162,18 @@ void startBubbleTraining(ecran * screen){
     }
 
     for(int i = 0; i < nbPoule; i++){
-      printIA(allLoi[listPrems[i]], nbRegle, nbParam, nbEcriture++, 1);
+      printIA(allLoi[listPrems[i]], nbRegle, nbParam, nbEcriture++, mode+1);
     }
 
-    /*
-    for(int i = 0; i < nbPoule; i++){
+    
+	for(int i = 0; i < nbPoule; i++){
       for(int j = 0; j < nbRegle; j++){
-	if(uti[i][j] == 0){
-	  free(pere[i][j]);
-	  pere[i][j] = genreglealea(nbParam, possibilites, 0.1);
-	}
+		if(uti[i][j] == 0){
+		  free(pere[i][j]);
+		  pere[i][j] = genreglealea(nbParam, possibilites, 0.1);
+		}
       }
-      }*/
+	}
     
     
     if(allLoi != NULL){
@@ -162,10 +192,10 @@ void startBubbleTraining(ecran * screen){
     allLoi = creationFils2(pere, nbPoule, nbRegle, nbParam+2, 40);
 
     /*
-    printf("Apres  : \n");
-    for(int i = 0; i < nbRegle; i++){
+	  printf("Apres  : \n");
+	  for(int i = 0; i < nbRegle; i++){
       for(int j = 0; j < nbParam+2; j++){
-	printf("%d ", allLoi[4][i][j]);
+	  printf("%d ", allLoi[4][i][j]);
       }
       printf("\n");
       }*/
@@ -712,11 +742,15 @@ int * genreglealea(int Nbparam, int * possible, float probamu){
 
 
 void printIA(int **Mainloi, int nbregles, int nbParam ,int nbEcriture, int type){
-  char name[25];
+  char name[28];
   if(type == 0){
     sprintf(name, "Ressources/IALoup%d.txt", nbEcriture);
   }else if(type == 1){
     sprintf(name, "Ressources/IABobble%d.txt", nbEcriture);
+  }else if(type == 2){
+    sprintf(name, "Ressources/IA2V2Bobble%d.txt", nbEcriture);
+  }else if(type == 3){
+    sprintf(name, "Ressources/IA4VBobble%d.txt", nbEcriture);
   }
 
   FILE * f = fopen(name, "w");
@@ -750,72 +784,175 @@ void *GetTournoisClassement(void *arg){
     score[i] = 0;
   }
 
-  for(int i = 0; i < nbIA-1; i++){
-    for(int j = i+1; j < nbIA; j++){
 
+  if(input->mode != 2){
+	for(int i = 0; i < nbIA-1; i++){
+	  for(int j = i+1; j < nbIA; j++){
 
-      for(int ite = 0; ite < NBMATCH; ite++){
-	input->sc->nbPlayer = 2;
-		input->sc->maxVie = 1;
-		input->sc->etapeDuJeu = 3;
-		input->sc->modePlay = 0;
-		mainTickGest(input->sc);
-		for(int k = 0; k < input->sc->nbPlayer; k++){
-		  input->sc->pla[k].IAType = 0;
-		}
-		
-		for(int tick=0; tick<60000; tick++){
-		  //Acquisition de données
-		  //printf("%d debut\n", tick);
-		  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
-		  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam, input->uti[i]);
-		  free(paramworld);
-
-		  //printf("milieu\n");
-		  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
-	  
-		  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
-		  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
-		  free(paramworld);
-
-		  //printf("fin\n");
-	  
+		for(int ite = 0; ite < NBMATCH; ite++){
+		  if(input->mode == 0){
+			input->sc->nbPlayer = 2;  
+		  }else{
+			input->sc->nbPlayer = 4;  
+		  }
+		  input->sc->maxVie = 1;
+		  input->sc->etapeDuJeu = 3;
+		  input->sc->modePlay = 0;
 		  mainTickGest(input->sc);
-		  if(input->sc->etapeDuJeu == 5){
-			tick = 100000000;
+		  if(input->mode == 1){
+			input->sc->pla[0].equipe = 0;
+			input->sc->pla[1].equipe = 0;
+			input->sc->pla[2].equipe = 1;
+			input->sc->pla[3].equipe = 1;
+		  }
+		  
+		  for(int k = 0; k < input->sc->nbPlayer; k++){
+			input->sc->pla[k].IAType = 0;
+		  }
+		
+		  for(int tick=0; tick<60000; tick++){
+			//Acquisition de données
+			//printf("%d debut\n", tick);
+
+			if(input->mode == 0){
+			  int * paramworld = getBooble1v1World(input->sc, 0, input->nbparam);
+			  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam, input->uti[i]);
+			  free(paramworld);
+
+			  //printf("milieu\n");
+			  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+	  
+			  paramworld = getBooble1v1World(input->sc, 1, input->nbparam);
+			  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
+			  free(paramworld);
+			}else{
+			  int * paramworld = getBooble2vWorld(input->sc, 0, input->nbparam, 1);
+			  setIAInput(input->sc, 0, paramworld, input->lois[i], input->nbregle, input->nbparam, input->uti[i]);
+			  free(paramworld);
+			  paramworld = getBooble2vWorld(input->sc, 1, input->nbparam, 1);
+			  setIAInput(input->sc, 1, paramworld, input->lois[i], input->nbregle, input->nbparam, input->uti[i]);
+			  free(paramworld);
+
+			  //printf("milieu\n");
+			  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+	  
+			  paramworld = getBooble2vWorld(input->sc, 2, input->nbparam, 1);
+			  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
+			  free(paramworld);
+			  paramworld = getBooble2vWorld(input->sc, 3, input->nbparam, 1);
+			  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
+			  free(paramworld);
+			}
+
+			//printf("fin\n");
+	  
+			mainTickGest(input->sc);
+			if(input->sc->etapeDuJeu == 5){
+			  tick = 100000000;
+			}
+		  }
+
+		  if(input->mode == 0){
+			if(input->sc->pla[0].vie == 0){
+			  score[i] -= 1;
+			  score[j] += 3;
+			}else if(input->sc->pla[1].vie == 0){
+			  score[i] += 3;
+			  score[j] -= 1;
+			}
+		  }else if(input->mode == 1){
+			//tuer +1 mort -1 win +1
+			score[i] += input->sc->pla[0].kill + input->sc->pla[1].kill + ((input->sc->pla[2].vie == 0 && input->sc->pla[3].vie == 0)?3:0) -1+input->sc->pla[0].vie -1 +input->sc->pla[1].vie;
+			score[j] += input->sc->pla[2].kill + input->sc->pla[3].kill + ((input->sc->pla[0].vie == 0 && input->sc->pla[1].vie == 0)?3:0) -1+input->sc->pla[2].vie -1 +input->sc->pla[3].vie;
+		  }
+		
+		  input->sc->etapeDuJeu = 12;
+		  mainTickGest(input->sc);
+	
+		}
+	  }
+	}
+  }else{
+	int mort[4];
+	for(int ite = 0; ite < NBMATCH*4; ite++){
+	  mort[0] = -1;
+	  mort[1] = -1;
+	  mort[2] = -1;
+	  mort[3] = -1;
+	  int nbMort = 0;
+	  input->sc->nbPlayer = 4;  	  
+	  input->sc->maxVie = 1;
+	  input->sc->etapeDuJeu = 3;
+	  input->sc->modePlay = 0;
+	  mainTickGest(input->sc);
+	  for(int k = 0; k < input->sc->nbPlayer; k++){
+		input->sc->pla[k].IAType = 0;
+	  }
+	  for(int tick=0; tick<60000; tick++){
+		//Acquisition de données
+		//printf("%d debut\n", tick);
+		int * paramworld = getBooble2vWorld(input->sc, 0, input->nbparam, 2);
+		setIAInput(input->sc, 0, paramworld, input->lois[0], input->nbregle, input->nbparam, input->uti[0]);
+		free(paramworld);
+		paramworld = getBooble2vWorld(input->sc, 1, input->nbparam, 2);
+		setIAInput(input->sc, 1, paramworld, input->lois[1], input->nbregle, input->nbparam, input->uti[1]);
+		free(paramworld);
+
+		//printf("milieu\n");
+		// dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
+	  
+		paramworld = getBooble2vWorld(input->sc, 2, input->nbparam, 2);
+		setIAInput(input->sc, 1, paramworld, input->lois[2], input->nbregle, input->nbparam, input->uti[2]);
+		free(paramworld);
+		paramworld = getBooble2vWorld(input->sc, 3, input->nbparam, 2);
+		setIAInput(input->sc, 1, paramworld, input->lois[3], input->nbregle, input->nbparam, input->uti[3]);
+		free(paramworld);
+		//printf("fin\n");
+
+		for(int i = 0; i < 4; i++){
+		  if(mort[i] == -1 && input->sc->pla[i].vie == 0){
+			mort[i] =nbMort++;
 		  }
 		}
-
 		
-		if(input->sc->pla[0].vie == 0){
-		  score[i] -= 1;
-		  score[j] += 3;
-		}else if(input->sc->pla[1].vie == 0){
-		  score[i] += 3;
-		  score[j] -= 1;
-		}
-		
-		input->sc->etapeDuJeu = 12;
 		mainTickGest(input->sc);
-	
-      }
-    }
-  }
+		if(input->sc->etapeDuJeu == 5){
+		  tick = 100000000;
+		}
+	  }
 
+
+	  for(int i = 0; i < 4; i++){
+		if(mort[i] == 0){
+		  score[i] -= 3;	
+		}else if(score[i] == 1){
+		  score[i] -= 2;
+		}else if(score[i] == 2){
+		  score[i] -= 1;
+		}else if(score[i] == -1){
+		  score[i] += 1;
+		}
+		score[i] += input->sc->pla[i].kill;
+	  }
+		
+	  input->sc->etapeDuJeu = 12;
+	  mainTickGest(input->sc);
+		  
+	}
+  }
   int i, j;
   for (i = 0; i < nbIA-1; i++) {
     for (j = 0; j < nbIA-i-1; j++) {
-      if (score[j] > score[j+1]) {
-	float tem = score[j];
-	score[j] = score[j+1];
-	score[j+1] = tem;
-	int tmp = input->classement[j];
-	input->classement[j] = input->classement[j+1];
-	input->classement[j+1] = tmp;
+      if (score[j] < score[j+1]) {
+		float tem = score[j];
+		score[j] = score[j+1];
+		score[j+1] = tem;
+		int tmp = input->classement[j];
+		input->classement[j] = input->classement[j+1];
+		input->classement[j+1] = tmp;
       }
     }
   }
-  
   
   free(score);
   return NULL;

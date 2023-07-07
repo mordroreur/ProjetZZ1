@@ -522,7 +522,7 @@ int compareN(int * tab1, int* tab2, int N){
 int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
   int * nbBoule = (int *) malloc(Nbdist*Nborient*sizeof(int));
   int dis;
-  //printf("->%d\n", Nbdist*Nborient);
+  printf("->%d\n", Nbdist*Nborient);
 
   for(int i = 0; i < (Nbdist * Nborient); i++){
 	nbBoule[i] = 0;
@@ -537,7 +537,7 @@ int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
 		  if (distBoule(sc, self, i, j%100) < 2)
 		  {
 			dis = distBoule(sc, self, i, j%100) * Nborient + orientBoule(sc, self, i, j%100);
-			//printf("distance: %d\n", dis);
+			printf("distance: %d\n", dis);
 			nbBoule[dis] = nbBoule[dis] + 1;
 		  }	
 		}
@@ -575,7 +575,7 @@ float * listdensite(ecran *sc, int self, int Nbdist, int Nborient)
   }
   if (listesurface)
   	free(listesurface);
-  if(bobo == NULL)
+  if(bobo != NULL)
     free(bobo);
   return listdensite;
 }

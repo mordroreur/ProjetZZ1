@@ -19,14 +19,54 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	    }
 	    paramworld[p++]=disti;
 	    paramworld[p++] = orient(screen, k, id);*/
+	  if(screen->nbPreda == 1){
+	    paramworld[p++] = -1;
+	    paramworld[p++] = -1;
+	    paramworld[p++] = -1;
+	    paramworld[p++] = -1;
+	  }else if(screen->nbPreda == 2){
+	    paramworld[p++] = dist(screen, k, 1-k);
+	    paramworld[p++] = dist(screen, k, 1-k);
+	    paramworld[p++] = -1;
+	    paramworld[p++] = -1;
+	  }else if(screen->nbPreda == 3){
+	    for(int i = 0; i < screen->nbPreda; i++)
+	    {
+	      if(i != k){
+		paramworld[p++] = dist(screen, k, i);
+		paramworld[p++] = orient(screen, k, i);
+	      }
+	    }
+	  }else{
+	    int dis0 = dist(screen,k,(k == 0)?1:0);
+	    int dis1 = dist(screen,k,(k == 0 || k == 1)?2:1);
+	    int min = (dis0 < dis1)?0:1;
+	    if(dis0 < dis1){
+	      int tmp = dis0;
+	      dis0 = dis1;
+	      dis1 = tmp;
+	    }
+	    int min2 = 1-min;
 
-	  for(int i = 0; i < screen->nbPreda; i++)
-    {
-	    if(i != k){
-	      paramworld[p++] = dist(screen, k, i);
-	      paramworld[p++] = orient(screen, k, i);
+	    for(int i = 2; i < screen->nbPreda; i++){
+	      if(i != k){
+		int disi = dist(screen,k,screen->nbPreda+i);
+		if(disi < dis0){
+		  min2 = min;
+		  dis1 = dis0;
+		  dis0 = disi;
+		  min = i;
+		}else if(disi < dis1){
+		  min2 = i;
+		  dis1 = disi;
+		}
+	      }
 	    }
 	  }
+	  
+	  
+	  
+	  
 	  
 	  
 	  /*for(int i=0; i<Nbpreda; i+=2){

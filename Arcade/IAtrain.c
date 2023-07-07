@@ -782,7 +782,7 @@ void *GetTournoisClassement(void *arg){
     input->uti[i] = (int*)malloc(sizeof(int)*input->nbregle);
   }
 
-  float *score =(float *)malloc(sizeof(int) * nbIA);
+  float *score =(float *)malloc(sizeof(float) * nbIA);
   for(int i = 0; i < nbIA; i++){
     score[i] = 0;
   }

@@ -520,7 +520,7 @@ int compareN(int * tab1, int* tab2, int N){
 
 
 int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
-  int * nbBoule = (int *) malloc(sizeof(int) * Nbdist * (Nborient));
+  int * nbBoule = (int *) malloc(sizeof(int) * (Nbdist+1) * (Nborient));
 
   for(int i = 0; i < Nbdist * Nborient; i++){
 	nbBoule[i] = 0;
@@ -556,14 +556,15 @@ float * listdensite(ecran *sc, int self, int Nbdist, int Nborient){
     }
   }
   int * bobo = getNBBouleBydirOr(sc, self, Nbdist, Nborient);
-  float * listdensite = (float *) malloc(sizeof(float) * Nbdist*(Nborient+1));
+  float * listdensite = (float *) malloc(sizeof(float) * (Nbdist+1)*Nborient);
   for(int i=0; i<Nbdist; i++){
     for(int j=0; j<Nborient; j++){
       listdensite[i*Nborient+j]= bobo[i*Nborient+j]/listesurface[i];
     }
   }
   free(listesurface);
-  free(bobo);
+  if(bobo)
+    free(bobo);
   return listdensite;
 }
 

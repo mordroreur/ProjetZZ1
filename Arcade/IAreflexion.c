@@ -517,10 +517,10 @@ int compareN(int * tab1, int* tab2, int N){
     return ret;
 }
 
-
+int nbBoule[30];
 
 int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
-  int * nbBoule = (int *) malloc(Nbdist*Nborient*sizeof(int));
+  //int * nbBoule = (int *) malloc((Nbdist+1)*Nborient*sizeof(int));
   int dis;
   //printf("->%d\n", Nbdist*Nborient);
 
@@ -561,22 +561,18 @@ float * listdensite(ecran *sc, int self, int Nbdist, int Nborient)
       listesurface[i]=(3.14159*carre(20.0*(i+1))/8.0) - listesurface[i-1];
     }
   }
-  int * bobo = getNBBouleBydirOr(sc, self, Nbdist, Nborient);
-  if (!bobo)
-  {
-	printf("Erreur d'allocation!\n");
-	exit(0);
-  }
+  int *bobo = getNBBouleBydirOr(sc, self, Nbdist, Nborient);
+  
   float * listdensite = (float *) malloc(sizeof(float) * (Nbdist+1)*Nborient);
   for(int i=0; i<Nbdist; i++){
     for(int j=0; j<Nborient; j++){
       listdensite[i*Nborient+j]= bobo[i*Nborient+j]/listesurface[i];
     }
   }
-  if (listesurface)
-  	free(listesurface);
-  if(bobo == NULL)
-    free(bobo);
+
+  free(listesurface);
+
+  //free(bobo);
   return listdensite;
 }
 

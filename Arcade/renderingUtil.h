@@ -8,6 +8,42 @@
 #include <SDL2/SDL_image.h>
 
 
+
+
+
+
+#define IMBACKGROUNDU 0
+#define IMBACKGROUNDD 1
+#define IMBACKGROUNDT 2
+#define IMBACKGROUNDQ 3
+#define IMBACKGROUNDC 4
+#define IMBACKGROUNDS 5
+
+#define IMPLAYER1 6
+#define IMPLAYER2 7
+#define IMPLAYER3 8
+#define IMPLAYER4 9
+
+#define IMBOULEP1 10
+#define IMBOULEP2 11
+#define IMBOULEP3 12
+#define IMBOULEP4 13
+
+#define IMBUTTONPLAY 14
+#define IMBUTTONQUIT 15
+#define IMBUTTONPARAM 16
+#define IMBUTTONFORM 17
+#define IMBUTTONSELECT 18
+#define IMBUTTONSELECT2 19
+#define IMBUTTONSELECT3 20
+#define IMBUTTONSELECT4 21
+#define IMBUTTONBACK 22
+#define IMBUTTONJOUER 23
+#define IMBUTTONIATRAIN 24
+#define IMBLACKHOLE 25
+#define IMVIE 26
+
+
 typedef struct Rect{
   float x;
   float y;

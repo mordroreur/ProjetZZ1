@@ -520,15 +520,20 @@ int compareN(int * tab1, int* tab2, int N){
 
 
 int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
-  int * nbBoule = (int *) malloc(sizeof(int) * Nbdist * Nborient);
+  int * nbBoule = (int *) malloc(sizeof(int) * Nbdist * (Nborient));
+
   for(int i = 0; i < Nbdist * Nborient; i++){
 	nbBoule[i] = 0;
   }
+
   for(int i = 0; i < sc->nbPlayer; i++){
 	if(sc->pla[i].equipe != sc->pla[self].equipe){
 	  for(int j = sc->pla[i].debBoule; j < sc->pla[i].debBoule+sc->pla[i].nbBouleActive; j++){
 		if(sc->pla[i].boubou[j%100].vie >= 0){
-		  nbBoule[distBoule(sc, self, i, j%100) * Nbdist + orientBoule(sc, self, i, j%100)]++;
+		 
+		  int dis = distBoule(sc, self, i, j%100) * Nborient + orientBoule(sc, self, i, j%100);
+		  nbBoule[dis] = nbBoule[dis] + 1;
+			
 		}
 	  }
 	}
@@ -551,10 +556,10 @@ float * listdensite(ecran *sc, int self, int Nbdist, int Nborient){
     }
   }
   int * bobo = getNBBouleBydirOr(sc, self, Nbdist, Nborient);
-  float * listdensite = (float *) malloc(sizeof(float) * Nbdist*Nborient);
+  float * listdensite = (float *) malloc(sizeof(float) * Nbdist*(Nborient+1));
   for(int i=0; i<Nbdist; i++){
     for(int j=0; j<Nborient; j++){
-      listdensite[i*Nbdist+j]= bobo[i*Nbdist+j]/listesurface[i];
+      listdensite[i*Nborient+j]= bobo[i*Nborient+j]/listesurface[i];
     }
   }
   free(listesurface);

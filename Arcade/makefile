@@ -1,7 +1,7 @@
 CC=gcc
 
-LDFLAGS=$(shell sdl2-config --cflags --libs) -lm -lSDL2_ttf -lSDL2_mixer -lpthread -D_REENTRANT -lSDL2_image
-CFLAGS=-Wall $(shell sdl2-config --cflags --libs) -MMD -g -Wextra
+LDFLAGS=$(shell sdl2-config --cflags --libs) -lm -lSDL2_ttf -lSDL2_mixer -lpthread -D_REENTRANT -lSDL2_image 
+CFLAGS=-Wall $(shell sdl2-config --cflags --libs) -MMD -g -Wextra 
 
 #-fsanitize=thread
 

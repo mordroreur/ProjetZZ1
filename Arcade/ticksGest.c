@@ -26,14 +26,13 @@ int mode;
 void mainTickGest(ecran *screen){
   if(screen->etapeDuJeu == 3){
     screen->whichBack = rand()%6;
-    screen->whichBack += 4;
     if(screen->modePlay == 0){
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
       for(int i = 0; i < screen->nbPlayer; i++){
 		screen->pla[i].pos.x = rand()%100;
 		screen->pla[i].pos.y = rand()%100;
 		screen->pla[i].pos.w = SIZE;
-		screen->pla[i].pos.h = SIZE*0.5625;
+		screen->pla[i].pos.h = SIZE*0.80;
 		screen->pla[i].vitesse = 0.25;
 		screen->pla[i].IAType = i+1;
 		screen->pla[i].kill = 0;
@@ -71,14 +70,15 @@ void mainTickGest(ecran *screen){
       screen->TrouNoirTime = -15*60;
       
       // JEU MOUTON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    }else if(screen->modePlay == 1){	  
+    }else if(screen->modePlay == 1){
+	  screen->maxVie = 1;
       screen->nbPlayer = screen->nbProie + screen->nbPreda;
       screen->pla = (player *)malloc(sizeof(player)*screen->nbPlayer);
       for(int i = 0; i < screen->nbPlayer; i++){
 		screen->pla[i].pos.x = rand()%100;
 		screen->pla[i].pos.y = rand()%100;
 		screen->pla[i].pos.w = SIZE;
-		screen->pla[i].pos.h = SIZE*0.5625;
+		screen->pla[i].pos.h = SIZE*0.80;
 		screen->pla[i].vitesse = 0.25;
 
 		screen->pla[i].kill = 0;
@@ -202,8 +202,8 @@ void mainTickGest(ecran *screen){
 		  screen->pla[i].shoot--;
 		}
 
-		if(screen->pla[i].input[4]){
-		  screen->pla[i].input[4] = 0;
+		if(screen->pla[i].input[4] == 1){
+		  screen->pla[i].input[4] = 2;
 		  if(screen->pla[i].peuTirer == 1 && screen->pla[i].nbBouleActive < screen->pla[i].nbBoule){
 			screen->pla[i].boubou[screen->pla[i].index].pos.x = screen->pla[i].pos.x;
 			screen->pla[i].boubou[screen->pla[i].index].pos.y = screen->pla[i].pos.y;
@@ -249,7 +249,7 @@ void mainTickGest(ecran *screen){
 		  for(int k = 0; k < screen->nbPlayer; k++){
 			if(screen->pla[i].equipe != screen->pla[k].equipe && screen->pla[k].vie != 0){
 			  if(sqrt(pow(b->pos.x - screen->pla[k].pos.x, 2) + pow(b->pos.y - screen->pla[k].pos.y, 2)) < (b->pos.w+b->pos.h)/3 + (screen->pla[k].pos.w + screen->pla[k].pos.h)/6){
-	      
+				//				printf("I'm in\n");
 				screen->pla[k].mort++;
 				screen->pla[k].vie--;
 

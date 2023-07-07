@@ -26,7 +26,6 @@ TTF_Font *RobotoFont;
 
 
 
-
 long int getTime(){
   struct timespec tms;
   if (clock_gettime(CLOCK_REALTIME,&tms)) {
@@ -35,8 +34,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 22;
-  int nbPlanche = 19;
+  int nbImage = 27;
+  int nbPlanche = 20;
 
 
 void InitImage(ecran *screen){
@@ -52,115 +51,129 @@ void InitImage(ecran *screen){
   debX = (int *)malloc(sizeof(int) * nbImage);
   debY = (int *)malloc(sizeof(int) * nbImage);
 
-    
-  fileImage[0] = IMG_Load("Ressources/Image/plancheSprite.png");
 
-  PixelXnb[0] = 114; PixelYnb[0] = 72;XImagenb[0] = 1; YImagenb[0] = 20;
-  TotalImagenb[0] = 20; ImYoffset[0] = 63; ImXoffset[0] = 0;
-  debX[0] = 84; debY[0] = 28; wichFile[0] = 0;
+
+  for(int i = 0; i < 6; i++){
+    char tmp[30];
+    sprintf(tmp, "Ressources/Image/pay%d.png", i+1);
+    fileImage[i] = IMG_Load(tmp);
+    PixelXnb[i] = 1920; PixelYnb[i] = 1088;XImagenb[i] = 1; YImagenb[i] = 1;
+    TotalImagenb[i] = 1; ImYoffset[i] = 0; ImXoffset[i] = 0;
+    debX[i] = 0; debY[i] = 0; wichFile[i] = i;
+  }
+
+
+  fileImage[6] = IMG_Load("Ressources/Image/plancheSprite.png"); 
+
+  PixelXnb[IMPLAYER1] = 188; PixelYnb[IMPLAYER1] = 151;XImagenb[IMPLAYER1] = 1; YImagenb[IMPLAYER1] = 20;
+  TotalImagenb[IMPLAYER1] = 20; ImYoffset[IMPLAYER1] = 74; ImXoffset[IMPLAYER1] = 0;
+  debX[IMPLAYER1] = 142; debY[IMPLAYER1] = 48; wichFile[IMPLAYER1] = 6;
+
+  PixelXnb[IMPLAYER2] = 188; PixelYnb[IMPLAYER2] = 151;XImagenb[IMPLAYER2] = 1; YImagenb[IMPLAYER2] = 20;
+  TotalImagenb[IMPLAYER2] = 20; ImYoffset[IMPLAYER2] = 74; ImXoffset[IMPLAYER2] = 0;
+  debX[IMPLAYER2] = 545; debY[IMPLAYER2] = 48; wichFile[IMPLAYER2] = 6;
+
+  PixelXnb[IMPLAYER3] = 188; PixelYnb[IMPLAYER3] = 151;XImagenb[IMPLAYER3] = 1; YImagenb[IMPLAYER3] = 20;
+  TotalImagenb[IMPLAYER3] = 20; ImYoffset[IMPLAYER3] = 74; ImXoffset[IMPLAYER3] = 0;
+  debX[IMPLAYER3] = 942; debY[IMPLAYER3] = 48; wichFile[IMPLAYER3] = 6;
+
+  PixelXnb[IMPLAYER4] = 188; PixelYnb[IMPLAYER4] = 151;XImagenb[IMPLAYER4] = 1; YImagenb[IMPLAYER4] = 20;
+  TotalImagenb[IMPLAYER4] = 20; ImYoffset[IMPLAYER4] = 74; ImXoffset[IMPLAYER4] = 0;
+  debX[IMPLAYER4] = 1345; debY[IMPLAYER4] = 48; wichFile[IMPLAYER4] = 6;
+  
+  PixelXnb[IMBOULEP1] = 46; PixelYnb[IMBOULEP1] = 47;XImagenb[IMBOULEP1] = 1; YImagenb[IMBOULEP1] = 1;
+  TotalImagenb[IMBOULEP1] = 1; ImYoffset[IMBOULEP1] = 0; ImXoffset[IMBOULEP1] = 0;
+  debX[IMBOULEP1] = 1775; debY[IMBOULEP1] = 93; wichFile[IMBOULEP1] = 6;
+
+  PixelXnb[IMBOULEP2] = 46; PixelYnb[IMBOULEP2] = 47;XImagenb[IMBOULEP2] = 1; YImagenb[IMBOULEP2] = 1;
+  TotalImagenb[IMBOULEP2] = 1; ImYoffset[IMBOULEP2] = 0; ImXoffset[IMBOULEP2] = 0;
+  debX[IMBOULEP2] = 1775; debY[IMBOULEP2] = 318; wichFile[IMBOULEP2] = 6;
+
+  PixelXnb[IMBOULEP3] = 46; PixelYnb[IMBOULEP3] = 47;XImagenb[IMBOULEP3] = 1; YImagenb[IMBOULEP3] = 1;
+  TotalImagenb[IMBOULEP3] = 1; ImYoffset[IMBOULEP3] = 0; ImXoffset[IMBOULEP3] = 0;
+  debX[IMBOULEP3] = 1775; debY[IMBOULEP3] = 543; wichFile[IMBOULEP3] = 6;
+
+  PixelXnb[IMBOULEP4] = 46; PixelYnb[IMBOULEP4] = 47;XImagenb[IMBOULEP4] = 1; YImagenb[IMBOULEP4] = 1;
+  TotalImagenb[IMBOULEP4] = 1; ImYoffset[IMBOULEP4] = 0; ImXoffset[IMBOULEP4] = 0;
+  debX[IMBOULEP4] = 1775; debY[IMBOULEP4] = 768; wichFile[IMBOULEP4] = 6;
+
+
 
   fileImage[7] = IMG_Load("Ressources/Image/play.png");
-  PixelXnb[10] = 1232; PixelYnb[10] = 586; XImagenb[10] = 1; YImagenb[10] = 1;
-  TotalImagenb[10] = 1; ImYoffset[10] = 7; ImXoffset[10] = 0;
-  debX[10] = 0; debY[10] = 0; wichFile[10] = 7;
+  PixelXnb[IMBUTTONPLAY] = 1232; PixelYnb[IMBUTTONPLAY] = 586; XImagenb[IMBUTTONPLAY] = 1; YImagenb[IMBUTTONPLAY] = 1;
+  TotalImagenb[IMBUTTONPLAY] = 1; ImYoffset[IMBUTTONPLAY] = 7; ImXoffset[IMBUTTONPLAY] = 0;
+  debX[IMBUTTONPLAY] = 0; debY[IMBUTTONPLAY] = 0; wichFile[IMBUTTONPLAY] = 7;
 
   fileImage[8] = IMG_Load("Ressources/Image/quit.png");
-  PixelXnb[11] = 1232; PixelYnb[11] = 586; XImagenb[11] = 1; YImagenb[11] = 1;
-  TotalImagenb[11] = 1; ImYoffset[11] = 7; ImXoffset[11] = 0;
-  debX[11] = 0; debY[11] = 0; wichFile[11] = 8;
+  PixelXnb[IMBUTTONQUIT] = 1232; PixelYnb[IMBUTTONQUIT] = 586; XImagenb[IMBUTTONQUIT] = 1; YImagenb[IMBUTTONQUIT] = 1;
+  TotalImagenb[IMBUTTONQUIT] = 1; ImYoffset[IMBUTTONQUIT] = 7; ImXoffset[IMBUTTONQUIT] = 0;
+  debX[IMBUTTONQUIT] = 0; debY[IMBUTTONQUIT] = 0; wichFile[IMBUTTONQUIT] = 8;
 
   fileImage[9] = IMG_Load("Ressources/Image/parametre.png");
-  PixelXnb[12] = 1232; PixelYnb[12] = 586; XImagenb[12] = 1; YImagenb[12] = 1;
-  TotalImagenb[12] = 1; ImYoffset[12] = 7; ImXoffset[12] = 0;
-  debX[12] = 0; debY[12] = 0; wichFile[12] = 9;
+  PixelXnb[IMBUTTONPARAM] = 1232; PixelYnb[IMBUTTONPARAM] = 586; XImagenb[IMBUTTONPARAM] = 1; YImagenb[IMBUTTONPARAM] = 1;
+  TotalImagenb[IMBUTTONPARAM] = 1; ImYoffset[IMBUTTONPARAM] = 7; ImXoffset[IMBUTTONPARAM] = 0;
+  debX[IMBUTTONPARAM] = 0; debY[IMBUTTONPARAM] = 0; wichFile[IMBUTTONPARAM] = 9;
 
   fileImage[10] = IMG_Load("Ressources/Image/forme.png");
-  PixelXnb[13] = 540; PixelYnb[13] = 1080; XImagenb[13] = 1; YImagenb[13] = 1;
-  TotalImagenb[13] = 1; ImYoffset[13] = 7; ImXoffset[13] = 0;
-  debX[13] = 0; debY[13] = 0; wichFile[13] = 10;
+  PixelXnb[IMBUTTONFORM] = 540; PixelYnb[IMBUTTONFORM] = 1080; XImagenb[IMBUTTONFORM] = 1; YImagenb[IMBUTTONFORM] = 1;
+  TotalImagenb[IMBUTTONFORM] = 1; ImYoffset[IMBUTTONFORM] = 7; ImXoffset[IMBUTTONFORM] = 0;
+  debX[IMBUTTONFORM] = 0; debY[IMBUTTONFORM] = 0; wichFile[IMBUTTONFORM] = 10;
 
   fileImage[11] = IMG_Load("Ressources/Image/select.png");
-  PixelXnb[14] = 1232; PixelYnb[14] = 586; XImagenb[14] = 1; YImagenb[14] = 1;
-  TotalImagenb[14] = 1; ImYoffset[14] = 7; ImXoffset[14] = 0;
-  debX[14] = 0; debY[14] = 0; wichFile[14] = 11;
+  PixelXnb[IMBUTTONSELECT] = 1232; PixelYnb[IMBUTTONSELECT] = 586; XImagenb[IMBUTTONSELECT] = 1; YImagenb[IMBUTTONSELECT] = 1;
+  TotalImagenb[IMBUTTONSELECT] = 1; ImYoffset[IMBUTTONSELECT] = 7; ImXoffset[IMBUTTONSELECT] = 0;
+  debX[IMBUTTONSELECT] = 0; debY[IMBUTTONSELECT] = 0; wichFile[IMBUTTONSELECT] = 11;
 
   fileImage[12] = IMG_Load("Ressources/Image/select2.png");
-  PixelXnb[15] = 1230; PixelYnb[15] = 585; XImagenb[15] = 1; YImagenb[15] = 1;
-  TotalImagenb[15] = 1; ImYoffset[15] = 7; ImXoffset[15] = 0;
-  debX[15] = 0; debY[15] = 0; wichFile[15] = 12;
+  PixelXnb[IMBUTTONSELECT2] = 1230; PixelYnb[IMBUTTONSELECT2] = 585; XImagenb[IMBUTTONSELECT2] = 1; YImagenb[IMBUTTONSELECT2] = 1;
+  TotalImagenb[IMBUTTONSELECT2] = 1; ImYoffset[IMBUTTONSELECT2] = 7; ImXoffset[IMBUTTONSELECT2] = 0;
+  debX[IMBUTTONSELECT2] = 0; debY[IMBUTTONSELECT2] = 0; wichFile[IMBUTTONSELECT2] = 12;
 
   fileImage[13] = IMG_Load("Ressources/Image/select3.png");
-  PixelXnb[16] = 1232; PixelYnb[16] = 586; XImagenb[16] = 1; YImagenb[16] = 1;
-  TotalImagenb[16] = 1; ImYoffset[16] = 7; ImXoffset[16] = 0;
-  debX[16] = 0; debY[16] = 0; wichFile[16] = 13;
+  PixelXnb[IMBUTTONSELECT3] = 1232; PixelYnb[IMBUTTONSELECT3] = 586; XImagenb[IMBUTTONSELECT3] = 1; YImagenb[IMBUTTONSELECT3] = 1;
+  TotalImagenb[IMBUTTONSELECT3] = 1; ImYoffset[IMBUTTONSELECT3] = 7; ImXoffset[IMBUTTONSELECT3] = 0;
+  debX[IMBUTTONSELECT3] = 0; debY[IMBUTTONSELECT3] = 0; wichFile[IMBUTTONSELECT3] = 13;
 
   fileImage[14] = IMG_Load("Ressources/Image/select4.png");
-  PixelXnb[17] = 1261; PixelYnb[17] = 601; XImagenb[17] = 1; YImagenb[17] = 1;
-  TotalImagenb[17] = 1; ImYoffset[17] = 7; ImXoffset[17] = 0;
-  debX[17] = 0; debY[17] = 0; wichFile[17] = 14;
+  PixelXnb[IMBUTTONSELECT4] = 1261; PixelYnb[IMBUTTONSELECT4] = 601; XImagenb[IMBUTTONSELECT4] = 1; YImagenb[IMBUTTONSELECT4] = 1;
+  TotalImagenb[IMBUTTONSELECT4] = 1; ImYoffset[IMBUTTONSELECT4] = 7; ImXoffset[IMBUTTONSELECT4] = 0;
+  debX[IMBUTTONSELECT4] = 0; debY[IMBUTTONSELECT4] = 0; wichFile[IMBUTTONSELECT4] = 14;
 
   fileImage[15] = IMG_Load("Ressources/Image/back.png");
-  PixelXnb[18] = 1232; PixelYnb[18] = 587; XImagenb[18] = 1; YImagenb[18] = 1;
-  TotalImagenb[18] = 1; ImYoffset[18] = 7; ImXoffset[18] = 0;
-  debX[18] = 0; debY[18] = 0; wichFile[18] = 15;
+  PixelXnb[IMBUTTONBACK] = 1232; PixelYnb[IMBUTTONBACK] = 587; XImagenb[IMBUTTONBACK] = 1; YImagenb[IMBUTTONBACK] = 1;
+  TotalImagenb[IMBUTTONBACK] = 1; ImYoffset[IMBUTTONBACK] = 7; ImXoffset[IMBUTTONBACK] = 0;
+  debX[IMBUTTONBACK] = 0; debY[IMBUTTONBACK] = 0; wichFile[IMBUTTONBACK] = 15;
 
   fileImage[16] = IMG_Load("Ressources/Image/jouer.png");
-  PixelXnb[19] = 1232; PixelYnb[19] = 586; XImagenb[19] = 1; YImagenb[19] = 1;
-  TotalImagenb[19] = 1; ImYoffset[19] = 7; ImXoffset[19] = 0;
-  debX[19] = 0; debY[19] = 0; wichFile[19] = 16;
+  PixelXnb[IMBUTTONJOUER] = 1232; PixelYnb[IMBUTTONJOUER] = 586; XImagenb[IMBUTTONJOUER] = 1; YImagenb[IMBUTTONJOUER] = 1;
+  TotalImagenb[IMBUTTONJOUER] = 1; ImYoffset[IMBUTTONJOUER] = 7; ImXoffset[IMBUTTONJOUER] = 0;
+  debX[IMBUTTONJOUER] = 0; debY[IMBUTTONJOUER] = 0; wichFile[IMBUTTONJOUER] = 16;
 
   fileImage[17] = IMG_Load("Ressources/Image/iaTrain.png");
-  PixelXnb[20] = 1230; PixelYnb[20] = 585; XImagenb[20] = 1; YImagenb[20] = 1;
-  TotalImagenb[20] = 1; ImYoffset[20] = 7; ImXoffset[20] = 0;
-  debX[20] = 0; debY[20] = 0; wichFile[20] = 17;
+  PixelXnb[IMBUTTONIATRAIN] = 1230; PixelYnb[IMBUTTONIATRAIN] = 585; XImagenb[IMBUTTONIATRAIN] = 1; YImagenb[IMBUTTONIATRAIN] = 1;
+  TotalImagenb[IMBUTTONIATRAIN] = 1; ImYoffset[IMBUTTONIATRAIN] = 7; ImXoffset[IMBUTTONIATRAIN] = 0;
+  debX[IMBUTTONIATRAIN] = 0; debY[IMBUTTONIATRAIN] = 0; wichFile[IMBUTTONIATRAIN] = 17;
 
   fileImage[18] = IMG_Load("Ressources/Image/blackHole.png");
-  PixelXnb[21] = 1230; PixelYnb[21] = 1264; XImagenb[21] = 1; YImagenb[21] = 1;
-  TotalImagenb[21] = 1; ImYoffset[21] = 0; ImXoffset[21] = 0;
-  debX[21] = 0; debY[21] = 0; wichFile[21] = 18;
+  PixelXnb[IMBLACKHOLE] = 1230; PixelYnb[IMBLACKHOLE] = 1264; XImagenb[IMBLACKHOLE] = 1; YImagenb[IMBLACKHOLE] = 1;
+  TotalImagenb[IMBLACKHOLE] = 1; ImYoffset[IMBLACKHOLE] = 0; ImXoffset[IMBLACKHOLE] = 0;
+  debX[IMBLACKHOLE] = 0; debY[IMBLACKHOLE] = 0; wichFile[IMBLACKHOLE] = 18;
+
+  fileImage[19] = IMG_Load("Ressources/Image/Barredevie.png");
+  PixelXnb[IMVIE] = 50; PixelYnb[IMVIE] = 25; XImagenb[IMVIE] = 1; YImagenb[IMVIE] = 3;
+  TotalImagenb[IMVIE] = 3; ImYoffset[IMVIE] = 0; ImXoffset[IMVIE] = 0;
+  debX[IMVIE] = 0; debY[IMVIE] = 0; wichFile[IMVIE] = 19;
   
-  // fileImage[4] = IMG_Load("Ressources/Image/vicRed.png");
-  // PixelXnb[4] = 1920; PixelYnb[4] = 1080; XImagenb[4] = 1; YImagenb[4] = 1;
-  // TotalImagenb[4] = 1; ImYoffset[4] = 7; ImXoffset[4] = 0;
-  // debX[4] = 0; debY[4] = 0; wichFile[4] = 4;
-
-  // fileImage[5] = IMG_Load("Ressources/Image/vicBleu.png");
-  // PixelXnb[5] = 1920; PixelYnb[5] = 1080; XImagenb[5] = 1; YImagenb[5] = 1;
-  // TotalImagenb[5] = 1; ImYoffset[5] = 7; ImXoffset[5] = 0;
-  // debX[5] = 0; debY[5] = 0; wichFile[5] = 5;
 
 
 
-  PixelXnb[1] = 114; PixelYnb[1] = 72;XImagenb[1] = 1; YImagenb[1] = 20;
-  TotalImagenb[1] = 20; ImYoffset[1] = 63; ImXoffset[1] = 0;
-  debX[1] = 324; debY[1] = 28; wichFile[1] = 0;
 
-  PixelXnb[2] = 29; PixelYnb[2] = 29;XImagenb[2] = 1; YImagenb[2] = 1;
-  TotalImagenb[2] = 1; ImYoffset[2] = 0; ImXoffset[2] = 0;
-  debX[2] = 584; debY[2] = 55; wichFile[2] = 0;
-
-  PixelXnb[3] = 29; PixelYnb[3] = 29;XImagenb[3] = 1; YImagenb[3] = 1;
-  TotalImagenb[3] = 1; ImYoffset[3] = 0; ImXoffset[3] = 0;
-  debX[3] = 584; debY[3] = 190; wichFile[3] = 0;
-
-
-
-  for(int i = 1; i < 7; i++){
-    char tmp[30];
-    sprintf(tmp, "Ressources/Image/pay%d.png", i);
-    fileImage[i] = IMG_Load(tmp);
-    PixelXnb[3+i] = 1920; PixelYnb[3+i] = 1088;XImagenb[3+i] = 1; YImagenb[3+i] = 1;
-    TotalImagenb[3+i] = 1; ImYoffset[3+i] = 0; ImXoffset[3+i] = 0;
-    debX[3+i] = 0; debY[3+i] = 0; wichFile[3+i] = i;
-  }
+  
 
   loadingScreenWithBarre(screen, 100, 100);
   SDL_RenderPresent(screen->renderer);
   SDL_RenderClear(screen->renderer);
   
-  //PixelXnb[0] = 16; PixelYnb[0] = 16;XImagenb[0] = 1; YImagenb[0] = 1;
-  //TotalImagenb[0] = 1; ImYoffset[0] = 7; ImXoffset[0] = 0;
-  //debX[0] = 0; debY[0] = 0; wichFile[0] = 0;
 
   
   images = (SDL_Texture **)malloc(sizeof(SDL_Surface *) * nbPlanche);

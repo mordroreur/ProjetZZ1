@@ -9,7 +9,7 @@
 
 
 
-#define COEURNUMBER 4
+#define COEURNUMBER 8
 #define NBITERMAX 5
 #define PROBAMUT 0.6
 #define NBMATCH 5

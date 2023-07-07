@@ -520,20 +520,26 @@ int compareN(int * tab1, int* tab2, int N){
 
 
 int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
-  int * nbBoule = (int *) malloc(sizeof(int) * (Nbdist+1) * (Nborient));
+  int * nbBoule = (int *) malloc(Nbdist*Nborient*sizeof(int));
+  int dis;
+  //printf("->%d\n", Nbdist*Nborient);
 
-  for(int i = 0; i < Nbdist * Nborient; i++){
+  for(int i = 0; i < (Nbdist * Nborient); i++){
 	nbBoule[i] = 0;
   }
 
-  for(int i = 0; i < sc->nbPlayer; i++){
+  for(int i = 0; i < sc->nbPlayer; i++)
+  {
 	if(sc->pla[i].equipe != sc->pla[self].equipe){
 	  for(int j = sc->pla[i].debBoule; j < sc->pla[i].debBoule+sc->pla[i].nbBouleActive; j++){
-		if(sc->pla[i].boubou[j%100].vie >= 0){
-		 
-		  int dis = distBoule(sc, self, i, j%100) * Nborient + orientBoule(sc, self, i, j%100);
-		  nbBoule[dis] = nbBoule[dis] + 1;
-			
+		if(sc->pla[i].boubou[j%100].vie >= 0)
+		{	
+		  if (distBoule(sc, self, i, j%100) < 2)
+		  {
+			dis = distBoule(sc, self, i, j%100) * Nborient + orientBoule(sc, self, i, j%100);
+			//printf("distance: %d\n", dis);
+			nbBoule[dis] = nbBoule[dis] + 1;
+		  }	
 		}
 	  }
 	}
@@ -544,8 +550,8 @@ int * getNBBouleBydirOr(ecran *sc, int self, int Nbdist, int Nborient){
 
 
 
-float * listdensite(ecran *sc, int self, int Nbdist, int Nborient){
-
+float * listdensite(ecran *sc, int self, int Nbdist, int Nborient)
+{
   float * listesurface = (float *) malloc(sizeof(float) * Nbdist);
   for(int i=0; i<Nbdist; i++){
     if(i==0){
@@ -556,14 +562,20 @@ float * listdensite(ecran *sc, int self, int Nbdist, int Nborient){
     }
   }
   int * bobo = getNBBouleBydirOr(sc, self, Nbdist, Nborient);
+  if (!bobo)
+  {
+	printf("Erreur d'allocation!\n");
+	exit(0);
+  }
   float * listdensite = (float *) malloc(sizeof(float) * (Nbdist+1)*Nborient);
   for(int i=0; i<Nbdist; i++){
     for(int j=0; j<Nborient; j++){
       listdensite[i*Nborient+j]= bobo[i*Nborient+j]/listesurface[i];
     }
   }
-  free(listesurface);
-  if(bobo)
+  if (listesurface)
+  	free(listesurface);
+  if(bobo == NULL)
     free(bobo);
   return listdensite;
 }

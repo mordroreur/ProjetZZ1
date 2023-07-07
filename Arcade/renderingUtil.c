@@ -162,7 +162,7 @@ void InitImage(ecran *screen){
   fileImage[19] = IMG_Load("Ressources/Image/Barredevie.png");
   PixelXnb[IMVIE] = 50; PixelYnb[IMVIE] = 25; XImagenb[IMVIE] = 1; YImagenb[IMVIE] = 3;
   TotalImagenb[IMVIE] = 3; ImYoffset[IMVIE] = 0; ImXoffset[IMVIE] = 0;
-  debX[IMVIE] = 0; debY[IMVIE] = 0; wichFile[IMVIE] = 18;
+  debX[IMVIE] = 0; debY[IMVIE] = 0; wichFile[IMVIE] = 19;
   
 
 

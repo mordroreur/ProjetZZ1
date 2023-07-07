@@ -359,7 +359,11 @@ void LeftClick(ecran *screen) {
 			  case 1:screen->pla[0].IAType = 0;screen->pla[1].IAType = 0;screen->pla[2].IAType = 1;screen->pla[3].IAType = 1;loadBubble2V2IA1(screen);break;
 			  default:screen->pla[0].IAType = 1;screen->pla[1].IAType = 1;screen->pla[2].IAType = 2;screen->pla[3].IAType = 2;loadBubble2V2IA2(screen);loadBubble2V2IA1(screen);break;
 			  } break;
-			case 3: break;
+			case 3:
+			  screen->maxVie = 3; screen->nbPlayer = 4;screen->modePlay = 0;screen->etapeDuJeu = 3;mainTickGest(screen);
+			  for(int i = 0; i < screen->nbJoueur; i++){
+				screen->pla[i].IAType = 0;
+			  }break;
 			case 4: screen->modePlay = 1;screen->etapeDuJeu = 3; screen->nbPreda = screen->nbIAP + screen->nbHumainP; screen->nbProie = screen->nbIAM + screen->nbHumainM; mainTickGest(screen); initMout();loadIALout(screen);
 			  for(int i = 0; i < screen->nbHumainP; i++){
 				screen->pla[i].IAType = 0;

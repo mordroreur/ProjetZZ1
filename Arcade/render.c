@@ -447,11 +447,14 @@ void DrawGame(ecran *screen){
 
       float drawX = screen->pla[i].pos.x + decalX;
       float drawY = screen->pla[i].pos.y + decalY;
-      
-      
 
-      DrawImage(screen->pla[i].equipe + IMPLAYER1, drawX, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+	  int laIma[1] = {3-(((float)screen->pla[i].vie/screen->maxVie) * 3)};
       
+	  //	  DrawImage(IMVIE, drawX, drawY-screen->pla[i].pos.h, 2, 1, 'c', 1, 0, 0, 0, 1, laIma, screen);
+	  
+      DrawImage(screen->pla[i].equipe + IMPLAYER1, drawX, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);
+
+	  DrawImage(IMVIE, screen->pla[i].pos.x, screen->pla[i].pos.y-(screen->pla[i].pos.h), 2, 1, 'c', 0, 1, 0, 0, 1, laIma, screen);
       
       if(screen->pla[i].pos.x < 3){
 	DrawImage(screen->pla[i].equipe+ IMPLAYER1, drawX+100, drawY, screen->pla[i].pos.w, screen->pla[i].pos.h, 'c', screen->pla[i].shoot/3, (screen->pla[i].shoot == 0)?0.1:0, flip, angle, nbSprite, order, screen);

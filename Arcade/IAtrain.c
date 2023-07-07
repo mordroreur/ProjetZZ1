@@ -9,7 +9,7 @@
 
 
 
-#define COEURNUMBER 8
+#define COEURNUMBER 4
 #define NBITERMAX 5
 #define PROBAMUT 0.6
 #define NBMATCH 5
@@ -147,7 +147,8 @@ void startBubbleTraining(ecran * screen, int mode){
       nbThread--;
       listPrems[allInput[i].trnid] = allInput[i].trnid * (nbLoi/nbPoule) + allInput[i].classement[0];
       free(allInput[i].classement);
-    }	  
+	}
+
 
     //listprems = tout les premiers des tournois
     int *** pere = (int ***)malloc(sizeof(int**) * nbPoule);
@@ -660,6 +661,8 @@ void * GetLoupScore(void *param){
   for(int i=0; i<input->nbAcRegle; i++){
     input->uti[i]=0;
   }
+  input->sc->nbPreda = 3;
+  input->sc->nbProie = 10;
 	input->sc->etapeDuJeu = 3;
 	input->sc->modePlay = 1;
 	mainTickGest(input->sc);
@@ -837,10 +840,10 @@ void *GetTournoisClassement(void *arg){
 			  // dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
 			  paramworld = getBooble2vWorld(input->sc, 2, input->nbparam, 1);
-			  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
+			  setIAInput(input->sc, 2, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
 			  free(paramworld);
 			  paramworld = getBooble2vWorld(input->sc, 3, input->nbparam, 1);
-			  setIAInput(input->sc, 1, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
+			  setIAInput(input->sc, 3, paramworld, input->lois[j], input->nbregle, input->nbparam, input->uti[j]);
 			  free(paramworld);
 			}
 
@@ -902,10 +905,10 @@ void *GetTournoisClassement(void *arg){
 		// dist adv, dir adv, dist bon, dir bon, dist bon:adv ,dist tn, dir tn + 16 densités
 	  
 		paramworld = getBooble2vWorld(input->sc, 2, input->nbparam, 2);
-		setIAInput(input->sc, 1, paramworld, input->lois[2], input->nbregle, input->nbparam, input->uti[2]);
+		setIAInput(input->sc, 2, paramworld, input->lois[2], input->nbregle, input->nbparam, input->uti[2]);
 		free(paramworld);
 		paramworld = getBooble2vWorld(input->sc, 3, input->nbparam, 2);
-		setIAInput(input->sc, 1, paramworld, input->lois[3], input->nbregle, input->nbparam, input->uti[3]);
+		setIAInput(input->sc, 3, paramworld, input->lois[3], input->nbregle, input->nbparam, input->uti[3]);
 		free(paramworld);
 		//printf("fin\n");
 

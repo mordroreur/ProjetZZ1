@@ -270,6 +270,15 @@ void keyDown(SDL_KeyboardEvent key, ecran *screen)
 			}
 		}
 	}
+	else if (screen->etapeDuJeu == 2)
+	{
+		switch (key.keysym.sym)
+		{
+			case SDLK_y: 
+				screen->yve = (screen->yve == 1) ? 0 : 1;
+			break;
+		}
+	}
 }
 
 void LeftClick(ecran *screen) {

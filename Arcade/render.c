@@ -53,6 +53,7 @@ void DrawPreface(ecran * screen)
 
 void DrawMenu(ecran *screen)
 {
+
   static float large = 0;  
   static float large2 = 0; 
   static float large3 = 0; 
@@ -75,6 +76,8 @@ void DrawMenu(ecran *screen)
   enlargeButton(screen, posMX, posMY, IMBUTTONPLAY,  (screen->decalageB1), posY1, 30, 20, 'c', &large, 5);
   enlargeButton(screen, posMX, posMY, IMBUTTONQUIT,  (screen->decalageB2), posY2, 30, 20, 'c', &large2, 5);
   enlargeButton(screen, posMX, posMY, IMBUTTONPARAM, posX3, (screen->decalageB3), 30, 20, 'c', &large3, 5);
+  if(screen->yve == 1)
+    DrawImage(27, 50, 50, 100, 100, 'c', 0, 0, 0, 0, 0, 0, screen);
 }
 
 void DrawParametre(ecran *screen)

@@ -267,6 +267,7 @@ void *BouclePrincipaleDesTicks(void *unEcran){
   screen->nbIAP = 3;
   screen->nbIAM = 10;
   screen->backSelec = 0;
+  screen->yve = 0;
   
   screen->etapeDuJeu = 8;
   

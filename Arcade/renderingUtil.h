@@ -154,6 +154,7 @@ typedef struct Ecran{
     int nbHumainM; // nombre joueur mouton
     int nbIAP; // nombre IA prédator
     int nbIAM; //nombre IA mouton
+    int yve; //tkt
   int showImage; // boolean si on montre les images de début ou pas
 }ecran;
 

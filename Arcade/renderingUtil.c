@@ -34,8 +34,8 @@ long int getTime(){
   return ((tms.tv_sec*1000000) + (tms.tv_nsec/1000));
 }
 
-  int nbImage = 27;
-  int nbPlanche = 20;
+  int nbImage = 28;
+  int nbPlanche = 21;
 
 
 void InitImage(ecran *screen){
@@ -164,11 +164,11 @@ void InitImage(ecran *screen){
   TotalImagenb[IMVIE] = 3; ImYoffset[IMVIE] = 0; ImXoffset[IMVIE] = 0;
   debX[IMVIE] = 0; debY[IMVIE] = 0; wichFile[IMVIE] = 19;
   
+  fileImage[20] = IMG_Load("Ressources/Image/192.png");
+  PixelXnb[27] = 1920; PixelYnb[27] = 1080; XImagenb[27] = 1; YImagenb[27] = 3;
+  TotalImagenb[27] = 3; ImYoffset[27] = 0; ImXoffset[27] = 0;
+  debX[27] = 0; debY[27] = 0; wichFile[27] = 20;
 
-
-
-
-  
 
   loadingScreenWithBarre(screen, 100, 100);
   SDL_RenderPresent(screen->renderer);

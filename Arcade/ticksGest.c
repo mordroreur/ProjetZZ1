@@ -144,9 +144,8 @@ void mainTickGest(ecran *screen){
     screen->etapeDuJeu = 4;
     
   }else if(screen->etapeDuJeu == 4){
-
+   
     if(screen->modePlay == 0){
-      
       for(int i = 0; i < screen->nbPlayer; i++){
 
 		if(screen->nbPlayer == 2){
@@ -169,12 +168,12 @@ void mainTickGest(ecran *screen){
 			setIAInput(screen, i, paramworld, AI2, nbRegle2, nbParam2, NULL);	  
 			free(paramworld); 
 		  }else if(screen->pla[i].IAType == 3){
-			int * paramworld = getBooble2vWorld(screen, i, nbParam1, mode);
-			setIAInput(screen, i, paramworld, AI1, nbRegle1, nbParam1, NULL);	  
+			int * paramworld = getBooble2vWorld(screen, i, nbParam3, mode);
+			setIAInput(screen, i, paramworld, AI3, nbRegle3, nbParam3, NULL);	  
 			free(paramworld); 
 		  }else if(screen->pla[i].IAType == 4){
-			int * paramworld = getBooble2vWorld(screen, i, nbParam2, mode);
-			setIAInput(screen, i, paramworld, AI2, nbRegle2, nbParam2, NULL);	  
+			int * paramworld = getBooble2vWorld(screen, i, nbParam4, mode);
+			setIAInput(screen, i, paramworld, AI4, nbRegle4, nbParam4, NULL);	  
 			free(paramworld); 
 		  }
 		}
@@ -350,7 +349,6 @@ void mainTickGest(ecran *screen){
 		  }
 		}
 	  }
-
     }else if(screen->modePlay == 1){
 
       for(int i = 0; i < screen->nbPlayer; i++){
@@ -590,6 +588,80 @@ void loadBubble2V2IA2(ecran* screen){
   sprintf(name, "Ressources/IA2V2Bobble%d.txt", rand()%10);
   AI2 = readIAFile(name, &nbRegle2, &nbParam2);
   if(AI2 == NULL || nbRegle2 == -1){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+  mode = 1;
+}
+
+
+void loadBubble4VIA1(ecran* screen){
+  if(AI1 != NULL){
+    for(int i = 0; i < nbRegle1; i++){
+      free(AI1[i]);
+    }
+    free(AI1);
+  }
+  nbRegle1 = -1;
+  char name[30];
+  sprintf(name, "Ressources/IA4VBobble%d.txt", rand()%10);
+  AI1 = readIAFile(name, &nbRegle1, &nbParam1);
+  if(AI1 == NULL || nbRegle1 == -1){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+  mode = 1;
+}
+
+void loadBubble4VIA2(ecran* screen){
+  if(AI2 != NULL){
+    for(int i = 0; i < nbRegle2; i++){
+      free(AI2[i]);
+    }
+    free(AI2);
+  }
+  nbRegle2 = -1;
+  char name[30];
+  sprintf(name, "Ressources/IA4VBobble%d.txt", rand()%10);
+  AI2 = readIAFile(name, &nbRegle2, &nbParam2);
+  if(AI2 == NULL || nbRegle2 == -1){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+  mode = 1;
+}
+
+
+void loadBubble4VIA3(ecran* screen){
+  if(AI3 != NULL){
+    for(int i = 0; i < nbRegle3; i++){
+      free(AI3[i]);
+    }
+    free(AI3);
+  }
+  nbRegle3 = -1;
+  char name[30];
+  sprintf(name, "Ressources/IA4VBobble%d.txt", rand()%10);
+  AI3 = readIAFile(name, &nbRegle3, &nbParam3);
+  if(AI3 == NULL || nbRegle3 == -1){
+    screen->etapeDuJeu = 2;
+    fprintf(stderr, "Pas d'ia entrainée");
+  }
+  mode = 1;
+}
+
+void loadBubble4VIA4(ecran* screen){
+  if(AI4 != NULL){
+    for(int i = 0; i < nbRegle4; i++){
+      free(AI4[i]);
+    }
+    free(AI4);
+  }
+  nbRegle4 = -1;
+  char name[30];
+  sprintf(name, "Ressources/IA4VBobble%d.txt", rand()%10);
+  AI4 = readIAFile(name, &nbRegle4, &nbParam4);
+  if(AI4 == NULL || nbRegle4 == -1){
     screen->etapeDuJeu = 2;
     fprintf(stderr, "Pas d'ia entrainée");
   }

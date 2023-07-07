@@ -29,13 +29,13 @@ ecran createScreen(int sizex, int sizey, int fullscreen, int sound, int bonus, i
   screen.isFullScreen = fullscreen;
   /* Création de la fenêtre, cas avec erreur */
   if(fullscreen == 0){
-    screen.window = SDL_CreateWindow("This F****** window", SDL_WINDOWPOS_CENTERED,
+    screen.window = SDL_CreateWindow("Bubble Game", SDL_WINDOWPOS_CENTERED,
 				     SDL_WINDOWPOS_CENTERED, sizex,
 				     sizey, SDL_WINDOW_RESIZABLE);
     screen.otherX = screen_dimension.w;
     screen.otherY = screen_dimension.h;
   }else{
-    screen.window = SDL_CreateWindow("This F****** window", SDL_WINDOWPOS_CENTERED,
+    screen.window = SDL_CreateWindow("Bubble Game", SDL_WINDOWPOS_CENTERED,
 				     SDL_WINDOWPOS_CENTERED, screen_dimension.w,
 				     screen_dimension.h, SDL_WINDOW_FULLSCREEN|SDL_WINDOW_RESIZABLE);
     screen.otherX = sizex;
@@ -44,11 +44,11 @@ ecran createScreen(int sizex, int sizey, int fullscreen, int sound, int bonus, i
 
   
   
-  /*
+  
   SDL_Surface *thumbnail;
-  thumbnail = IMG_Load("Res/thumbnail.png");
-  SDL_SetWindowIcon(window, thumbnail);
-  SDL_FreeSurface(thumbnail);*/
+  thumbnail = IMG_Load("Ressources/Image/nail.png");
+  SDL_SetWindowIcon(screen.window, thumbnail);
+  SDL_FreeSurface(thumbnail);
 
   if (screen.window == NULL)
     end_sdl(0, "ERROR WINDOW CREATION", screen);

@@ -364,13 +364,13 @@ void LeftClick(ecran *screen) {
 			  for(int i = 0; i < screen->nbJoueur; i++){
 				screen->pla[i].IAType = 0;
 			  }break;
-			case 4: screen->modePlay = 1;screen->etapeDuJeu = 3; screen->nbPreda = screen->nbIAP + screen->nbHumainP; screen->nbProie = screen->nbIAM + screen->nbHumainM; mainTickGest(screen); initMout();loadIALout(screen);
+			case 4: if(screen->nbIAP + screen->nbHumainP > 0 && screen->nbIAM + screen->nbHumainM > 0){screen->modePlay = 1;screen->etapeDuJeu = 3; screen->nbPreda = screen->nbIAP + screen->nbHumainP; screen->nbProie = screen->nbIAM + screen->nbHumainM; mainTickGest(screen); initMout();loadIALout(screen);
 			  for(int i = 0; i < screen->nbHumainP; i++){
 				screen->pla[i].IAType = 0;
 			  }
 			  for(int i = screen->nbPreda; i < screen->nbHumainM + screen->nbPreda; i++){
 				screen->pla[i].IAType = 0;
-			  }
+			  }}
 			  break;
 			default: break;
 			}

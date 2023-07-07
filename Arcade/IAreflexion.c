@@ -26,7 +26,7 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	    paramworld[p++] = -1;
 	  }else if(screen->nbPreda == 2){
 	    paramworld[p++] = dist(screen, k, 1-k);
-	    paramworld[p++] = dist(screen, k, 1-k);
+	    paramworld[p++] = orient(screen, k, 1-k);
 	    paramworld[p++] = -1;
 	    paramworld[p++] = -1;
 	  }else if(screen->nbPreda == 3){
@@ -47,7 +47,6 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 	      dis1 = tmp;
 	    }
 	    int min2 = 1-min;
-
 	    for(int i = 2; i < screen->nbPreda; i++){
 	      if(i != k){
 		int disi = dist(screen,k,screen->nbPreda+i);
@@ -62,6 +61,11 @@ int * getLoupWorld(ecran *screen, int k, int paramNb){
 		}
 	      }
 	    }
+	    paramworld[p++] = dis0;
+	    paramworld[p++] = orient(screen, k, min);
+	    paramworld[p++] = dis1;
+	    paramworld[p++] = orient(screen, k, min2);
+	    
 	  }
 	  
 	  
